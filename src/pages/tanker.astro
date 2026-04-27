@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const formatShort = (d: Date) => {
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    return `${day}.${month}.${d.getFullYear()}`;
+};
+
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+const tags = ['Alle', ...Array.from(new Set(sortedPosts.map((p) => cap(p.data.tags[0] || ''))))];
+
+const postsPayload = sortedPosts.map((p) => ({
+    id: p.id,
+    date: formatShort(p.data.date),
+    tag: cap(p.data.tags[0] || ''),
+    title: p.data.title,
+    read: p.data.readTime,
+}));
+---
+
+<BaseLayout title="Tanker — Martin Ibsen" currentNav="tanker">
+    <div class="subpage-narrow">
+
+        <header class="tanker-head">
+            <h1>Skrevet i <em>marginen</em>.</h1>
+            <p>Korte og lange noter om product, AI, discovery og hvad der sker når en PM lærer at shippe selv.</p>
+        </header>
+
+        <div class="filters" id="filters">
+            {tags.map((t, i) => (
+                <button data-tag={t} class={i === 0 ? 'active' : ''}>{t}</button>
+            ))}
+        </div>
+
+        <div class="tanker-list" id="list">
+            {sortedPosts.map((p) => (
+                <a class="row" href={`/blog/${p.id}`} data-tag={cap(p.data.tags[0] || '')}>
+                    <span class="date">{formatShort(p.data.date)}</span>
+                    <span class="title">{p.data.title}</span>
+                    <span class="meta">{cap(p.data.tags[0] || '')} · {p.data.readTime}</span>
+                </a>
+            ))}
+        </div>
+
+        <div class="subpage-foot">
+            <span id="count">{sortedPosts.length} {sortedPosts.length === 1 ? 'note' : 'noter'}</span>
+            <span>AARHUS · 2026</span>
+        </div>
+
+    </div>
+
+    <script is:inline>
+        const filters = document.getElementById('filters');
+        const list = document.getElementById('list');
+        const count = document.getElementById('count');
+        let active = 'Alle';
+
+        filters.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            active = btn.dataset.tag;
+            filters.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b.dataset.tag === active));
+            const rows = Array.from(list.querySelectorAll('.row'));
+            let n = 0;
+            rows.forEach((r) => {
+                const show = active === 'Alle' || r.dataset.tag === active;
+                r.style.display = show ? '' : 'none';
+                if (show) n++;
+            });
+            count.textContent = `${n} ${n === 1 ? 'note' : 'noter'}`;
+        });
+    </script>
+</BaseLayout>

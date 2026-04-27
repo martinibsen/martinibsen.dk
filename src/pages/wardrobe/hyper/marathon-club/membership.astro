@@ -1,0 +1,244 @@
+---
+import WardrobeLayout from "../../../../layouts/WardrobeLayout.astro";
+---
+
+<WardrobeLayout
+    title="Join — Marathon Club"
+    description="Three tiers. Pick your pace."
+    system="hyper"
+    chrome="hidden"
+>
+    <main class="mc-wrap">
+        <header class="mc-header">
+            <div class="mc-brand">
+                <h1 class="mc-brand__title">JOIN US.</h1>
+                <p class="mc-brand__sub">Pick a tier. Show up Sunday.</p>
+            </div>
+        </header>
+
+        <section class="tiers">
+            <article class="hyp-card hyp-card--pink tier" data-tier="casual">
+                <span class="hyp-badge-circle">01</span>
+                <h3 class="tier__name">CASUAL.</h3>
+                <p class="tier__price"><strong>0 kr</strong>/month</p>
+                <ul class="tier__perks">
+                    <li>Free Sunday runs</li>
+                    <li>Newsletter access</li>
+                    <li>Public events open</li>
+                </ul>
+                <button type="button" class="hyp-btn hyp-btn--secondary hyp-btn--md tier__pick" data-pick="casual">PICK THIS.</button>
+            </article>
+
+            <article class="hyp-card hyp-card--blue tier" data-tier="member">
+                <span class="hyp-badge-circle">02</span>
+                <h3 class="tier__name">MEMBER.</h3>
+                <p class="tier__price"><strong>89 kr</strong>/month</p>
+                <ul class="tier__perks">
+                    <li>All weekly group runs</li>
+                    <li>Tempo Tuesdays</li>
+                    <li>Race entry discount</li>
+                    <li>Members-only events</li>
+                </ul>
+                <button type="button" class="hyp-btn hyp-btn--primary hyp-btn--md tier__pick" data-pick="member">PICK THIS.</button>
+            </article>
+
+            <article class="hyp-card hyp-card--green tier" data-tier="pacer">
+                <span class="hyp-badge-circle">03</span>
+                <h3 class="tier__name">PACER.</h3>
+                <p class="tier__price"><strong>149 kr</strong>/month</p>
+                <ul class="tier__perks">
+                    <li>Everything in Member</li>
+                    <li>Personal pace plan</li>
+                    <li>1 race entry per quarter</li>
+                    <li>Pacer kit & bib</li>
+                </ul>
+                <button type="button" class="hyp-btn hyp-btn--secondary hyp-btn--md tier__pick" data-pick="pacer">PICK THIS.</button>
+            </article>
+        </section>
+
+        <h3 class="hyp-section-title">YOUR DETAILS.</h3>
+        <form id="join-form" class="join-form" novalidate>
+            <div class="join-form__row">
+                <label class="hyp-field">
+                    <span class="hyp-field__label">NAME</span>
+                    <input class="hyp-input hyp-input--md" name="name" required placeholder="Astrid Nørgaard" />
+                </label>
+                <label class="hyp-field">
+                    <span class="hyp-field__label">EMAIL</span>
+                    <input class="hyp-input hyp-input--md" type="email" name="email" required placeholder="you@runners.dk" />
+                </label>
+            </div>
+
+            <div class="join-form__row">
+                <label class="hyp-field">
+                    <span class="hyp-field__label">TIER</span>
+                    <select id="tier-select" class="hyp-select" name="tier">
+                        <option value="casual">CASUAL — 0 kr</option>
+                        <option value="member" selected>MEMBER — 89 kr</option>
+                        <option value="pacer">PACER — 149 kr</option>
+                    </select>
+                </label>
+                <label class="hyp-field">
+                    <span class="hyp-field__label">LONGEST RUN</span>
+                    <input class="hyp-input hyp-input--md" name="longest" placeholder="km" />
+                </label>
+            </div>
+
+            <label class="hyp-field">
+                <span class="hyp-field__label">WHY YOU JOIN</span>
+                <textarea class="hyp-textarea" name="why" placeholder="One sentence is plenty." rows="3"></textarea>
+            </label>
+
+            <div class="join-form__switch">
+                <label class="hyp-switch">
+                    <input id="newsletter" type="checkbox" role="switch" class="hyp-switch__input" checked />
+                    <span class="hyp-switch__track"><span class="hyp-switch__thumb"></span></span>
+                    <span>Send me the weekly newsletter.</span>
+                </label>
+            </div>
+
+            <button type="submit" class="hyp-btn hyp-btn--primary hyp-btn--lg join-form__submit">SUBMIT.</button>
+            <p id="join-status" class="join-form__status" aria-live="polite"></p>
+        </form>
+
+        <footer class="mc-footer">
+            <p class="mc-footer__line">MARATHON CLUB. — Every street is a track. © 2026</p>
+            <p class="mc-footer__built"><a href="/wardrobe/hyper">Built with Wardrobe / Hyper →</a></p>
+        </footer>
+    </main>
+
+    <nav class="hyp-bottom-nav" aria-label="Marathon Club">
+        <a class="hyp-bottom-nav__item" href="/wardrobe/hyper/marathon-club">HOME</a>
+        <a class="hyp-bottom-nav__item" href="/wardrobe/hyper/marathon-club/events">EVENTS</a>
+        <a class="hyp-bottom-nav__item hyp-bottom-nav__item--active" href="/wardrobe/hyper/marathon-club/membership">JOIN</a>
+        <a class="hyp-bottom-nav__item" href="/wardrobe/hyper/marathon-club/leaderboard">RANK</a>
+    </nav>
+</WardrobeLayout>
+
+<style>
+    .mc-wrap { max-width: 720px; margin: 0 auto; padding: 24px 20px 140px; }
+    .mc-header {
+        display: flex; justify-content: space-between; align-items: flex-start;
+        margin-bottom: 28px; gap: 16px;
+    }
+    .mc-brand__title {
+        font-family: var(--font-display); text-transform: uppercase;
+        font-size: clamp(48px, 12vw, 96px); line-height: 0.85;
+        letter-spacing: -0.02em; margin: 0;
+    }
+    .mc-brand__sub { font-family: var(--font-body); font-size: 13px; opacity: 0.75; margin: 8px 0 0; }
+    .mc-back {
+        font-family: var(--font-display); text-transform: uppercase; font-size: 12px;
+        letter-spacing: 0.5px; color: var(--color-fg); text-decoration: none;
+        background: var(--color-surface); border: var(--border); border-radius: var(--radius-pill);
+        padding: 8px 14px;
+    }
+
+    .tiers {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin-bottom: 36px;
+    }
+    .tier { padding: 24px 20px; display: flex; flex-direction: column; gap: 14px; }
+    .tier__name {
+        font-family: var(--font-display); text-transform: uppercase;
+        font-size: 36px; line-height: 0.85; letter-spacing: -0.02em; margin: 0;
+    }
+    .tier__price { font-family: var(--font-body); font-size: 14px; margin: 0; }
+    .tier__price strong {
+        font-family: var(--font-display); text-transform: uppercase;
+        font-size: 28px; letter-spacing: -0.01em;
+    }
+    .tier__perks {
+        list-style: none; padding: 0; margin: 0;
+        display: grid; gap: 6px;
+        font-family: var(--font-body); font-size: 14px;
+    }
+    .tier__perks li { padding-left: 18px; position: relative; line-height: 1.4; }
+    .tier__perks li::before {
+        content: "→";
+        position: absolute; left: 0;
+        font-family: var(--font-display);
+    }
+    .tier__pick { margin-top: auto; }
+    .tier--selected {
+        outline: 2px solid var(--color-fg);
+        outline-offset: 4px;
+    }
+
+    .join-form { display: grid; gap: 18px; max-width: 640px; }
+    .join-form__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    @media (max-width: 540px) {
+        .join-form__row { grid-template-columns: 1fr; }
+        .tier { padding: 20px 16px; }
+    }
+    .join-form__switch { padding: 4px 0; }
+    .join-form__submit { justify-self: start; }
+    .join-form__status {
+        font-family: var(--font-body); font-size: 14px; margin: 8px 0 0; min-height: 1em;
+    }
+    .join-form__status.is-success { color: #197b3a; font-weight: 600; }
+
+    .mc-footer {
+        text-align: center; font-family: var(--font-body); font-size: 12px;
+        margin-top: 36px; padding-top: 18px; border-top: var(--border);
+    }
+    .mc-footer__line { margin: 0; opacity: 0.85; }
+    .mc-footer__built { margin: 8px 0 0; }
+    .mc-footer__built a {
+        color: var(--color-fg); text-decoration: none;
+        font-family: var(--font-display); text-transform: uppercase;
+        letter-spacing: 0.05em; font-size: 11px;
+    }
+</style>
+
+<script>
+    if (typeof window !== "undefined") {
+        (window as any).wardrobeTrack?.("wardrobe_demo_view", {
+            system: "hyper",
+            page: "marathon-club/membership",
+        });
+    }
+
+    const tierSelect = document.getElementById("tier-select") as HTMLSelectElement | null;
+    const tiers = document.querySelectorAll<HTMLElement>(".tier");
+    function highlight(value: string) {
+        tiers.forEach((t) => t.classList.toggle("tier--selected", t.dataset.tier === value));
+    }
+    if (tierSelect) {
+        highlight(tierSelect.value);
+        tierSelect.addEventListener("change", () => highlight(tierSelect.value));
+    }
+    document.querySelectorAll<HTMLButtonElement>(".tier__pick").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const v = btn.dataset.pick ?? "member";
+            if (tierSelect) {
+                tierSelect.value = v;
+                highlight(v);
+                tierSelect.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        });
+    });
+
+    const form = document.getElementById("join-form") as HTMLFormElement | null;
+    const status = document.getElementById("join-status") as HTMLElement | null;
+    form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!status) return;
+        const fd = new FormData(form);
+        if (!fd.get("name") || !fd.get("email")) {
+            status.textContent = "Name and email needed.";
+            status.className = "join-form__status";
+            return;
+        }
+        status.textContent = "WELCOME IN. Check your email Sunday.";
+        status.className = "join-form__status is-success";
+        form.reset();
+        if (tierSelect) highlight(tierSelect.value);
+    });
+</script>

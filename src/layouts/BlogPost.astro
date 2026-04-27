@@ -1,0 +1,116 @@
+---
+import '../styles/global.css';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+    post: CollectionEntry<'blog'>;
+    otherPosts: CollectionEntry<'blog'>[];
+}
+
+const { post, otherPosts } = Astro.props;
+const { title, subtitle, date, tags, readTime } = post.data;
+
+const formatDate = (d: Date) => {
+    const day = d.getDate();
+    const months = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'];
+    return `${day}. ${months[d.getMonth()]} ${d.getFullYear()}`;
+};
+
+const formatDateShort = (d: Date) => {
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    return `${day}.${month}.${d.getFullYear()}`;
+};
+
+const firstTag = tags[0] ? tags[0].charAt(0).toUpperCase() + tags[0].slice(1) : '';
+---
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — Martin Ibsen</title>
+    <meta name="description" content={subtitle} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+</head>
+<body>
+    <div id="progress"></div>
+
+    <nav class="nav">
+        <a class="brand" href="/">MARTIN IBSEN</a>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="links" id="nav-links">
+            <a href="/#projekter">PROJEKTER</a>
+            <a href="/om">HEJ</a>
+            <a href="/tanker" class="is-current">TANKER</a>
+            <a href="/#nyhedsbrev">NYHEDSBREV</a>
+            <a href="mailto:mail@martinibsen.dk">KONTAKT</a>
+        </div>
+    </nav>
+
+    <div class="article-wrap">
+        <div class="article-meta">
+            <span>{formatDate(date)}</span>
+            <span class="dot">{firstTag}</span>
+            <span class="dot">{readTime}</span>
+        </div>
+
+        <h1 class="article-title">{title}</h1>
+
+        {subtitle && <p class="article-lede">{subtitle}</p>}
+
+        <article class="article-body">
+            <slot />
+        </article>
+
+        <div class="signoff">
+            Skrevet i Aarhus, {formatDate(date)}.
+            <strong>— Martin</strong>
+        </div>
+
+        {otherPosts.length > 0 && (
+            <div class="more">
+                <h3>Læs også</h3>
+                {otherPosts.map((p) => (
+                    <a class="row" href={`/blog/${p.id}`}>
+                        <span class="t">{p.data.title}</span>
+                        <span class="m">{formatDateShort(p.data.date)} · {p.data.readTime}</span>
+                    </a>
+                ))}
+            </div>
+        )}
+    </div>
+
+    <script is:inline>
+        const bar = document.getElementById('progress');
+        function onScroll() {
+            const h = document.documentElement;
+            const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+            bar.style.width = pct + '%';
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // Mobile nav toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.getElementById('nav-links');
+        navToggle?.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('is-open');
+            navToggle.setAttribute('aria-expanded', String(open));
+            navToggle.classList.toggle('is-open', open);
+        });
+        navLinks?.querySelectorAll('a').forEach((a) =>
+            a.addEventListener('click', () => {
+                navLinks.classList.remove('is-open');
+                navToggle?.classList.remove('is-open');
+                navToggle?.setAttribute('aria-expanded', 'false');
+            })
+        );
+    </script>
+</body>
+</html>

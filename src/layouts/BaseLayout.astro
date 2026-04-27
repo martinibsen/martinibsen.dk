@@ -1,0 +1,74 @@
+---
+import '../styles/global.css';
+
+interface Props {
+    title: string;
+    description?: string;
+    currentNav?: 'projekter' | 'hej' | 'tanker' | 'nyhedsbrev' | 'kontakt';
+}
+
+const { title, description = 'Martin Ibsen — produktleder og designer der bygger software med AI.', currentNav } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+</head>
+<body>
+    <nav class="nav">
+        <a class="brand" href="/">MARTIN IBSEN</a>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="links" id="nav-links">
+            <a href="/#projekter" class={currentNav === 'projekter' ? 'is-current' : ''}>PROJEKTER</a>
+            <a href="/om" class={currentNav === 'hej' ? 'is-current' : ''}>HEJ</a>
+            <a href="/tanker" class={currentNav === 'tanker' ? 'is-current' : ''}>TANKER</a>
+            <a href="/#nyhedsbrev" class={currentNav === 'nyhedsbrev' ? 'is-current' : ''}>NYHEDSBREV</a>
+            <a href="mailto:mail@martinibsen.dk">KONTAKT</a>
+        </div>
+    </nav>
+
+    <slot />
+
+    <script is:inline>
+        document.querySelectorAll('a[href^="/#"]').forEach((a) => {
+            a.addEventListener('click', (e) => {
+                const href = a.getAttribute('href');
+                if (window.location.pathname === '/' && href.startsWith('/#')) {
+                    const target = document.querySelector(href.slice(1));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Mobile nav toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.getElementById('nav-links');
+        navToggle?.addEventListener('click', () => {
+            const open = navLinks.classList.toggle('is-open');
+            navToggle.setAttribute('aria-expanded', String(open));
+            navToggle.classList.toggle('is-open', open);
+        });
+        navLinks?.querySelectorAll('a').forEach((a) =>
+            a.addEventListener('click', () => {
+                navLinks.classList.remove('is-open');
+                navToggle?.classList.remove('is-open');
+                navToggle?.setAttribute('aria-expanded', 'false');
+            })
+        );
+    </script>
+</body>
+</html>

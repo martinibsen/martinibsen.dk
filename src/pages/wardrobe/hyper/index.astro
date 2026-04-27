@@ -1,0 +1,540 @@
+---
+import WardrobeLayout from "../../../layouts/WardrobeLayout.astro";
+import CopyBlock from "../../../components/wardrobe/shared/CopyBlock.astro";
+import ComponentShowcase from "../../../components/wardrobe/shared/ComponentShowcase.astro";
+import {
+    HYPER_COMPONENTS,
+    getComponentCode,
+    generateComponentPrompt,
+    generateThemeBlock,
+} from "../../../utils/wardrobe/generate-prompts";
+
+import {
+    ButtonDemo,
+    InputDemo,
+    TextareaDemo,
+    SelectDemo,
+    CardDemo,
+    BadgeDemo,
+    DialogDemo,
+    TabsDemo,
+    SwitchDemo,
+    ToastDemo,
+} from "../../../components/wardrobe/hyper/demos";
+
+type ComponentName = (typeof HYPER_COMPONENTS)[number];
+
+const blurbs: Record<ComponentName, string> = {
+    Button: "Pill-shaped, CAPS forever. Hard offset shadow when you press.",
+    Input:
+        "White surface, brown border, focus shadows hard. Optional numeric badge.",
+    Textarea: "Same energy as Input, just taller. Body font for what you write.",
+    Select:
+        "Caps display value, custom chevron, border-color matches everything.",
+    Card: "Pastel pink, blue, green, or white. Numeric badge lapping the corner.",
+    Badge: "Inline pill. Outline by default, brown-filled for live status.",
+    Dialog:
+        "Centered, hard shadow, brown veil. Escape to close. Focus trapped inside.",
+    Tabs: "Segmented control. Active tab fills brown. Arrow keys move you.",
+    Switch:
+        "Pill track, brown thumb. Flips to brown-filled with acid thumb.",
+    Toast:
+        "Slides in from below. Auto-dismisses after 4s. Success swaps to green.",
+};
+
+const themeBlock = generateThemeBlock();
+
+const componentBlocks = HYPER_COMPONENTS.map((name) => ({
+    name,
+    code: getComponentCode(name),
+    prompt: generateComponentPrompt(name),
+    blurb: blurbs[name],
+}));
+---
+
+<WardrobeLayout
+    title="Hyper — Wardrobe"
+    description="Acid yellow. Brown borders. CAPS forever. Stop building purple-gradient apps."
+    system="hyper"
+    chrome="hyper"
+>
+    <main class="wrap">
+        <section class="hero">
+            <p class="hero__eyebrow">WARDROBE / HYPER</p>
+            <h1 class="hero__title">HYPER.</h1>
+            <p class="hero__sub">
+                Acid yellow. Brown borders. CAPS forever.<br />
+                Stop building purple-gradient apps.
+            </p>
+            <div class="hero__cta">
+                <a class="hyp-btn hyp-btn--primary hyp-btn--lg" href="/wardrobe/hyper/install">
+                    INSTALL IN 30 SEC →
+                </a>
+                <a
+                    class="hyp-btn hyp-btn--secondary hyp-btn--lg"
+                    href="/wardrobe/hyper/marathon-club"
+                >
+                    SEE IT LIVE →
+                </a>
+                <a
+                    class="hyp-btn hyp-btn--secondary hyp-btn--lg"
+                    href="https://github.com/martinibsen/martinibsen.dk/tree/main/src/components/wardrobe/hyper"
+                    rel="noopener"
+                    data-track-github
+                >
+                    GITHUB
+                </a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="hyp-section-title">TOKENS.</h2>
+
+            <h3 class="sub-title">Colors</h3>
+            <div class="chip-grid">
+                <div class="chip"><span class="swatch" style="background:#EFFF71"></span><div><strong>--color-bg</strong><br />acid yellow · #EFFF71</div></div>
+                <div class="chip"><span class="swatch" style="background:#3A1E1E"></span><div><strong>--color-fg</strong><br />deep brown · #3A1E1E</div></div>
+                <div class="chip"><span class="swatch" style="background:#FFFFFF"></span><div><strong>--color-surface</strong><br />pure white · #FFFFFF</div></div>
+                <div class="chip"><span class="swatch" style="background:#FFC1E3"></span><div><strong>--color-pink</strong><br />pastel pink · #FFC1E3</div></div>
+                <div class="chip"><span class="swatch" style="background:#BCEFFF"></span><div><strong>--color-blue</strong><br />pastel blue · #BCEFFF</div></div>
+                <div class="chip"><span class="swatch" style="background:#C3FF8B"></span><div><strong>--color-green</strong><br />pastel green · #C3FF8B</div></div>
+                <div class="chip"><span class="swatch" style="background:#FF4B4B"></span><div><strong>--color-danger</strong><br />red flag · #FF4B4B</div></div>
+            </div>
+
+            <h3 class="sub-title">Typography</h3>
+            <div class="type-grid">
+                <div class="type-cell">
+                    <div class="type-cell__label">DISPLAY · ANTON</div>
+                    <div class="type-cell__display">EVERY STREET<br />IS A TRACK.</div>
+                </div>
+                <div class="type-cell">
+                    <div class="type-cell__label">BODY · GEORGIA</div>
+                    <p class="type-cell__body">
+                        Hyper is loud on purpose. The body copy is Georgia — old-school
+                        serif — so the display can scream while the reading stays
+                        grown-up. Don't replace it with Inter.
+                    </p>
+                </div>
+            </div>
+
+            <h3 class="sub-title">Radius & shadow</h3>
+            <div class="proof-grid">
+                <div class="proof"><div class="proof__box" style="border-radius:8px"></div><span>--radius-sm · 8px</span></div>
+                <div class="proof"><div class="proof__box" style="border-radius:12px"></div><span>--radius-md · 12px</span></div>
+                <div class="proof"><div class="proof__box" style="border-radius:16px"></div><span>--radius-lg · 16px</span></div>
+                <div class="proof"><div class="proof__box" style="border-radius:32px"></div><span>--radius-pill · 32px</span></div>
+                <div class="proof"><div class="proof__box proof__box--shadow"></div><span>--shadow-hard</span></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="hyp-section-title">COMPONENTS.</h2>
+
+            {componentBlocks.map((c) => (
+                <ComponentShowcase
+                    name={c.name}
+                    title={c.name}
+                    blurb={c.blurb}
+                >
+                    <Fragment slot="preview">
+                        {c.name === "Button" && <ButtonDemo client:load />}
+                        {c.name === "Input" && <InputDemo client:load />}
+                        {c.name === "Textarea" && <TextareaDemo client:load />}
+                        {c.name === "Select" && <SelectDemo client:load />}
+                        {c.name === "Card" && <CardDemo client:load />}
+                        {c.name === "Badge" && <BadgeDemo client:load />}
+                        {c.name === "Dialog" && <DialogDemo client:load />}
+                        {c.name === "Tabs" && <TabsDemo client:load />}
+                        {c.name === "Switch" && <SwitchDemo client:load />}
+                        {c.name === "Toast" && <ToastDemo client:load />}
+                    </Fragment>
+                    <Fragment slot="copy">
+                        <CopyBlock
+                            code={c.code}
+                            prompt={c.prompt}
+                            theme={themeBlock}
+                            label={`${c.name}.tsx`}
+                            component={c.name}
+                            system="hyper"
+                            defaultTab="prompt"
+                        />
+                    </Fragment>
+                </ComponentShowcase>
+            ))}
+        </section>
+
+        <section class="section install-tease">
+            <h2 class="hyp-section-title">INSTALL.</h2>
+            <p class="lede">
+                One paste, one prompt, your project is wearing Hyper. No npm install,
+                no config files, no purple gradients.
+            </p>
+            <a
+                class="hyp-btn hyp-btn--primary hyp-btn--lg big-install"
+                href="/wardrobe/hyper/install"
+            >
+                BIG GREEN INSTALL BUTTON →
+            </a>
+        </section>
+
+        <section class="section mcp-tease">
+            <h2 class="hyp-section-title">MCP COMING SOON.</h2>
+            <p class="lede">
+                Wardrobe MCP server is in the works. Soon you'll just say
+                "install hyper" to your AI and it'll be done. Sign up below for the
+                drop.
+            </p>
+
+            <form id="hyper-signup" class="hyper-signup">
+                <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="you@vibe.coded"
+                    class="hyp-input hyp-input--md"
+                    aria-label="Email"
+                />
+                <button type="submit" class="hyp-btn hyp-btn--primary hyp-btn--md">
+                    GET THE MCP DROP
+                </button>
+            </form>
+            <p id="hyper-signup-msg" class="hyper-signup__msg" aria-live="polite"></p>
+        </section>
+
+        <section class="section see-live">
+            <h2 class="hyp-section-title">SEE IT LIVE.</h2>
+            <p class="lede">
+                Marathon Club — a fictional running club using Hyper end-to-end.
+            </p>
+
+            <div class="live-grid">
+                <a class="live-card" href="/wardrobe/hyper/marathon-club">
+                    <div class="live-card__art live-card__art--blue">
+                        <span class="live-card__display">HOME.</span>
+                    </div>
+                    <div class="live-card__meta">
+                        <span class="live-card__name">Homepage</span>
+                        <span class="live-card__sub">Hero, stats, upcoming runs.</span>
+                    </div>
+                </a>
+                <a class="live-card" href="/wardrobe/hyper/marathon-club/events">
+                    <div class="live-card__art live-card__art--pink">
+                        <span class="live-card__display">EVENTS.</span>
+                    </div>
+                    <div class="live-card__meta">
+                        <span class="live-card__name">Events</span>
+                        <span class="live-card__sub">Filtered list, signup CTAs.</span>
+                    </div>
+                </a>
+                <a class="live-card" href="/wardrobe/hyper/marathon-club/membership">
+                    <div class="live-card__art live-card__art--green">
+                        <span class="live-card__display">JOIN.</span>
+                    </div>
+                    <div class="live-card__meta">
+                        <span class="live-card__name">Membership</span>
+                        <span class="live-card__sub">3 tiers, signup form.</span>
+                    </div>
+                </a>
+                <a class="live-card" href="/wardrobe/hyper/marathon-club/leaderboard">
+                    <div class="live-card__art live-card__art--blue">
+                        <span class="live-card__display">RANK.</span>
+                    </div>
+                    <div class="live-card__meta">
+                        <span class="live-card__name">Leaderboard</span>
+                        <span class="live-card__sub">Ranked rows, tabs, hero card.</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+</WardrobeLayout>
+
+<style>
+    .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 48px 24px 96px;
+    }
+    .hero {
+        padding: 40px 0 80px;
+        border-bottom: 1px solid var(--color-fg);
+    }
+    .hero__eyebrow {
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 12px;
+        margin: 0 0 24px;
+    }
+    .hero__title {
+        font-family: var(--font-display);
+        font-size: clamp(80px, 18vw, 220px);
+        line-height: var(--display-line-height);
+        letter-spacing: var(--display-letter-spacing);
+        text-transform: uppercase;
+        margin: 0 0 28px;
+    }
+    .hero__sub {
+        font-family: var(--font-body);
+        font-size: 22px;
+        line-height: 1.4;
+        max-width: 560px;
+        margin: 0 0 36px;
+    }
+    .hero__cta {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .section { padding: 80px 0; border-bottom: 1px solid var(--color-fg); }
+    .section:last-of-type { border-bottom: none; }
+
+    .sub-title {
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        font-size: 18px;
+        letter-spacing: 0.05em;
+        margin: 36px 0 18px;
+    }
+
+    .chip-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+    }
+    .chip {
+        background: var(--color-surface);
+        border: var(--border);
+        border-radius: var(--radius-md);
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: var(--font-body);
+        font-size: 13px;
+    }
+    .swatch {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        border: var(--border);
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .type-grid {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 20px;
+    }
+    .type-cell {
+        background: var(--color-surface);
+        border: var(--border);
+        border-radius: var(--radius-md);
+        padding: 28px;
+        position: relative;
+    }
+    .type-cell__label {
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 11px;
+        margin-bottom: 16px;
+        opacity: 0.6;
+    }
+    .type-cell__display {
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        font-size: clamp(44px, 6vw, 96px);
+        line-height: var(--display-line-height);
+        letter-spacing: var(--display-letter-spacing);
+    }
+    .type-cell__body {
+        font-family: var(--font-body);
+        font-size: 17px;
+        line-height: 1.55;
+        margin: 0;
+    }
+
+    .proof-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 18px;
+    }
+    .proof {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+        font-family: var(--font-body);
+        font-size: 12px;
+    }
+    .proof__box {
+        width: 100%;
+        height: 80px;
+        background: var(--color-surface);
+        border: var(--border);
+    }
+    .proof__box--shadow {
+        background: var(--color-pink);
+        box-shadow: var(--shadow-hard);
+        margin-bottom: 12px;
+    }
+
+    .install-tease {
+        text-align: left;
+    }
+    .lede {
+        font-family: var(--font-body);
+        font-size: 19px;
+        line-height: 1.5;
+        max-width: 640px;
+        margin: 0 0 28px;
+    }
+    .big-install {
+        background: var(--color-green);
+        color: var(--color-fg);
+        font-size: 28px;
+        height: 80px;
+        padding: 0 40px;
+    }
+
+    .mcp-tease .hyper-signup {
+        display: flex;
+        gap: 12px;
+        max-width: 560px;
+        flex-wrap: wrap;
+    }
+    .mcp-tease .hyp-input { flex: 1; min-width: 240px; }
+    .hyper-signup__msg {
+        font-family: var(--font-body);
+        font-size: 14px;
+        margin: 16px 0 0;
+        min-height: 1em;
+    }
+    .hyper-signup__msg.is-success { color: #197b3a; }
+    .hyper-signup__msg.is-error { color: var(--color-danger); }
+
+    .live-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+    }
+    .live-card {
+        text-decoration: none;
+        color: inherit;
+        background: var(--color-surface);
+        border: var(--border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: transform var(--duration-base) var(--easing),
+                    box-shadow var(--duration-base) var(--easing);
+    }
+    .live-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: var(--shadow-hard);
+    }
+    .live-card__art {
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: var(--border);
+    }
+    .live-card__art--blue { background: var(--color-blue); }
+    .live-card__art--pink { background: var(--color-pink); }
+    .live-card__art--green { background: var(--color-green); }
+    .live-card__display {
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        font-size: 56px;
+        line-height: var(--display-line-height);
+        letter-spacing: var(--display-letter-spacing);
+    }
+    .live-card__meta { padding: 16px 18px; }
+    .live-card__name {
+        display: block;
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        font-size: 18px;
+        letter-spacing: 0.5px;
+    }
+    .live-card__sub {
+        display: block;
+        font-family: var(--font-body);
+        font-size: 13px;
+        opacity: 0.75;
+        margin-top: 2px;
+    }
+
+    @media (max-width: 720px) {
+        .wrap { padding: 32px 20px 64px; }
+        .section { padding: 56px 0; }
+        .type-grid { grid-template-columns: 1fr; }
+        .big-install { font-size: 22px; height: 64px; padding: 0 28px; }
+    }
+</style>
+
+<script>
+    if (typeof window !== "undefined") {
+        (window as any).wardrobeTrack?.("wardrobe_system_view", { system: "hyper" });
+    }
+
+    document.querySelectorAll<HTMLAnchorElement>("[data-track-github]").forEach((a) => {
+        a.addEventListener("click", () => {
+            (window as any).wardrobeTrack?.("wardrobe_github_click", { system: "hyper" });
+        });
+    });
+
+    document.addEventListener("wardrobe:copy", (e) => {
+        const detail = (e as CustomEvent).detail ?? {};
+        const tab = detail.target;
+        const event =
+            tab === "code"
+                ? "wardrobe_copy_code"
+                : tab === "prompt"
+                  ? "wardrobe_copy_prompt"
+                  : "wardrobe_copy_theme";
+        (window as any).wardrobeTrack?.(event, {
+            component: detail.component,
+            system: detail.system,
+        });
+    });
+
+    const form = document.getElementById("hyper-signup") as HTMLFormElement | null;
+    const msg = document.getElementById("hyper-signup-msg") as HTMLElement | null;
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!msg) return;
+        const fd = new FormData(form);
+        const email = String(fd.get("email") ?? "");
+        msg.textContent = "Sending…";
+        msg.className = "hyper-signup__msg";
+        try {
+            const res = await fetch("/api/wardrobe-signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+            if (res.ok) {
+                msg.textContent = "You're in. We'll email when MCP drops.";
+                msg.className = "hyper-signup__msg is-success";
+                form.reset();
+                (window as any).wardrobeTrack?.("wardrobe_signup", { source: "wardrobe" });
+            } else {
+                const data = await res.json().catch(() => ({}));
+                msg.textContent = data?.error
+                    ? `Couldn't sign up: ${data.error}`
+                    : "Couldn't sign up. Try again.";
+                msg.className = "hyper-signup__msg is-error";
+            }
+        } catch {
+            msg.textContent = "Couldn't sign up. Try again.";
+            msg.className = "hyper-signup__msg is-error";
+        }
+    });
+</script>

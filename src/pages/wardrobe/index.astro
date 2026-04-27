@@ -1,0 +1,354 @@
+---
+import WardrobeLayout from "../../layouts/WardrobeLayout.astro";
+---
+
+<WardrobeLayout
+    title="Wardrobe — themes for vibe-coded apps"
+    description="Themes for vibe-coded apps. Stop shipping the same purple landing page. Free. MIT."
+    chrome="neutral"
+>
+    <main class="wrap">
+        <section class="hero">
+            <p class="eyebrow">WARDROBE — V0.1</p>
+            <h1 class="h1">Themes for vibe-coded apps.</h1>
+            <p class="lede">
+                Stop shipping the same purple landing page. Drop one of these into
+                your AI session and ship something with character.
+            </p>
+            <p class="sub">
+                Made by <a href="/">Martin Ibsen</a> — 4 personalities, drop-in ready
+                for Claude Code, Cursor, v0, Lovable, your shadcn project, whatever.
+                Free. MIT.
+            </p>
+        </section>
+
+        <section class="block" id="themes">
+            <div class="block__head">
+                <h2 class="h2">Themes</h2>
+                <span class="muted">1 of 4 ready</span>
+            </div>
+
+            <div class="grid">
+                <a class="theme-card theme-card--hyper" href="/wardrobe/hyper">
+                    <div class="theme-card__preview">
+                        <span class="theme-card__display">HYPER.</span>
+                        <span class="theme-card__sub">acid yellow + brown borders</span>
+                    </div>
+                    <div class="theme-card__meta">
+                        <span class="theme-card__name">Hyper</span>
+                        <span class="theme-card__vibe">
+                            Loud, brutalist, anti-corporate. CAPS forever.
+                        </span>
+                        <span class="theme-card__cta">Try Hyper →</span>
+                    </div>
+                </a>
+
+                <div class="theme-card theme-card--ghost">
+                    <div class="theme-card__preview theme-card__preview--ghost">
+                        <span class="theme-card__display ghost">SOON.</span>
+                    </div>
+                    <div class="theme-card__meta">
+                        <span class="theme-card__name">Theme #2</span>
+                        <span class="theme-card__vibe">Coming soon.</span>
+                    </div>
+                </div>
+
+                <div class="theme-card theme-card--ghost">
+                    <div class="theme-card__preview theme-card__preview--ghost">
+                        <span class="theme-card__display ghost">SOON.</span>
+                    </div>
+                    <div class="theme-card__meta">
+                        <span class="theme-card__name">Theme #3</span>
+                        <span class="theme-card__vibe">Coming soon.</span>
+                    </div>
+                </div>
+
+                <div class="theme-card theme-card--ghost">
+                    <div class="theme-card__preview theme-card__preview--ghost">
+                        <span class="theme-card__display ghost">SOON.</span>
+                    </div>
+                    <div class="theme-card__meta">
+                        <span class="theme-card__name">Theme #4</span>
+                        <span class="theme-card__vibe">Coming soon.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="block">
+            <div class="block__head">
+                <h2 class="h2">How it works</h2>
+            </div>
+            <ol class="steps">
+                <li>
+                    <span class="step__num">01</span>
+                    <span class="step__body">Pick a theme.</span>
+                </li>
+                <li>
+                    <span class="step__num">02</span>
+                    <span class="step__body">Copy the install-prompt.</span>
+                </li>
+                <li>
+                    <span class="step__num">03</span>
+                    <span class="step__body">Paste in your AI session.</span>
+                </li>
+            </ol>
+        </section>
+
+        <section class="block signup-block">
+            <div class="block__head">
+                <h2 class="h2">Get notified when next theme drops</h2>
+            </div>
+            <form id="wardrobe-signup" class="signup">
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="you@something.dev"
+                    required
+                    class="signup__input"
+                    aria-label="Email"
+                />
+                <button type="submit" class="signup__btn">Notify me</button>
+            </form>
+            <p class="signup__msg" id="signup-msg" aria-live="polite"></p>
+            <p class="muted small">
+                One email per drop. Unsubscribe one click. MIT means MIT.
+            </p>
+        </section>
+
+    </main>
+</WardrobeLayout>
+
+<style>
+    .wrap {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 64px 24px 96px;
+    }
+    .hero {
+        margin-bottom: 96px;
+        max-width: 720px;
+    }
+    .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #525252;
+        margin: 0 0 16px;
+    }
+    .h1 {
+        font-size: clamp(40px, 6vw, 64px);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        font-weight: 600;
+        color: #0a0a0a;
+        margin: 0 0 24px;
+    }
+    .lede {
+        font-size: 22px;
+        line-height: 1.45;
+        color: #0a0a0a;
+        margin: 0 0 16px;
+    }
+    .sub {
+        font-size: 15px;
+        line-height: 1.55;
+        color: #525252;
+        margin: 0;
+    }
+    .sub a { color: #0a0a0a; text-decoration: underline; }
+
+    .block { margin-bottom: 96px; }
+    .block__head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 16px;
+        margin-bottom: 32px;
+    }
+    .h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #0a0a0a;
+        margin: 0;
+        letter-spacing: -0.01em;
+    }
+    .muted { color: #525252; font-size: 13px; }
+    .small { font-size: 13px; margin-top: 12px; }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+    .theme-card {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: border-color 200ms ease;
+    }
+    .theme-card:not(.theme-card--ghost):hover {
+        border-color: #0a0a0a;
+    }
+    .theme-card__preview {
+        background: #efff71;
+        color: #3a1e1e;
+        padding: 48px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 180px;
+    }
+    .theme-card__preview--ghost {
+        background: #fafafa;
+        color: #d4d4d4;
+    }
+    .theme-card__display {
+        font-family: "Anton", "Impact", "Arial Narrow", sans-serif;
+        font-size: 64px;
+        line-height: 0.85;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+    }
+    .theme-card__sub {
+        font-family: Georgia, serif;
+        font-size: 13px;
+        opacity: 0.75;
+    }
+    .theme-card__meta {
+        padding: 20px 24px 24px;
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .theme-card__name {
+        font-size: 17px;
+        font-weight: 600;
+        color: #0a0a0a;
+    }
+    .theme-card__vibe {
+        font-size: 14px;
+        color: #525252;
+        line-height: 1.5;
+    }
+    .theme-card__cta {
+        font-size: 14px;
+        color: #0a0a0a;
+        margin-top: 8px;
+    }
+    .theme-card--ghost { opacity: 0.65; }
+    .theme-card--ghost .theme-card__name { color: #525252; }
+
+    .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+    .steps li {
+        display: flex;
+        gap: 32px;
+        padding: 20px 0;
+        border-bottom: 1px solid #e5e5e5;
+        font-size: 18px;
+        color: #0a0a0a;
+    }
+    .steps li:last-child { border-bottom: none; }
+    .step__num {
+        font-family: ui-monospace, "JetBrains Mono", SFMono-Regular, Menlo, monospace;
+        color: #525252;
+        font-size: 13px;
+        min-width: 36px;
+        padding-top: 4px;
+    }
+
+    .signup-block { padding-top: 8px; }
+    .signup {
+        display: flex;
+        gap: 12px;
+        max-width: 480px;
+        flex-wrap: wrap;
+    }
+    .signup__input {
+        flex: 1;
+        min-width: 220px;
+        font: inherit;
+        padding: 12px 14px;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #0a0a0a;
+        font-size: 15px;
+    }
+    .signup__input:focus { outline: 2px solid #0a0a0a; outline-offset: -2px; }
+    .signup__btn {
+        font: inherit;
+        padding: 12px 20px;
+        background: #0a0a0a;
+        color: #ffffff;
+        border: 1px solid #0a0a0a;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+    .signup__btn:hover { background: #2a2a2a; }
+    .signup__msg {
+        margin: 12px 0 0;
+        font-size: 14px;
+        color: #525252;
+        min-height: 1em;
+    }
+    .signup__msg.is-success { color: #197b3a; }
+    .signup__msg.is-error { color: #b91c1c; }
+
+    @media (max-width: 640px) {
+        .wrap { padding: 32px 20px 64px; }
+        .hero { margin-bottom: 64px; }
+        .lede { font-size: 19px; }
+        .grid { grid-template-columns: 1fr; }
+        .block { margin-bottom: 64px; }
+    }
+</style>
+
+<script>
+    if (typeof window !== "undefined") {
+        (window as any).wardrobeTrack?.("wardrobe_view");
+    }
+
+    const form = document.getElementById("wardrobe-signup") as HTMLFormElement | null;
+    const msg = document.getElementById("signup-msg") as HTMLElement | null;
+
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const email = String(formData.get("email") ?? "");
+        if (!email || !msg) return;
+        msg.textContent = "Sending…";
+        msg.className = "signup__msg";
+        try {
+            const res = await fetch("/api/wardrobe-signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+            if (res.ok) {
+                msg.textContent = "You're on the list. Watch your inbox.";
+                msg.className = "signup__msg is-success";
+                form.reset();
+                (window as any).wardrobeTrack?.("wardrobe_signup", { source: "wardrobe" });
+            } else {
+                const data = await res.json().catch(() => ({}));
+                msg.textContent = data?.error
+                    ? `Couldn't sign up: ${data.error}`
+                    : "Couldn't sign up. Try again.";
+                msg.className = "signup__msg is-error";
+            }
+        } catch {
+            msg.textContent = "Couldn't sign up. Try again.";
+            msg.className = "signup__msg is-error";
+        }
+    });
+</script>

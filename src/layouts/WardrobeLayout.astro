@@ -1,0 +1,251 @@
+---
+import "../components/wardrobe/hyper/globals.css";
+
+interface Props {
+    title: string;
+    description?: string;
+    system?: "hyper" | null;
+    chrome?: "neutral" | "hyper" | "hidden";
+}
+
+const {
+    title,
+    description = "Wardrobe — themes for vibe-coded apps. Made by Martin Ibsen. MIT.",
+    system = null,
+    chrome = system ? "hyper" : "neutral",
+} = Astro.props;
+
+const GITHUB_URL =
+    "https://github.com/martinibsen/martinibsen.dk/tree/main/src/components/wardrobe";
+
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isInstall = path === "/wardrobe/hyper/install";
+const isDemo = path.startsWith("/wardrobe/hyper/marathon-club");
+const isHyperHome = path === "/wardrobe/hyper";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+</head>
+<body data-system={system ?? undefined}>
+    {chrome === "neutral" && (
+        <header class="wnav wnav--neutral">
+            <a class="wnav__brand" href="/wardrobe">Wardrobe</a>
+            <nav class="wnav__links" aria-label="Wardrobe">
+                <a href="/wardrobe#themes">Themes</a>
+                <a href={GITHUB_URL} rel="noopener">GitHub</a>
+            </nav>
+        </header>
+    )}
+
+    {chrome === "hyper" && (
+        <header class="wnav wnav--hyper">
+            <a class="wnav__brand wnav__brand--hyper" href="/wardrobe">
+                WARDROBE / HYPER.
+            </a>
+            <nav class="wnav__links wnav__links--hyper" aria-label="Hyper">
+                <a
+                    href="/wardrobe/hyper/install"
+                    class:list={[isInstall && "is-active"]}
+                >
+                    INSTALL
+                </a>
+                <a
+                    href="/wardrobe/hyper/marathon-club"
+                    class:list={[isDemo && "is-active"]}
+                >
+                    DEMO
+                </a>
+                <a
+                    href="/wardrobe/hyper"
+                    class:list={[isHyperHome && "is-active"]}
+                >
+                    SYSTEM
+                </a>
+                <a href={GITHUB_URL} rel="noopener">GITHUB</a>
+            </nav>
+        </header>
+    )}
+
+    {chrome === "hidden" && (
+        <a class="wbuilt" href="/wardrobe/hyper" aria-label="Built with Hyper">
+            ← Built with Hyper
+        </a>
+    )}
+
+    <slot />
+
+    <footer class:list={["wfoot", `wfoot--${chrome}`]}>
+        <span>Built by <a href="/">Martin Ibsen</a></span>
+        <span class="wfoot__sep" aria-hidden="true">·</span>
+        <a href="/">martinibsen.dk</a>
+        <span class="wfoot__sep" aria-hidden="true">·</span>
+        <a href={GITHUB_URL} rel="noopener">GitHub</a>
+        <span class="wfoot__sep" aria-hidden="true">·</span>
+        <span>MIT</span>
+    </footer>
+
+    <style is:global>
+        body[data-system="hyper"] {
+            margin: 0;
+        }
+        body:not([data-system]) {
+            margin: 0;
+            background: #ffffff;
+            color: #0a0a0a;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                "Helvetica Neue", Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        /* ===== STICKY NAV — shared ===== */
+        .wnav {
+            position: sticky;
+            top: 0;
+            z-index: 80;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px;
+            line-height: 1;
+        }
+        .wnav__brand {
+            font-size: 16px;
+            font-weight: 600;
+            color: inherit;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .wnav__links {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+        }
+        .wnav__links a {
+            color: inherit;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid transparent;
+            padding: 2px 0;
+            transition: border-color 120ms ease, opacity 120ms ease;
+        }
+        .wnav__links a:hover { border-bottom-color: currentColor; }
+        .wnav__links a.is-active { border-bottom-color: currentColor; }
+
+        /* ===== Sphere A — neutral ===== */
+        .wnav--neutral {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: saturate(140%) blur(8px);
+            -webkit-backdrop-filter: saturate(140%) blur(8px);
+            color: #0a0a0a;
+            border-bottom: 1px solid #e5e5e5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .wnav--neutral .wnav__links a:not(.is-active) { color: #525252; }
+        .wnav--neutral .wnav__links a:hover { color: #0a0a0a; }
+
+        /* ===== Sphere B — hyper ===== */
+        .wnav--hyper {
+            background: var(--color-bg, #efff71);
+            color: var(--color-fg, #3a1e1e);
+            border-bottom: 1px solid var(--color-fg, #3a1e1e);
+            font-family: var(--font-display, "Anton", "Impact", sans-serif);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .wnav__brand--hyper {
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+        .wnav--hyper .wnav__links a { font-size: 13px; }
+
+        /* ===== Built-with pill — chrome="hidden" ===== */
+        .wbuilt {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 90;
+            display: inline-flex;
+            align-items: center;
+            background: var(--color-surface, #ffffff);
+            color: var(--color-fg, #3a1e1e);
+            border: 1px solid var(--color-fg, #3a1e1e);
+            border-radius: var(--radius-pill, 32px);
+            padding: 7px 14px;
+            font-family: var(--font-display, "Anton", "Impact", sans-serif);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 11px;
+            line-height: 1;
+            text-decoration: none;
+            transition: background 120ms ease, color 120ms ease;
+        }
+        .wbuilt:hover {
+            background: var(--color-fg, #3a1e1e);
+            color: var(--color-bg, #efff71);
+        }
+
+        /* ===== FOOTER ===== */
+        .wfoot {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 24px;
+            font-size: 12px;
+            line-height: 1.4;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+        .wfoot a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 120ms ease; }
+        .wfoot a:hover { border-bottom-color: currentColor; }
+        .wfoot__sep { opacity: 0.5; }
+
+        .wfoot--neutral {
+            border-top: 1px solid #e5e5e5;
+            color: #525252;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .wfoot--hyper,
+        .wfoot--hidden {
+            border-top: 1px solid var(--color-fg, #3a1e1e);
+            color: var(--color-fg, #3a1e1e);
+            font-family: var(--font-body, "Georgia", serif);
+            opacity: 0.75;
+        }
+
+        @media (max-width: 540px) {
+            .wnav { padding: 12px 18px; }
+            .wnav__links { gap: 14px; }
+            .wnav--hyper .wnav__links a { font-size: 12px; }
+            .wbuilt { top: 12px; right: 12px; padding: 6px 12px; font-size: 10px; }
+        }
+    </style>
+
+    <script is:inline>
+        // Lightweight PostHog event helper if window.posthog is available.
+        window.wardrobeTrack = function (event, props) {
+            try {
+                if (window.posthog && typeof window.posthog.capture === "function") {
+                    window.posthog.capture(event, props || {});
+                }
+                if (typeof console !== "undefined") {
+                    console.debug("[wardrobe]", event, props || {});
+                }
+            } catch (e) {
+                /* noop */
+            }
+        };
+    </script>
+</body>
+</html>

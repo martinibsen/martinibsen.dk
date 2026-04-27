@@ -1,0 +1,188 @@
+---
+import WardrobeLayout from "../../../../layouts/WardrobeLayout.astro";
+
+type Event = {
+    title: string;
+    date: string;
+    day: string;
+    distance: string;
+    blurb: string;
+    variant: "default" | "pink" | "blue" | "green";
+    badge: string;
+    when: "this-month" | "past";
+};
+
+const events: Event[] = [
+    { title: "Aarhus Harbour 10K", date: "Apr 28", day: "SUN", distance: "10 km", blurb: "Easy pace · open to all members.", variant: "blue", badge: "FREE", when: "this-month" },
+    { title: "Hill repeats — Risskov", date: "May 01", day: "WED", distance: "6 km", blurb: "Hard intervals on the hills behind the forest.", variant: "pink", badge: "MEMBERS", when: "this-month" },
+    { title: "Long run — Marselis", date: "May 04", day: "SAT", distance: "22 km", blurb: "Steady. Pacers at 5:00, 5:30 and 6:00.", variant: "green", badge: "PACERS", when: "this-month" },
+    { title: "Sunday social 5K", date: "May 12", day: "SUN", distance: "5 km", blurb: "Conversational pace, then breakfast.", variant: "default", badge: "FREE", when: "this-month" },
+    { title: "Half marathon trial", date: "May 26", day: "SUN", distance: "21.1 km", blurb: "Race simulation. Splits, gels, the whole thing.", variant: "blue", badge: "MEMBERS", when: "this-month" },
+
+    { title: "Vintervarm 10K", date: "Mar 09", day: "SAT", distance: "10 km", blurb: "Wrapped up. 84 finishers. Strong PRs.", variant: "default", badge: "DONE", when: "past" },
+    { title: "Tempo Tuesdays kickoff", date: "Feb 13", day: "TUE", distance: "8 km", blurb: "First tempo of the year.", variant: "pink", badge: "DONE", when: "past" },
+    { title: "January cold start", date: "Jan 06", day: "SAT", distance: "12 km", blurb: "−3°C, 41 brave souls.", variant: "green", badge: "DONE", when: "past" },
+];
+---
+
+<WardrobeLayout
+    title="Events — Marathon Club"
+    description="Upcoming runs, trials, and socials."
+    system="hyper"
+    chrome="hidden"
+>
+    <main class="mc-wrap">
+        <header class="mc-header">
+            <div class="mc-brand">
+                <h1 class="mc-brand__title">EVENTS.</h1>
+                <p class="mc-brand__sub">5 upcoming · 32 this year</p>
+            </div>
+        </header>
+
+        <div class="filter-bar">
+            <button type="button" class="filter filter--active" data-filter="all">ALL</button>
+            <button type="button" class="filter" data-filter="this-month">THIS MONTH</button>
+            <button type="button" class="filter" data-filter="past">PAST</button>
+        </div>
+
+        <div class="event-list">
+            {events.map((e, i) => (
+                <article
+                    class:list={["hyp-card", e.variant !== "default" && `hyp-card--${e.variant}`, "ev"]}
+                    data-when={e.when}
+                >
+                    <span class="hyp-badge-circle">{String(i + 1).padStart(2, "0")}</span>
+                    <div class="ev__date">
+                        <strong>{e.day}</strong>
+                        <span>{e.date.split(" ")[1]}</span>
+                        <small>{e.date.split(" ")[0]}</small>
+                    </div>
+                    <div class="ev__body">
+                        <h3 class="ev__title">{e.title}</h3>
+                        <p class="ev__blurb">{e.blurb}</p>
+                        <div class="ev__meta">
+                            <span class="hyp-badge">{e.distance}</span>
+                            <span class="hyp-badge hyp-badge--filled">{e.badge}</span>
+                        </div>
+                    </div>
+                    <div class="ev__cta">
+                        {e.when === "this-month" ? (
+                            <button type="button" class="hyp-btn hyp-btn--primary hyp-btn--sm">SIGN UP</button>
+                        ) : (
+                            <button type="button" class="hyp-btn hyp-btn--secondary hyp-btn--sm" disabled>RECAP</button>
+                        )}
+                    </div>
+                </article>
+            ))}
+        </div>
+
+        <footer class="mc-footer">
+            <p class="mc-footer__line">MARATHON CLUB. — Every street is a track. © 2026</p>
+            <p class="mc-footer__built"><a href="/wardrobe/hyper">Built with Wardrobe / Hyper →</a></p>
+        </footer>
+    </main>
+
+    <nav class="hyp-bottom-nav" aria-label="Marathon Club">
+        <a class="hyp-bottom-nav__item" href="/wardrobe/hyper/marathon-club">HOME</a>
+        <a class="hyp-bottom-nav__item hyp-bottom-nav__item--active" href="/wardrobe/hyper/marathon-club/events">EVENTS</a>
+        <a class="hyp-bottom-nav__item" href="/wardrobe/hyper/marathon-club/membership">JOIN</a>
+        <a class="hyp-bottom-nav__item" href="/wardrobe/hyper/marathon-club/leaderboard">RANK</a>
+    </nav>
+</WardrobeLayout>
+
+<style>
+    .mc-wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 140px; }
+    .mc-header {
+        display: flex; justify-content: space-between; align-items: flex-start;
+        margin-bottom: 28px; gap: 16px;
+    }
+    .mc-brand__title {
+        font-family: var(--font-display);
+        text-transform: uppercase;
+        font-size: clamp(48px, 12vw, 96px);
+        line-height: 0.85;
+        letter-spacing: -0.02em;
+        margin: 0;
+    }
+    .mc-brand__sub { font-family: var(--font-body); font-size: 13px; opacity: 0.75; margin: 8px 0 0; }
+    .mc-back {
+        font-family: var(--font-display); text-transform: uppercase; font-size: 12px;
+        letter-spacing: 0.5px; color: var(--color-fg); text-decoration: none;
+        background: var(--color-surface); border: var(--border); border-radius: var(--radius-pill);
+        padding: 8px 14px;
+    }
+
+    .filter-bar {
+        display: inline-flex;
+        background: var(--color-surface);
+        border: var(--border);
+        border-radius: var(--radius-md);
+        padding: 4px;
+        margin-bottom: 24px;
+    }
+    .filter {
+        font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.5px;
+        font-size: 12px; padding: 8px 14px; border: none; background: transparent;
+        cursor: pointer; border-radius: var(--radius-sm); color: var(--color-fg);
+    }
+    .filter--active { background: var(--color-fg); color: var(--color-bg); }
+
+    .event-list { display: grid; gap: 14px; }
+    .ev {
+        display: grid;
+        grid-template-columns: 64px 1fr auto;
+        gap: 16px;
+        align-items: center;
+        padding: 18px 18px;
+    }
+    .ev[data-hidden="true"] { display: none; }
+    .ev__date {
+        display: flex; flex-direction: column; align-items: center;
+        font-family: var(--font-display); text-transform: uppercase;
+    }
+    .ev__date strong { font-size: 12px; letter-spacing: 0.05em; }
+    .ev__date span { font-size: 32px; line-height: 0.9; letter-spacing: -0.02em; }
+    .ev__date small { font-size: 11px; letter-spacing: 0.05em; opacity: 0.75; }
+    .ev__title { font-family: var(--font-body); font-size: 18px; margin: 0 0 4px; font-weight: normal; }
+    .ev__blurb { font-family: var(--font-body); font-size: 14px; opacity: 0.75; margin: 0 0 10px; line-height: 1.5; }
+    .ev__meta { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    @media (max-width: 540px) {
+        .ev { grid-template-columns: 56px 1fr; }
+        .ev__cta { grid-column: 1 / -1; }
+    }
+
+    .mc-footer {
+        text-align: center; font-family: var(--font-body); font-size: 12px;
+        margin-top: 28px; padding-top: 18px; border-top: var(--border);
+    }
+    .mc-footer__line { margin: 0; opacity: 0.85; }
+    .mc-footer__built { margin: 8px 0 0; }
+    .mc-footer__built a {
+        color: var(--color-fg); text-decoration: none;
+        font-family: var(--font-display); text-transform: uppercase;
+        letter-spacing: 0.05em; font-size: 11px;
+    }
+</style>
+
+<script>
+    if (typeof window !== "undefined") {
+        (window as any).wardrobeTrack?.("wardrobe_demo_view", {
+            system: "hyper",
+            page: "marathon-club/events",
+        });
+    }
+
+    const filters = document.querySelectorAll<HTMLButtonElement>(".filter");
+    const events = document.querySelectorAll<HTMLElement>(".ev");
+    filters.forEach((f) => {
+        f.addEventListener("click", () => {
+            const which = f.dataset.filter ?? "all";
+            filters.forEach((ff) => ff.classList.toggle("filter--active", ff === f));
+            events.forEach((ev) => {
+                const show = which === "all" || ev.dataset.when === which;
+                ev.dataset.hidden = String(!show);
+            });
+        });
+    });
+</script>

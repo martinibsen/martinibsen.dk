@@ -1,0 +1,488 @@
+---
+import '../styles/global.css';
+import { projects } from '../data/projects';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const homeLogs = sortedPosts.slice(0, 7);
+
+const formatShort = (d: Date) => {
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    return `${day}.${month}.${d.getFullYear()}`;
+};
+
+const title = 'Martin Ibsen — produktleder der bygger med AI';
+const description = 'Produktleder & designer der bygger software med AI. Fokus på product discovery, zero-to-one produkter og at gøre komplekse ting simple.';
+---
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <div id="canvas-container"></div>
+
+    <div id="ui-overlay">
+        <div class="ui-element hd-main">
+            MARTIN IBSEN
+        </div>
+        <div class="ui-element hd-status">
+            <button class="hero-nav-toggle" aria-label="Menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="hero-nav-links">
+                <a href="/om">HEJ</a>&nbsp;&nbsp;
+                <a href="#projekter">PROJEKTER</a>&nbsp;&nbsp;
+                <a href="#tanker">TANKER</a>&nbsp;&nbsp;
+                <a href="#nyhedsbrev">NYHEDSBREV</a>&nbsp;&nbsp;
+                <a href="mailto:mail@martinibsen.dk">KONTAKT</a>
+            </div>
+        </div>
+
+        <div class="signature">
+            <div class="name">Martin<br /><em>Ibsen</em></div>
+            <div class="role">
+                Produktleder &amp; designer. Jeg bygger zero-to-one produkter med AI — og hjælper organisationer med at transformere måden de arbejder på, når AI ændrer alt fra discovery til shipping.
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-cue">↓</div>
+</section>
+
+<!-- PROJECTS -->
+<section class="doc" id="projekter">
+    <div class="section-head">
+        <div class="lbl">01 / PROJEKTER</div>
+        <div class="ttl"><div class="big">Hvad jeg <em>laver</em>.</div></div>
+    </div>
+    <div id="proj-list">
+        {projects.map((p) => (
+            <a
+                class="proj-row"
+                data-img={p.image}
+                href={p.url || '#'}
+                target={p.url ? '_blank' : undefined}
+                rel={p.url ? 'noopener' : undefined}
+            >
+                <div>
+                    <div class="pname">{p.name}</div>
+                </div>
+                <div>
+                    <div class="plabel">SUMMARY</div>
+                    <div class="pdesc">{p.desc}</div>
+                </div>
+                <div>
+                    <div class="plabel">TYPE</div>
+                    <div class="pmeta">{p.type}</div>
+                    <div class="plabel" style="margin-top: 16px;">{(p.stackLabel || 'STACK').toUpperCase()}</div>
+                    <div class="pmeta">{p.stack}</div>
+                </div>
+            </a>
+        ))}
+    </div>
+    <div id="proj-peek" aria-hidden="true"></div>
+</section>
+
+<!-- TRANSFORMATION -->
+<section class="doc" id="transformation">
+    <div class="section-head">
+        <div class="lbl">02 / TRANSFORMATION</div>
+        <div class="ttl"><div class="big">Organisationer der vil <em>bygge</em> med AI.</div></div>
+    </div>
+
+    <div class="transform-lead">
+        <p>
+            Halvdelen af mit arbejde er at bygge produkter selv. Den anden halvdel er at hjælpe organisationer med at gøre det samme — at flytte sig fra at <em>tale</em> om AI til at <em>levere</em> med det.
+        </p>
+        <p>
+            Det er sjældent et teknologisk problem. Det er et organisations-problem. Roller skal redefineres. Discovery skal speedes op. Produktledere skal lære at shippe selv. Beslutningsprocesser skal forkortes fra uger til timer. Og hele setup'et — fra hvordan teams er struktureret, til hvordan succes måles — skal genovervejes.
+        </p>
+        <p>
+            Det er det arbejde jeg laver. Med organisationer, der ikke vil vente på, at nogen andre finder ud af det.
+        </p>
+    </div>
+
+    <div class="transform-grid">
+        <div class="transform-cell">
+            <div class="t-num">— 01</div>
+            <div class="t-title">Workshops &amp; sparring</div>
+            <div class="t-desc">
+                Sessions med produktteams og ledere, hvor vi går fra teori til at bygge noget reelt på en eftermiddag. Ingen slides. Hands-on. Kunden går hjem med kørende prototyper og en ny måde at tænke discovery på.
+            </div>
+        </div>
+        <div class="transform-cell">
+            <div class="t-num">— 02</div>
+            <div class="t-title">PM-løft</div>
+            <div class="t-desc">
+                Forløb der løfter produktledere fra "ved hvad AI er" til at shippe selv. Discovery med LLMs, prompts som briefs, hvornår man bygger og hvornår man beder andre. 1:1 coaching og hold-baserede forløb.
+            </div>
+        </div>
+        <div class="transform-cell">
+            <div class="t-num">— 03</div>
+            <div class="t-title">Operating model</div>
+            <div class="t-desc">
+                Strategisk rådgivning til ledelser, der ved at AI ændrer hvordan deres organisation skal se ud — men ikke ved hvor de skal starte. Roller, processer, governance, KPI'er. Hvad der skal væk, hvad der skal genopfindes.
+            </div>
+        </div>
+    </div>
+
+    <div class="transform-cta">
+        <div>
+            <div class="t-cta-lbl">SKRIV TIL MIG</div>
+            <div class="t-cta-big">Står din organisation overfor det skifte? Lad os tage en snak.</div>
+        </div>
+        <a class="t-cta-mail" href="mailto:mail@martinibsen.dk">MAIL@MARTINIBSEN.DK →</a>
+    </div>
+</section>
+
+<!-- METHOD -->
+<section class="doc">
+    <div class="section-head">
+        <div class="lbl">03 / METODE</div>
+        <div class="ttl"><div class="big">Hvordan jeg <em>arbejder</em>.</div></div>
+    </div>
+    <div class="method-grid">
+        <div class="method-portrait">
+            <div class="mp-frame">
+                <img src="/images/martin.jpg" alt="Martin Ibsen" />
+                <span class="mp-mark mp-tl"></span>
+                <span class="mp-mark mp-tr"></span>
+                <span class="mp-mark mp-bl"></span>
+                <span class="mp-mark mp-br"></span>
+            </div>
+            <div class="mp-caption">Martin Ibsen · Aarhus</div>
+        </div>
+        <div class="method-axioms">
+            <div class="axiom">
+                <div class="axiom-num">— 01</div>
+                <div class="axiom-body">Jeg bygger software <em>selv</em> — fra første hypotese til shipping.</div>
+            </div>
+            <div class="axiom">
+                <div class="axiom-num">— 02</div>
+                <div class="axiom-body">Discovery er ikke en fase. Det er en <em>muskel</em>.</div>
+            </div>
+            <div class="axiom">
+                <div class="axiom-num">— 03</div>
+                <div class="axiom-body">AI er ikke pointen. <em>Outcomes</em> er pointen.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- THOUGHTS -->
+<section class="doc" id="tanker">
+    <div class="section-head">
+        <div class="lbl">04 / TANKER</div>
+        <div class="ttl"><div class="big">Skrevet i <em>marginen</em>.</div></div>
+    </div>
+    <div class="log-grid">
+        {homeLogs.map((p) => (
+            <a class="log-row" href={`/blog/${p.id}`}>
+                <div class="log-date">{formatShort(p.data.date)}</div>
+                <div class="log-tag">{p.data.tags[0]?.toUpperCase()}</div>
+                <div class="log-title">{p.data.title}</div>
+                <div class="arrow">→</div>
+            </a>
+        ))}
+        <a class="log-row" href="/tanker">
+            <div class="log-date">ARKIV</div>
+            <div class="log-tag">ALL</div>
+            <div class="log-title">Læs alle {sortedPosts.length} noter →</div>
+            <div class="arrow">→</div>
+        </a>
+    </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="doc" id="nyhedsbrev">
+    <div class="section-head">
+        <div class="lbl">05 / NYHEDSBREV</div>
+        <div class="ttl"><div class="big">Tanker om at <em>bygge</em> med AI.</div></div>
+    </div>
+    <div class="nl">
+        <div>
+            <h3>Hold dig <em>opdateret</em>.</h3>
+            <p>Lejlighedsvise mails om product discovery, vibe coding og hvad der sker når en PM lærer at shippe selv. Ingen spam.</p>
+            <form class="nl-form" id="newsletter-form">
+                <input type="email" id="newsletter-email" placeholder="DIN@EMAIL.DK" required />
+                <button type="button" id="newsletter-btn">TILMELD →</button>
+            </form>
+            <p class="nl-message" id="newsletter-message" style="display:none;"></p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="kontakt">
+    <div class="fcell fcell--brand">
+        <div class="fbrand">Martin <em>Ibsen</em></div>
+        <div class="fdesc">Produktleder &amp; designer. Bygger zero-to-one produkter med AI fra et lille kontor i Aarhus.</div>
+    </div>
+    <div class="fcell fcell--contact">
+        <div class="flbl">KONTAKT</div>
+        <a href="mailto:mail@martinibsen.dk">MAIL@MARTINIBSEN.DK</a>
+        <a href="/om">HEJ — OM MIG →</a>
+    </div>
+    <div class="fcell fcell--social">
+        <div class="flbl">ANDRE STEDER</div>
+        <a href="https://linkedin.com/in/martinibsen" target="_blank" rel="noopener">LINKEDIN</a>
+        <a href="https://x.com/martinibsen" target="_blank" rel="noopener">X</a>
+    </div>
+</footer>
+
+<div class="colophon">
+    <div class="col-left">© 2026 MARTIN IBSEN · AARHUS</div>
+    <div class="col-right">No tracking.</div>
+</div>
+
+<!-- SMOOTH SCROLL -->
+<script is:inline>
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+            const href = a.getAttribute('href');
+            if (href.length < 2) return;
+            const t = document.querySelector(href);
+            if (t) {
+                e.preventDefault();
+                t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    if (window.location.hash) {
+        const t = document.querySelector(window.location.hash);
+        if (t) setTimeout(() => t.scrollIntoView({ behavior: 'smooth' }), 50);
+    }
+
+    // Hero nav toggle (mobile)
+    const heroToggle = document.querySelector('.hero-nav-toggle');
+    const heroLinks = document.querySelector('.hero-nav-links');
+    heroToggle?.addEventListener('click', () => {
+        const open = heroLinks.classList.toggle('is-open');
+        heroToggle.setAttribute('aria-expanded', String(open));
+        heroToggle.classList.toggle('is-open', open);
+    });
+    heroLinks?.querySelectorAll('a').forEach((a) =>
+        a.addEventListener('click', () => {
+            heroLinks.classList.remove('is-open');
+            heroToggle?.classList.remove('is-open');
+            heroToggle?.setAttribute('aria-expanded', 'false');
+        })
+    );
+</script>
+
+<!-- HOVER PEEK FOR PROJECTS -->
+<script is:inline>
+    (function () {
+        const peek = document.getElementById('proj-peek');
+        const list = document.getElementById('proj-list');
+        if (!peek || !list) return;
+
+        let mouseX = 0, mouseY = 0, peekX = 0, peekY = 0;
+        let visible = false, raf = null, currentSrc = null;
+
+        function setImage(src) {
+            if (currentSrc === src) return;
+            currentSrc = src;
+            peek.innerHTML = src ? `<img src="${src}" alt="" loading="lazy" />` : '';
+        }
+        function loop() {
+            peekX += (mouseX - peekX) * 0.18;
+            peekY += (mouseY - peekY) * 0.18;
+            peek.style.left = peekX + 'px';
+            peek.style.top = peekY + 'px';
+            raf = requestAnimationFrame(loop);
+        }
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (!raf) {
+                if (!visible) { peekX = mouseX; peekY = mouseY; }
+                raf = requestAnimationFrame(loop);
+            }
+        });
+        list.addEventListener('mouseover', (e) => {
+            const row = e.target.closest('.proj-row');
+            if (!row) return;
+            const src = row.dataset.img;
+            if (!src) return;
+            setImage(src);
+            peekX = mouseX; peekY = mouseY;
+            peek.style.left = peekX + 'px';
+            peek.style.top = peekY + 'px';
+            visible = true;
+            peek.classList.add('is-visible');
+        });
+        list.addEventListener('mouseleave', () => {
+            visible = false;
+            peek.classList.remove('is-visible');
+        });
+        list.addEventListener('mousemove', (e) => {
+            const row = e.target.closest('.proj-row');
+            if (row && row.dataset.img) setImage(row.dataset.img);
+        });
+    })();
+</script>
+
+<!-- NEWSLETTER FORM -->
+<script is:inline>
+    const nlBtn = document.getElementById('newsletter-btn');
+    const nlEmail = document.getElementById('newsletter-email');
+    const nlForm = document.getElementById('newsletter-form');
+    const nlMsg = document.getElementById('newsletter-message');
+
+    nlBtn?.addEventListener('click', async () => {
+        const email = nlEmail.value.trim();
+        if (!email) return;
+        nlBtn.disabled = true;
+        nlBtn.textContent = '...';
+        try {
+            const res = await fetch('https://app.loops.so/api/newsletter-form/cmn0o7dup2drx0i49kyc331hz', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `email=${encodeURIComponent(email)}&mailingLists=cmn0q6mwrhzkh0i202j16fjw4`,
+            });
+            if (res.ok) {
+                nlForm.style.display = 'none';
+                nlMsg.textContent = 'TAK FOR DIN TILMELDING ✓';
+                nlMsg.style.display = 'block';
+            } else {
+                throw new Error();
+            }
+        } catch {
+            nlBtn.disabled = false;
+            nlBtn.textContent = 'TILMELD →';
+            nlMsg.textContent = 'NOGET GIK GALT — PRØV IGEN';
+            nlMsg.style.display = 'block';
+        }
+    });
+</script>
+
+<!-- THREE.JS WIREFRAME WORKSPACE -->
+<script is:inline>
+    window.addEventListener('load', () => {
+        if (!window.THREE) return;
+        const container = document.getElementById('canvas-container');
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(25, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(16, 12, 20);
+        camera.lookAt(0, 1.5, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setClearColor(0xe4e4e2, 1);
+        renderer.autoClear = true;
+        container.appendChild(renderer.domElement);
+
+        const fgColor = 0x1a1a1a;
+        const mutedColor = 0x888888;
+
+        const lineMaterial = new THREE.LineBasicMaterial({ color: fgColor, linewidth: 1 });
+        const dashedMaterial = new THREE.LineDashedMaterial({
+            color: mutedColor, dashSize: 0.2, gapSize: 0.1, transparent: true, opacity: 0.6,
+        });
+        const solidMaterial = new THREE.MeshBasicMaterial({
+            color: 0xe4e4e2, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
+        });
+
+        function createWiredMesh(geometry, material = lineMaterial) {
+            const group = new THREE.Group();
+            const mesh = new THREE.Mesh(geometry, solidMaterial);
+            const edges = new THREE.EdgesGeometry(geometry);
+            const lines = new THREE.LineSegments(edges, material);
+            group.add(mesh); group.add(lines);
+            return group;
+        }
+
+        const grid = new THREE.GridHelper(30, 30, 0xd0d0cf, 0xdcdcdc);
+        grid.position.y = -0.01;
+        scene.add(grid);
+
+        const worldGroup = new THREE.Group();
+        scene.add(worldGroup);
+
+        const deskGroup = new THREE.Group();
+        const deskTop = createWiredMesh(new THREE.BoxGeometry(5, 0.15, 2.5));
+        deskTop.position.y = 2.5;
+        deskGroup.add(deskTop);
+        [[-2.3, 1.25, -1.1], [2.3, 1.25, -1.1], [-2.3, 1.25, 1.1], [2.3, 1.25, 1.1]].forEach((p) => {
+            const leg = createWiredMesh(new THREE.BoxGeometry(0.15, 2.5, 0.15));
+            leg.position.set(...p);
+            deskGroup.add(leg);
+        });
+
+        const monGeo = new THREE.PlaneGeometry(2.4, 1.4);
+        const mon1 = new THREE.LineSegments(new THREE.EdgesGeometry(monGeo), lineMaterial);
+        mon1.position.set(-1.3, 4.0, -0.8); mon1.rotation.y = 0.4;
+        deskGroup.add(mon1);
+        const mon2 = new THREE.LineSegments(new THREE.EdgesGeometry(monGeo), lineMaterial);
+        mon2.position.set(1.3, 4.0, -0.8); mon2.rotation.y = -0.4;
+        deskGroup.add(mon2);
+
+        [[-1.3, 3.1, -0.8], [1.3, 3.1, -0.8]].forEach((p) => {
+            const stand = createWiredMesh(new THREE.BoxGeometry(0.1, 1.0, 0.1));
+            stand.position.set(...p);
+            deskGroup.add(stand);
+        });
+
+        const hmd = createWiredMesh(new THREE.BoxGeometry(0.6, 0.4, 0.45));
+        hmd.position.set(0, 3.2, 1.5);
+        deskGroup.add(hmd);
+
+        const cup = createWiredMesh(new THREE.CylinderGeometry(0.2, 0.18, 0.35, 12));
+        cup.position.set(2.0, 2.78, 0.7);
+        deskGroup.add(cup);
+
+        const book = createWiredMesh(new THREE.BoxGeometry(0.9, 0.05, 0.6));
+        book.position.set(-2.0, 2.6, 0.7);
+        book.rotation.y = -0.2;
+        deskGroup.add(book);
+
+        worldGroup.add(deskGroup);
+
+        const volumeGeo = new THREE.BoxGeometry(7, 5.5, 6);
+        const volumeBox = new THREE.LineSegments(new THREE.EdgesGeometry(volumeGeo), dashedMaterial);
+        volumeBox.position.y = 2.75;
+        volumeBox.computeLineDistances();
+        worldGroup.add(volumeBox);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = Date.now() * 0.001;
+            mon1.position.y = 4.0 + Math.sin(t * 0.8) * 0.03;
+            mon2.position.y = 4.0 + Math.sin(t * 0.8 + 0.5) * 0.03;
+            hmd.position.y = 3.2 + Math.sin(t * 1.2) * 0.05;
+            worldGroup.rotation.y = Math.sin(t * 0.1) * 0.06;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    });
+</script>
+
+</body>
+</html>

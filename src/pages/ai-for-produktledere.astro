@@ -1,0 +1,622 @@
+---
+const title = "AI for Produktledere — ugentligt nyhedsbrev";
+const description = "Ét tip om ugen om hvad de nye AI-værktøjer faktisk betyder for dig som produktleder. Konkret. Testet i praksis. Ingen hype.";
+---
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="robots" content="index,follow" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="content">
+        <h1>
+          <span>AI for</span>
+          <span>Produktledere.</span>
+        </h1>
+        <p class="lead-strong">Du kan ikke følge med. Det kan ingen.</p>
+        <p class="lead">
+          Ét tip om ugen om hvad de nye AI-værktøjer faktisk betyder for dig
+          som produktleder. Konkret. Testet i praksis. Ingen hype.
+        </p>
+
+        <form class="cta" id="signup" novalidate>
+          <input
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="din@email.dk"
+            aria-label="Email"
+          />
+          <button type="submit">Tilmeld</button>
+        </form>
+        <p class="micro" id="formStatus">Gratis. Afmeld når som helst.</p>
+
+        <div class="specs" aria-label="Nyhedsbrev specifikationer">
+          <div class="spec"><h4>FREKVENS</h4><p>1 tip/uge</p></div>
+          <div class="spec"><h4>INDHOLD</h4><p>Det der virker</p></div>
+          <div class="spec"><h4>FORMAT</h4><p>Email</p></div>
+          <div class="spec"><h4>LEVERING</h4><p>Mandag morgen</p></div>
+        </div>
+      </section>
+
+      <section class="product" aria-label="PMOS retro-computer illustration">
+        <div class="scene">
+          <div class="computerUnit">
+            <div class="face front">
+              <div class="screenInset">
+                <div class="crt">
+                  <div class="crtGlow">
+                    <div class="crtUi">
+                      <div class="sidebar">
+                        <div class="side-item"><span class="dot dot-blue"></span> System</div>
+                        <div class="side-item"><span class="dot dot-orange"></span> Tips</div>
+                        <div class="side-item"><span class="dot"></span> Arkiv</div>
+                        <div class="side-item"><span class="dot"></span> Om</div>
+                      </div>
+                      <div class="mainArea">
+                        <div class="os-label">PMOS 1.0</div>
+                        <div class="window">
+                          <div class="windowHeader">
+                            <span>tip-001.txt</span><span>[x]</span>
+                          </div>
+                          <div class="term">
+                            <div>&gt; LOADING TIP #001...</div>
+                            <div>&gt; AUTHOR: Martin Ibsen</div>
+                            <div>&gt; TOPIC: AI som QA-afdeling</div>
+                            <div>&gt; READY.</div>
+                            <div>&gt; <span class="cursor"></span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="logoBadge" aria-hidden="true"></div>
+              <div class="floppySlot" aria-hidden="true"></div>
+
+              <div class="stickerBall" aria-hidden="true"></div>
+              <div class="stickerStar" aria-hidden="true"><span>★</span></div>
+              <div class="stickerText" aria-hidden="true">MACHINE<br />INTELLIGENCE</div>
+
+              <div class="grill" aria-hidden="true">
+                {Array.from({ length: 8 }).map(() => <div class="vent"></div>)}
+              </div>
+            </div>
+
+            <div class="face back"></div>
+            <div class="face left"></div>
+            <div class="face right"></div>
+            <div class="face top"></div>
+            <div class="face bottom"></div>
+
+            <div class="keyboardAssembly">
+              <div class="kbBase">
+                <div class="keysGrid">
+                  {Array.from({ length: 12 }).map(() => <div class="key"></div>)}
+                  <div class="key wide"></div>
+                  {Array.from({ length: 8 }).map(() => <div class="key"></div>)}
+                  <div class="key wide"></div>
+                  <div class="key"></div><div class="key"></div>
+                  <div class="key space"></div>
+                  <div class="key"></div><div class="key"></div><div class="key"></div>
+                </div>
+              </div>
+              <div class="kbFront"></div>
+              <div class="kbBack"></div>
+              <div class="kbLeft"></div>
+              <div class="kbRight"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <style is:global>
+      :root {
+        --bg-color: #F2F3F5;
+        --text-main: #111111;
+        --text-muted: #666666;
+        --beige-light: #D4E1F0;
+        --beige-main: #B8CAE0;
+        --beige-dark: #9BB0C9;
+        --beige-shadow: #7C93AD;
+        --screen-black: #1A1A1C;
+        --accent-yellow: #F9DF74;
+        --sticker-pink: #F0CAD6;
+        --sticker-sage: #C0D8C8;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        background: var(--bg-color);
+        color: var(--text-main);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+      }
+      @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      .cursor {
+        display: inline-block;
+        width: 7px; height: 12px;
+        background: #fff;
+        vertical-align: middle;
+        animation: blink 1s step-end infinite;
+      }
+
+      .wrap {
+        position: relative;
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        align-items: center;
+        padding: 4rem;
+        gap: 2rem;
+      }
+
+      .content { padding-left: 2rem; z-index: 10; }
+      .content h1 {
+        font-size: 4.8rem;
+        line-height: 0.95;
+        margin: 0 0 1.5rem 0;
+        letter-spacing: -0.04em;
+        font-weight: 700;
+      }
+      .content h1 span { display: block; }
+      .lead-strong {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        letter-spacing: -0.01em;
+      }
+      .lead {
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 2.5rem;
+        max-width: 460px;
+        color: var(--text-muted);
+      }
+
+      .cta {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        max-width: 460px;
+      }
+      .cta input {
+        flex: 1;
+        padding: 14px 20px;
+        font-size: 15px;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 100px;
+        background: #fff;
+        color: var(--text-main);
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.2s ease;
+      }
+      .cta input:focus { border-color: var(--text-main); }
+      .cta button {
+        background: var(--text-main);
+        color: #fff;
+        padding: 14px 28px;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 100px;
+        cursor: pointer;
+        font-family: inherit;
+        letter-spacing: -0.01em;
+        transition: opacity 0.2s ease;
+      }
+      .cta button:hover { opacity: 0.85; }
+      .cta button:disabled { opacity: 0.5; cursor: default; }
+      .micro {
+        margin-top: 0.75rem;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .micro.error { color: #b3261e; }
+      .micro.success { color: var(--text-main); font-weight: 500; }
+
+      .specs {
+        margin-top: 3.5rem;
+        display: flex;
+        flex-direction: column;
+        max-width: 460px;
+        border-top: 1px solid rgba(0,0,0,0.08);
+      }
+      .spec {
+        display: flex;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+      }
+      .spec h4 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-muted);
+        width: 120px;
+        letter-spacing: 0;
+      }
+      .spec p {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-main);
+      }
+
+      /* Product / computer */
+      .product {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 2000px;
+        position: relative;
+      }
+      .scene {
+        position: relative;
+        transform-style: preserve-3d;
+        transform: rotateY(-15deg) rotateX(5deg);
+        transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+      .product:hover .scene { transform: rotateY(-5deg) rotateX(2deg); }
+
+      .computerUnit {
+        position: relative;
+        width: 360px;
+        height: 440px;
+        transform-style: preserve-3d;
+      }
+      .face { position: absolute; background: var(--beige-main); }
+      .front {
+        width: 360px; height: 440px;
+        transform: translateZ(100px);
+        background: var(--beige-main);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 40px;
+      }
+      .back {
+        width: 360px; height: 440px;
+        transform: translateZ(-100px) rotateY(180deg);
+        background: var(--beige-dark);
+      }
+      .left {
+        width: 200px; height: 440px;
+        transform: rotateY(-90deg) translateZ(100px);
+        background: var(--beige-dark);
+      }
+      .right {
+        width: 200px; height: 440px;
+        transform: rotateY(90deg) translateZ(260px);
+        background: var(--beige-dark);
+      }
+      .top {
+        width: 360px; height: 200px;
+        transform: rotateX(90deg) translateZ(100px);
+        background: var(--beige-light);
+      }
+      .bottom {
+        width: 360px; height: 200px;
+        transform: rotateX(-90deg) translateZ(340px);
+        background: var(--beige-shadow);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+      }
+
+      .screenInset {
+        width: 280px;
+        height: 220px;
+        background: #F4F6F8;
+        border-radius: 16px;
+        box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+      .crt {
+        position: relative;
+        width: 260px;
+        height: 200px;
+        background: var(--screen-black);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .crtGlow {
+        position: absolute; inset: 10px;
+        color: #fff;
+        padding: 12px;
+        font-size: 11px;
+      }
+      .crtUi { display: flex; height: 100%; }
+      .sidebar {
+        width: 32%;
+        border-right: 1px solid rgba(255,255,255,0.1);
+        padding: 8px;
+        font-size: 9px;
+        color: #aaa;
+        font-weight: 500;
+      }
+      .side-item {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .dot {
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: #555;
+        display: inline-block;
+      }
+      .dot-blue { background: var(--beige-main); }
+      .dot-orange { background: var(--accent-yellow); }
+      .mainArea {
+        flex: 1;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+      }
+      .os-label {
+        font-size: 9px;
+        margin-bottom: 4px;
+        opacity: 0.7;
+        font-weight: 500;
+        color: #fff;
+      }
+      .window {
+        background: #fff;
+        color: #111;
+        border-radius: 6px;
+        padding: 8px;
+        margin-top: 6px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        font-size: 9px;
+      }
+      .windowHeader {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 6px;
+        padding-bottom: 4px;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        color: #888;
+        font-size: 9px;
+      }
+      .term {
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 9px;
+        line-height: 1.5;
+        color: #111;
+        background: var(--screen-black);
+        color: #e6f0ff;
+        padding: 6px;
+        border-radius: 3px;
+        margin: -2px -2px 0;
+      }
+
+      .logoBadge {
+        position: absolute;
+        bottom: 30px; left: 30px;
+        width: 20px; height: 20px;
+        border-radius: 50%;
+        background: #111;
+      }
+      .floppySlot {
+        width: 140px; height: 8px;
+        background: #111;
+        border-radius: 100px;
+        margin-left: 100px;
+        margin-top: -6px;
+      }
+      .stickerBall {
+        position: absolute;
+        width: 40px; height: 40px;
+        background: var(--accent-yellow);
+        border-radius: 50%;
+        bottom: 88px; left: 20px;
+        transform: translateZ(101px) rotate(-10deg);
+        z-index: 5;
+      }
+      .stickerStar {
+        position: absolute;
+        width: 45px; height: 45px;
+        background: var(--sticker-pink);
+        border-radius: 50%;
+        bottom: 98px; left: 50px;
+        transform: translateZ(102px) rotate(15deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+      }
+      .stickerStar span { color: #111; font-size: 20px; }
+      .stickerText {
+        position: absolute;
+        width: 60px; height: 30px;
+        background: var(--sticker-sage);
+        color: #111;
+        font-size: 7px;
+        line-height: 1.3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: 700;
+        bottom: 64px; left: 100px;
+        transform: translateZ(101px) rotate(-2deg);
+        border-radius: 4px;
+        z-index: 5;
+      }
+      .grill {
+        position: absolute;
+        bottom: 25px; right: 25px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+        width: 30px;
+        height: 20px;
+      }
+      .vent { background: rgba(0,0,0,0.1); border-radius: 1px; }
+
+      .keyboardAssembly {
+        position: absolute;
+        width: 360px; height: 140px;
+        bottom: -118px;
+        transform-style: preserve-3d;
+        transform-origin: top center;
+        transform: translateZ(164px) rotateX(66deg);
+      }
+      .kbBase {
+        position: absolute;
+        width: 100%; height: 100%;
+        background: var(--beige-main);
+        transform: translateZ(9px);
+        overflow: hidden;
+      }
+      .kbFront {
+        position: absolute; left: 0;
+        width: 100%; height: 18px;
+        bottom: 0;
+        background: var(--beige-dark);
+        transform-origin: bottom center;
+        transform: translateZ(9px) rotateX(90deg);
+      }
+      .kbBack {
+        position: absolute; left: 0;
+        width: 100%; height: 18px;
+        top: 0;
+        background: var(--beige-light);
+        transform-origin: top center;
+        transform: translateZ(9px) rotateX(-90deg);
+      }
+      .kbLeft {
+        position: absolute; top: 0;
+        width: 18px; height: 100%;
+        background: var(--beige-dark);
+        left: 0;
+        transform-origin: left center;
+        transform: translateZ(9px) rotateY(90deg);
+      }
+      .kbRight {
+        position: absolute; top: 0;
+        width: 18px; height: 100%;
+        background: var(--beige-dark);
+        right: 0;
+        transform-origin: right center;
+        transform: translateZ(9px) rotateY(-90deg);
+      }
+      .keysGrid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 6px;
+        padding: 15px;
+        transform: translateZ(8px);
+        transform-style: preserve-3d;
+      }
+      .key {
+        height: 27px;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 4px 0 var(--beige-shadow), 0 5px 5px rgba(0,0,0,0.05);
+        transform: translateZ(1px);
+      }
+      .key.wide { grid-column: span 2; }
+      .key.space { grid-column: span 6; }
+
+      /* Tablet */
+      @media (max-width: 1024px) {
+        .wrap {
+          padding: 3rem 2rem;
+          gap: 1rem;
+        }
+        .content h1 { font-size: 3.6rem; }
+      }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        .wrap {
+          grid-template-columns: 1fr;
+          padding: 2.5rem 1.5rem;
+          text-align: center;
+          gap: 3rem;
+        }
+        .product { order: -1; min-height: 520px; }
+        .content { padding-left: 0; }
+        .content h1 { font-size: 2.8rem; }
+        .lead, .cta, .specs, .micro { margin-left: auto; margin-right: auto; }
+        .lead { max-width: 100%; }
+        .specs {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          border-top: 1px solid rgba(0,0,0,0.08);
+        }
+        .spec {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 4px;
+          padding: 14px 8px;
+        }
+        .spec h4 { width: auto; }
+      }
+    </style>
+
+    <script>
+      const form = document.getElementById("signup") as HTMLFormElement | null;
+      const status = document.getElementById("formStatus");
+      if (form && status) {
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const input = form.querySelector('input[name="email"]') as HTMLInputElement;
+          const btn = form.querySelector("button") as HTMLButtonElement;
+          const email = (input.value || "").trim();
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            status.textContent = "Indtast en gyldig email.";
+            status.className = "micro error";
+            return;
+          }
+          btn.disabled = true;
+          const prev = btn.textContent;
+          btn.textContent = "Sender...";
+          try {
+            const res = await fetch("/api/subscribe", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (res.ok && data.ok) {
+              status.textContent = data.message || "Tak! Du får dit første tip mandag morgen.";
+              status.className = "micro success";
+              input.value = "";
+            } else {
+              status.textContent = data.error || "Noget gik galt. Prøv igen om et øjeblik.";
+              status.className = "micro error";
+            }
+          } catch (err) {
+            status.textContent = "Noget gik galt. Prøv igen om et øjeblik.";
+            status.className = "micro error";
+          } finally {
+            btn.disabled = false;
+            btn.textContent = prev;
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

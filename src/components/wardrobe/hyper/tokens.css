@@ -1,0 +1,88 @@
+/* =========================================================
+   Wardrobe — HYPER tokens
+   Scoped via :where() for low specificity.
+   Activate by adding data-system="hyper" to a body or wrapper.
+   ========================================================= */
+
+:where([data-system="hyper"]) {
+    /* Surface */
+    --color-bg: #EFFF71;
+    --color-fg: #3A1E1E;
+    --color-surface: #FFFFFF;
+
+    /* Pastels */
+    --color-pink: #FFC1E3;
+    --color-blue: #BCEFFF;
+    --color-green: #C3FF8B;
+
+    /* Status */
+    --color-success: #C3FF8B;
+    --color-warning: #FFC1E3;
+    --color-danger: #FF4B4B;
+    --color-info: #BCEFFF;
+
+    /* Border */
+    --border-width: 1px;
+    --border-color: #3A1E1E;
+    --border: var(--border-width) solid var(--border-color);
+
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-pill: 32px;
+    --radius-full: 9999px;
+
+    /* Typography */
+    --font-display: "Anton", "Impact", "Arial Narrow", sans-serif;
+    --font-body: "Georgia", serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Type scale */
+    --text-xs: 10px;
+    --text-sm: 12px;
+    --text-base: 14px;
+    --text-md: 16px;
+    --text-lg: 18px;
+    --text-xl: 20px;
+    --text-2xl: 24px;
+    --text-3xl: 32px;
+    --text-4xl: 42px;
+    --text-5xl: 56px;
+    --text-6xl: 80px;
+    --text-7xl: 120px;
+
+    --display-line-height: 0.85;
+    --display-letter-spacing: -0.02em;
+
+    /* Spacing */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+
+    /* Shadows */
+    --shadow-hard: 4px 4px 0px var(--color-fg);
+    --shadow-hard-sm: 2px 2px 0px var(--color-fg);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+    /* Motion */
+    --duration-fast: 100ms;
+    --duration-base: 200ms;
+    --duration-slow: 400ms;
+    --easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-system="hyper"] {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
