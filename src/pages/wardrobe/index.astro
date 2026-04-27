@@ -25,7 +25,7 @@ import WardrobeLayout from "../../layouts/WardrobeLayout.astro";
         <section class="block" id="themes">
             <div class="block__head">
                 <h2 class="h2">Themes</h2>
-                <span class="muted">1 of 4 ready</span>
+                <span class="muted">2 of 4 ready</span>
             </div>
 
             <div class="grid">
@@ -43,15 +43,23 @@ import WardrobeLayout from "../../layouts/WardrobeLayout.astro";
                     </div>
                 </a>
 
-                <div class="theme-card theme-card--ghost">
-                    <div class="theme-card__preview theme-card__preview--ghost">
-                        <span class="theme-card__display ghost">SOON.</span>
+                <a class="theme-card theme-card--system" href="/wardrobe/system">
+                    <div class="theme-card__preview theme-card__preview--system">
+                        <span class="theme-card__sys-label">SYSTEM // V0.1</span>
+                        <span class="theme-card__sys-display">SYSTEM</span>
+                        <span class="theme-card__sys-row">
+                            <span class="theme-card__sys-dot" aria-hidden="true"></span>
+                            <span class="theme-card__sys-mono">96% efficiency_</span>
+                        </span>
                     </div>
                     <div class="theme-card__meta">
-                        <span class="theme-card__name">Theme #2</span>
-                        <span class="theme-card__vibe">Coming soon.</span>
+                        <span class="theme-card__name">System</span>
+                        <span class="theme-card__vibe">
+                            Terminal precision. Quantified-self for the post-Headspace generation.
+                        </span>
+                        <span class="theme-card__cta">Try System →</span>
                     </div>
-                </div>
+                </a>
 
                 <div class="theme-card theme-card--ghost">
                     <div class="theme-card__preview theme-card__preview--ghost">
@@ -221,6 +229,48 @@ import WardrobeLayout from "../../layouts/WardrobeLayout.astro";
         font-family: Georgia, serif;
         font-size: 13px;
         opacity: 0.75;
+    }
+    .theme-card__preview--system {
+        background: #f4f4f4;
+        color: #0d0d0d;
+        align-items: stretch;
+        justify-content: space-between;
+        gap: 0;
+        padding: 24px;
+    }
+    .theme-card__sys-label {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #888;
+    }
+    .theme-card__sys-display {
+        font-family: "Space Grotesk", -apple-system, sans-serif;
+        font-size: 56px;
+        line-height: 1;
+        letter-spacing: -2px;
+        font-weight: 300;
+        color: #0d0d0d;
+        align-self: flex-start;
+    }
+    .theme-card__sys-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .theme-card__sys-dot {
+        width: 8px;
+        height: 8px;
+        background: #6cefa0;
+        border-radius: 1px;
+        display: inline-block;
+    }
+    .theme-card__sys-mono {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 11px;
+        color: #0d0d0d;
+        letter-spacing: 0.02em;
     }
     .theme-card__meta {
         padding: 20px 24px 24px;

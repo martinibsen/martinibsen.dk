@@ -1,0 +1,356 @@
+---
+import WardrobeLayout from "../../../../layouts/WardrobeLayout.astro";
+
+type EntryType = "milestone" | "streak" | "system" | "achievement";
+
+const entries: Array<{
+    timestamp: string;
+    icon: string;
+    type: EntryType;
+    typeLabel: string;
+    body: string;
+    bodyAccent?: string;
+    unread: boolean;
+}> = [
+    { timestamp: "10:42:01.04", icon: "★", type: "milestone", typeLabel: "STREAK_MILESTONE",
+      body: ' Protocol "Hydration" reached', bodyAccent: " 50 DAYS", unread: true },
+    { timestamp: "09:15:22.88", icon: "!", type: "streak", typeLabel: "REMINDER",
+      body: ' Initialization required for "Meditation" (09:00 Window).', unread: true },
+    { timestamp: "08:00:00.00", icon: "#", type: "system", typeLabel: "SYSTEM",
+      body: " Daily cycle MAR_28 initiated. Loading cached habits...", unread: false },
+    { timestamp: "23:59:59.99", icon: "✦", type: "achievement", typeLabel: "ACHIEVEMENT",
+      body: ' "Perfect Week" unlocked. 100% completion rate for last 7 cycles.', unread: false },
+    { timestamp: "21:30:12.45", icon: "#", type: "system", typeLabel: "STATUS",
+      body: ' "Read 30 mins" marked as COMPLETE.', unread: false },
+    { timestamp: "18:45:01.12", icon: "★", type: "milestone", typeLabel: "STREAK_MILESTONE",
+      body: ' Protocol "Code Review" reached 10 DAYS.', unread: false },
+    { timestamp: "12:10:55.30", icon: "#", type: "system", typeLabel: "SYSTEM",
+      body: " Cloud synchronization successful. 4 habits updated.", unread: false },
+    { timestamp: "08:00:00.00", icon: "#", type: "system", typeLabel: "SYSTEM",
+      body: " Daily cycle MAR_27 initiated.", unread: false },
+];
+---
+
+<WardrobeLayout
+    title="Notification Terminal — Sequence"
+    description="Chronological feed of system events for the current cycle."
+    system="system"
+    chrome="hidden"
+>
+    <main class="term-wrap">
+        <aside class="term-sidebar">
+            <div class="sys-card">
+                <span class="sys-label-micro">System Navigation</span>
+                <a class="term-nav__item" href="/wardrobe/system/sequence">Overview <span>01</span></a>
+                <a class="term-nav__item" href="/wardrobe/system/sequence/protocols/morning-run">Protocols <span>02</span></a>
+                <a class="term-nav__item term-nav__item--active" href="/wardrobe/system/sequence/terminal">Notifications <span>03</span></a>
+                <a class="term-nav__item" href="/wardrobe/system/sequence/review">Review <span>04</span></a>
+            </div>
+
+            <div class="sys-card term-filter">
+                <span class="sys-label-micro">Activity Filter</span>
+                <div class="term-toggles">
+                    <label class="term-toggle">
+                        <input type="checkbox" data-filter="achievement" />
+                        <span class="term-toggle__bracket">[ ]</span>
+                        <span>ACHIEVEMENTS</span>
+                    </label>
+                    <label class="term-toggle">
+                        <input type="checkbox" data-filter="milestone" checked />
+                        <span class="term-toggle__bracket">[X]</span>
+                        <span>STREAK_ALERTS</span>
+                    </label>
+                    <label class="term-toggle">
+                        <input type="checkbox" data-filter="system" checked />
+                        <span class="term-toggle__bracket">[X]</span>
+                        <span>SYSTEM_LOGS</span>
+                    </label>
+                    <label class="term-toggle">
+                        <input type="checkbox" data-filter="streak" />
+                        <span class="term-toggle__bracket">[ ]</span>
+                        <span>REMINDERS</span>
+                    </label>
+                </div>
+
+                <div class="term-filter__foot">
+                    <span class="sys-label-micro">Filter Efficiency</span>
+                    <span class="term-filter__eff">100%</span>
+                </div>
+            </div>
+        </aside>
+
+        <section class="sys-card term-main">
+            <header class="term-header">
+                <div>
+                    <span class="sys-label-micro">Chronological Feed</span>
+                    <h2 class="term-title">Notification_Terminal.log</h2>
+                </div>
+                <div class="term-meta">
+                    USER: AUTH_0912<br />
+                    STATUS: READY_
+                </div>
+            </header>
+
+            <div class="term-feed" id="term-feed">
+                {entries.map((e) => (
+                    <article
+                        class:list={["term-entry", e.unread && "is-unread"]}
+                        data-type={e.type}
+                    >
+                        <span class="term-entry__time">{e.timestamp}</span>
+                        <span class:list={["term-entry__icon", `is-${e.type}`]}>{e.icon}</span>
+                        <span class="term-entry__body">
+                            <span class:list={[`type-${e.type}`]}>{e.typeLabel}:</span>{e.body}
+                            {e.bodyAccent && <strong>{e.bodyAccent}</strong>}
+                        </span>
+                        <span class="term-entry__status">
+                            {e.unread ? <span class="term-badge">NEW</span> : "READ"}
+                        </span>
+                    </article>
+                ))}
+            </div>
+
+            <footer class="term-footer">
+                <span class="term-cursor">&gt; Listening for incoming streams...<span class="sys-cursor sys-cursor--fg" /></span>
+                <span class="sys-label-micro" id="term-status">8 ENTRIES LOADED | 2 UNREAD</span>
+            </footer>
+
+            <span class="sys-card__code-texture term-texture">{`SEC_TYPE: LOG_FEED\nBUFFER_STATUS: 100%\nRENDER_MODE: MONO`}</span>
+        </section>
+    </main>
+</WardrobeLayout>
+
+<style>
+    .term-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 24px 56px;
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 24px;
+    }
+    .term-sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .term-nav__item {
+        padding: 12px 14px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        margin-top: 8px;
+        border-radius: var(--radius-md);
+        transition: background 100ms ease;
+    }
+    .term-nav__item:not(.term-nav__item--active):hover { background: var(--color-divider); }
+    .term-nav__item--active { background: var(--color-fg); color: var(--color-card); }
+
+    .term-filter { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+    .term-toggles { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+    .term-toggle {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .term-toggle input { display: none; }
+    .term-toggle__bracket {
+        font-family: var(--font-mono);
+        font-size: 13px;
+    }
+    .term-toggle:has(input:not(:checked)) { opacity: 0.55; }
+    .term-toggle:has(input:checked) .term-toggle__bracket::before { content: ""; }
+    .term-toggle:has(input:checked) .term-toggle__bracket {
+        color: var(--color-fg);
+    }
+    .term-filter__foot {
+        margin-top: auto;
+        padding-top: 16px;
+        border-top: 1px solid var(--color-divider);
+    }
+    .term-filter__eff {
+        font-family: var(--font-display);
+        font-weight: var(--weight-light);
+        font-size: 28px;
+        letter-spacing: -1px;
+        display: block;
+        margin-top: 4px;
+    }
+
+    .term-main {
+        padding: 24px 28px;
+        position: relative;
+    }
+    .term-texture { right: 24px; bottom: 24px; top: auto; }
+    .term-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--color-divider);
+        padding-bottom: 16px;
+    }
+    .term-title {
+        font-family: var(--font-mono);
+        font-size: 18px;
+        font-weight: 500;
+        margin: 6px 0 0;
+    }
+    .term-meta {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        text-align: right;
+        color: var(--color-fg-muted);
+        line-height: 1.4;
+    }
+
+    .term-feed {
+        font-family: var(--font-mono);
+        padding-top: 8px;
+        max-height: 520px;
+        overflow-y: auto;
+    }
+    .term-entry {
+        display: grid;
+        grid-template-columns: 100px 32px 1fr 70px;
+        gap: 16px;
+        padding: 12px 0;
+        border-bottom: 1px solid #F9F9F9;
+        align-items: start;
+        transition: background 100ms ease;
+    }
+    .term-entry:hover { background: #FAFAFA; }
+    .term-entry.is-unread {
+        background: rgba(108, 239, 160, 0.05);
+        border-left: 2px solid var(--color-accent);
+        padding-left: 12px;
+        margin-left: -14px;
+    }
+    .term-entry[data-hidden="true"] { display: none; }
+    .term-entry__time {
+        color: var(--color-fg-muted);
+        font-size: 11px;
+    }
+    .term-entry__icon {
+        width: 22px;
+        height: 22px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #DDDDDD;
+        font-size: 11px;
+        border-radius: var(--radius-md);
+    }
+    .term-entry__icon.is-milestone { color: var(--color-accent-purple); }
+    .term-entry__icon.is-streak { color: var(--color-accent-blue); }
+    .term-entry__icon.is-achievement { color: var(--color-accent-orange); }
+    .term-entry__icon.is-system { color: var(--color-fg-muted); }
+    .term-entry__body {
+        font-size: 13px;
+        line-height: 1.55;
+    }
+    .term-entry__body strong {
+        font-weight: 700;
+        color: var(--color-fg);
+    }
+    .type-milestone { color: var(--color-accent-purple); }
+    .type-streak { color: var(--color-accent-blue); }
+    .type-achievement { color: var(--color-accent-orange); }
+    .type-system { color: var(--color-fg-muted); }
+    .term-entry__status {
+        text-align: right;
+        font-size: 10px;
+        color: var(--color-fg-muted);
+        letter-spacing: 1px;
+    }
+    .term-badge {
+        background: var(--color-accent);
+        color: var(--color-fg);
+        padding: 2px 6px;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        border-radius: var(--radius-sm);
+    }
+
+    .term-footer {
+        border-top: 1px solid var(--color-divider);
+        padding-top: 16px;
+        margin-top: 16px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .term-cursor {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--color-fg);
+    }
+
+    @media (max-width: 900px) {
+        .term-wrap { grid-template-columns: 1fr; }
+        .term-entry { grid-template-columns: auto auto 1fr auto; }
+    }
+</style>
+
+<script>
+    if (typeof window !== "undefined") {
+        (window as any).wardrobeTrack?.("wardrobe_demo_view", {
+            system: "system",
+            page: "sequence/terminal",
+        });
+    }
+
+    const checkboxes = document.querySelectorAll<HTMLInputElement>(".term-toggle input");
+    const entries = document.querySelectorAll<HTMLElement>(".term-entry");
+    const statusEl = document.getElementById("term-status");
+
+    function updateBracket(input: HTMLInputElement) {
+        const bracket = input.parentElement?.querySelector<HTMLElement>(".term-toggle__bracket");
+        if (bracket) bracket.textContent = input.checked ? "[X]" : "[ ]";
+    }
+
+    function applyFilter() {
+        const allowed = new Set<string>();
+        checkboxes.forEach((c) => {
+            if (c.checked) allowed.add(c.dataset.filter ?? "");
+        });
+        let visible = 0;
+        let unread = 0;
+        entries.forEach((e) => {
+            const hide = !allowed.has(e.dataset.type ?? "");
+            e.dataset.hidden = String(hide);
+            if (!hide) {
+                visible++;
+                if (e.classList.contains("is-unread")) unread++;
+            }
+        });
+        if (statusEl) statusEl.textContent = `${visible} ENTRIES LOADED | ${unread} UNREAD`;
+    }
+
+    checkboxes.forEach((c) => {
+        updateBracket(c);
+        c.addEventListener("change", () => {
+            updateBracket(c);
+            applyFilter();
+        });
+    });
+
+    entries.forEach((entry) => {
+        entry.addEventListener("click", () => {
+            if (!entry.classList.contains("is-unread")) return;
+            entry.classList.remove("is-unread");
+            const status = entry.querySelector<HTMLElement>(".term-entry__status");
+            if (status) status.textContent = "READ";
+            applyFilter();
+        });
+    });
+
+    applyFilter();
+</script>

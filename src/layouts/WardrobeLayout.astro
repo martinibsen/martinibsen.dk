@@ -1,27 +1,40 @@
 ---
 import "../components/wardrobe/hyper/globals.css";
+import "../components/wardrobe/system/globals.css";
 
 interface Props {
     title: string;
     description?: string;
-    system?: "hyper" | null;
-    chrome?: "neutral" | "hyper" | "hidden";
+    system?: "hyper" | "system" | null;
+    chrome?: "neutral" | "hyper" | "system" | "hidden";
 }
 
 const {
     title,
     description = "Wardrobe — themes for vibe-coded apps. Made by Martin Ibsen. MIT.",
     system = null,
-    chrome = system ? "hyper" : "neutral",
+    chrome = system === "hyper" ? "hyper" : system === "system" ? "system" : "neutral",
 } = Astro.props;
 
 const GITHUB_URL =
     "https://github.com/martinibsen/martinibsen.dk/tree/main/src/components/wardrobe";
 
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
-const isInstall = path === "/wardrobe/hyper/install";
-const isDemo = path.startsWith("/wardrobe/hyper/marathon-club");
+
+// Hyper nav active states
+const isHyperInstall = path === "/wardrobe/hyper/install";
+const isHyperDemo = path.startsWith("/wardrobe/hyper/marathon-club");
 const isHyperHome = path === "/wardrobe/hyper";
+
+// System nav active states
+const isSystemInstall = path === "/wardrobe/system/install";
+const isSystemDemo = path.startsWith("/wardrobe/system/sequence");
+const isSystemHome = path === "/wardrobe/system";
+
+// "Built with..." pill — depends on which sphere we're in when chrome="hidden"
+const builtWith = system === "system"
+    ? { href: "/wardrobe/system", label: "← BUILT WITH SYSTEM", cls: "wbuilt--system" }
+    : { href: "/wardrobe/hyper", label: "← Built with Hyper", cls: "wbuilt--hyper" };
 ---
 
 <!DOCTYPE html>
@@ -53,13 +66,13 @@ const isHyperHome = path === "/wardrobe/hyper";
             <nav class="wnav__links wnav__links--hyper" aria-label="Hyper">
                 <a
                     href="/wardrobe/hyper/install"
-                    class:list={[isInstall && "is-active"]}
+                    class:list={[isHyperInstall && "is-active"]}
                 >
                     INSTALL
                 </a>
                 <a
                     href="/wardrobe/hyper/marathon-club"
-                    class:list={[isDemo && "is-active"]}
+                    class:list={[isHyperDemo && "is-active"]}
                 >
                     DEMO
                 </a>
@@ -74,9 +87,38 @@ const isHyperHome = path === "/wardrobe/hyper";
         </header>
     )}
 
+    {chrome === "system" && (
+        <header class="wnav wnav--system">
+            <a class="wnav__brand wnav__brand--system" href="/wardrobe">
+                WARDROBE / SYSTEM
+            </a>
+            <nav class="wnav__links wnav__links--system" aria-label="System">
+                <a
+                    href="/wardrobe/system/install"
+                    class:list={[isSystemInstall && "is-active"]}
+                >
+                    INSTALL
+                </a>
+                <a
+                    href="/wardrobe/system/sequence"
+                    class:list={[isSystemDemo && "is-active"]}
+                >
+                    DEMO
+                </a>
+                <a
+                    href="/wardrobe/system"
+                    class:list={[isSystemHome && "is-active"]}
+                >
+                    OVERVIEW
+                </a>
+                <a href={GITHUB_URL} rel="noopener">GITHUB</a>
+            </nav>
+        </header>
+    )}
+
     {chrome === "hidden" && (
-        <a class="wbuilt" href="/wardrobe/hyper" aria-label="Built with Hyper">
-            ← Built with Hyper
+        <a class:list={["wbuilt", builtWith.cls]} href={builtWith.href}>
+            {builtWith.label}
         </a>
     )}
 
@@ -93,7 +135,8 @@ const isHyperHome = path === "/wardrobe/hyper";
     </footer>
 
     <style is:global>
-        body[data-system="hyper"] {
+        body[data-system="hyper"],
+        body[data-system="system"] {
             margin: 0;
         }
         body:not([data-system]) {
@@ -169,6 +212,31 @@ const isHyperHome = path === "/wardrobe/hyper";
         }
         .wnav--hyper .wnav__links a { font-size: 13px; }
 
+        /* ===== Sphere B — system ===== */
+        .wnav--system {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: saturate(140%) blur(8px);
+            -webkit-backdrop-filter: saturate(140%) blur(8px);
+            color: #0d0d0d;
+            border-bottom: 1px solid #eeeeee;
+            font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .wnav__brand--system {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+        }
+        .wnav--system .wnav__links a {
+            font-size: 12px;
+            color: #0d0d0d;
+        }
+        .wnav--system .wnav__links a.is-active {
+            border-bottom-width: 2px;
+            border-bottom-color: #0d0d0d;
+        }
+
         /* ===== Built-with pill — chrome="hidden" ===== */
         .wbuilt {
             position: fixed;
@@ -177,6 +245,11 @@ const isHyperHome = path === "/wardrobe/hyper";
             z-index: 90;
             display: inline-flex;
             align-items: center;
+            line-height: 1;
+            text-decoration: none;
+            transition: background 120ms ease, color 120ms ease;
+        }
+        .wbuilt--hyper {
             background: var(--color-surface, #ffffff);
             color: var(--color-fg, #3a1e1e);
             border: 1px solid var(--color-fg, #3a1e1e);
@@ -186,13 +259,25 @@ const isHyperHome = path === "/wardrobe/hyper";
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-size: 11px;
-            line-height: 1;
-            text-decoration: none;
-            transition: background 120ms ease, color 120ms ease;
         }
-        .wbuilt:hover {
+        .wbuilt--hyper:hover {
             background: var(--color-fg, #3a1e1e);
             color: var(--color-bg, #efff71);
+        }
+        .wbuilt--system {
+            background: #ffffff;
+            color: #0d0d0d;
+            border: 1px solid #0d0d0d;
+            border-radius: 2px;
+            padding: 7px 12px;
+            font-family: "JetBrains Mono", ui-monospace, monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 10px;
+        }
+        .wbuilt--system:hover {
+            background: #0d0d0d;
+            color: #ffffff;
         }
 
         /* ===== FOOTER ===== */
@@ -216,19 +301,42 @@ const isHyperHome = path === "/wardrobe/hyper";
             color: #525252;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        .wfoot--hyper,
-        .wfoot--hidden {
+        .wfoot--hyper {
             border-top: 1px solid var(--color-fg, #3a1e1e);
             color: var(--color-fg, #3a1e1e);
             font-family: var(--font-body, "Georgia", serif);
             opacity: 0.75;
+        }
+        .wfoot--system {
+            border-top: 1px solid #eeeeee;
+            color: #888888;
+            font-family: "Space Grotesk", -apple-system, sans-serif;
+            font-size: 11px;
+        }
+        .wfoot--system .wfoot__sep { color: #bbb; }
+        .wfoot--hidden {
+            /* For chrome="hidden" pages — pick footer style based on body data-system */
+            border-top: 1px solid var(--color-fg, #3a1e1e);
+            color: var(--color-fg, #3a1e1e);
+            font-family: var(--font-body, "Georgia", serif);
+            opacity: 0.75;
+        }
+        body[data-system="system"] .wfoot--hidden {
+            border-top: 1px solid #eeeeee;
+            color: #888888;
+            font-family: "Space Grotesk", -apple-system, sans-serif;
+            font-size: 11px;
+            opacity: 1;
         }
 
         @media (max-width: 540px) {
             .wnav { padding: 12px 18px; }
             .wnav__links { gap: 14px; }
             .wnav--hyper .wnav__links a { font-size: 12px; }
-            .wbuilt { top: 12px; right: 12px; padding: 6px 12px; font-size: 10px; }
+            .wnav--system .wnav__links a { font-size: 11px; }
+            .wbuilt { top: 12px; right: 12px; }
+            .wbuilt--hyper { padding: 6px 12px; font-size: 10px; }
+            .wbuilt--system { padding: 6px 10px; font-size: 9px; }
         }
     </style>
 

@@ -1,0 +1,320 @@
+---
+import WardrobeLayout from "../../../../layouts/WardrobeLayout.astro";
+
+// 53×7 = 371 cells for the annual matrix
+const matrix = Array.from({ length: 371 }, (_, i) => {
+    // Seeded pseudo-random scheme so the heatmap looks consistent
+    const seed = (i * 9301 + 49297) % 233280;
+    const r = seed / 233280;
+    if (r < 0.32) return 0;
+    if (r < 0.55) return 1;
+    if (r < 0.78) return 2;
+    if (r < 0.92) return 3;
+    return 4;
+});
+
+const protocols = [
+    { id: "01", name: "READ_30_MINS", color: "mint", time: "07:00", streak: 28 },
+    { id: "02", name: "HYDRATION_2L", color: "blue", time: "ALL DAY", streak: 50 },
+    { id: "03", name: "CODE_REVIEW", color: "purple", time: "10:00", streak: 8 },
+    { id: "04", name: "MEDITATION_10M", color: "orange", time: "06:30", streak: 22 },
+    { id: "05", name: "DEEP_WORK_4H", color: "mint", time: "08:00", streak: 16 },
+];
+---
+
+<WardrobeLayout
+    title="Sequence — Habit Tracker"
+    description="A fictional habit-tracking system using Wardrobe / System end-to-end."
+    system="system"
+    chrome="hidden"
+>
+    <main class="seq-wrap">
+        <header class="seq-header">
+            <div>
+                <span class="sys-label-micro">SYSTEM // CYCLE 42 // INITIALIZED</span>
+                <h1 class="seq-title">Sequence<span class="sys-cursor sys-cursor--fg" /></h1>
+            </div>
+            <div class="seq-clock">
+                <span class="sys-label-micro">LOCAL_TIME</span>
+                <span class="seq-clock__value" id="seq-clock">10:42:01.04</span>
+                <span class="sys-label-micro">USER: AUTH_0912 / STATUS: READY</span>
+            </div>
+        </header>
+
+        <section class="stats-row">
+            <article class="sys-card">
+                <span class="sys-card__code-texture">{`NULL\n00000\nSTABLE`}</span>
+                <span class="sys-label-micro">Total Executions</span>
+                <span class="data-huge">3,042</span>
+                <span class="sys-label-micro stats-row__delta">▲ 142 vs prev cycle</span>
+            </article>
+            <article class="sys-card">
+                <span class="sys-card__code-texture">{`DAYS\nMAX\n48`}</span>
+                <span class="sys-label-micro">Max Streak</span>
+                <span class="data-huge">48<span class="data-huge__unit">DAYS</span></span>
+                <span class="sys-label-micro stats-row__delta">PROTOCOL: HYDRATION_2L</span>
+            </article>
+            <article class="sys-card">
+                <span class="sys-card__code-texture">{`EFF\nOK\n.96`}</span>
+                <span class="sys-label-micro">Efficiency</span>
+                <span class="data-huge">96<span class="data-huge__unit">%</span></span>
+                <span class="sys-label-micro stats-row__delta">▲ 4% / nominal</span>
+            </article>
+        </section>
+
+        <section class="grid-2col">
+            <article class="sys-card matrix-card">
+                <div class="matrix-card__head">
+                    <span class="sys-label-micro">Annual Consistency Matrix</span>
+                    <span class="sys-label-micro">2026</span>
+                </div>
+                <div class="matrix">
+                    {matrix.map((v) => (
+                        <span class:list={["matrix__cell", `matrix__cell--${v}`]} />
+                    ))}
+                </div>
+                <div class="matrix-card__legend">
+                    <span class="sys-label-micro">FAIL</span>
+                    <span class="matrix__cell matrix__cell--0" />
+                    <span class="matrix__cell matrix__cell--1" />
+                    <span class="matrix__cell matrix__cell--2" />
+                    <span class="matrix__cell matrix__cell--3" />
+                    <span class="matrix__cell matrix__cell--4" />
+                    <span class="sys-label-micro">PASS</span>
+                </div>
+            </article>
+
+            <article class="sys-card protocols-card">
+                <div class="protocols-head">
+                    <span class="sys-label-micro">Current Cycle</span>
+                    <span class="sys-label-micro">5 ACTIVE</span>
+                </div>
+                <ul class="protocols">
+                    {protocols.map((p) => (
+                        <li class="protocol">
+                            <span class={`protocol__dot protocol__dot--${p.color}`} />
+                            <span class="protocol__id">{p.id}</span>
+                            <span class="protocol__name">{p.name}</span>
+                            <span class="protocol__time">{p.time}</span>
+                            <span class="protocol__streak">{p.streak}D</span>
+                        </li>
+                    ))}
+                </ul>
+                <a class="sys-btn sys-btn--secondary sys-btn--md protocols__cta" href="/wardrobe/system/sequence/review">
+                    REVIEW CYCLE →
+                </a>
+            </article>
+        </section>
+
+        <section class="bottom-row">
+            <a class="sys-card seq-link" href="/wardrobe/system/sequence/terminal">
+                <span class="sys-label-micro">Notification Terminal</span>
+                <span class="seq-link__title">8 entries / 2 unread →</span>
+            </a>
+            <a class="sys-card seq-link" href="/wardrobe/system/sequence/protocols/morning-run">
+                <span class="sys-label-micro">Single Protocol</span>
+                <span class="seq-link__title">Morning Run analytics →</span>
+            </a>
+        </section>
+    </main>
+</WardrobeLayout>
+
+<style>
+    .seq-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 24px 56px;
+        display: grid;
+        gap: 24px;
+    }
+    .seq-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 24px;
+        flex-wrap: wrap;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--color-divider);
+    }
+    .seq-title {
+        font-family: var(--font-display);
+        font-weight: var(--weight-light);
+        font-size: clamp(48px, 8vw, 80px);
+        letter-spacing: var(--display-letter-spacing);
+        line-height: var(--display-line-height);
+        margin: 12px 0 0;
+    }
+    .seq-clock {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        text-align: right;
+    }
+    .seq-clock__value {
+        font-family: var(--font-mono);
+        font-size: 20px;
+        color: var(--color-fg);
+    }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+    .sys-card {
+        background: var(--color-card);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        padding: 24px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        overflow: hidden;
+    }
+    .data-huge {
+        font-family: var(--font-display);
+        font-weight: var(--weight-light);
+        font-size: clamp(40px, 5vw, 56px);
+        line-height: 1;
+        letter-spacing: -1.5px;
+        color: var(--color-fg);
+    }
+    .data-huge__unit {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--color-fg-muted);
+        margin-left: 6px;
+        letter-spacing: 1px;
+    }
+    .stats-row__delta { color: var(--color-accent); }
+
+    .grid-2col {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+    }
+    .matrix-card {
+        gap: 16px;
+    }
+    .matrix-card__head {
+        display: flex;
+        justify-content: space-between;
+    }
+    .matrix {
+        display: grid;
+        grid-template-columns: repeat(53, 1fr);
+        grid-template-rows: repeat(7, 1fr);
+        gap: 4px;
+        height: 200px;
+    }
+    .matrix__cell {
+        background: var(--color-divider);
+        border-radius: 1px;
+        width: 100%;
+        height: 100%;
+    }
+    .matrix__cell--0 { background: #F0F0F0; }
+    .matrix__cell--1 { background: #D5F4E2; }
+    .matrix__cell--2 { background: #A8ECC4; }
+    .matrix__cell--3 { background: #7CE5A8; }
+    .matrix__cell--4 { background: #6CEFA0; }
+    .matrix-card__legend {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .matrix-card__legend .matrix__cell {
+        width: 12px;
+        height: 12px;
+        flex-shrink: 0;
+    }
+
+    .protocols-card { gap: 12px; }
+    .protocols-head { display: flex; justify-content: space-between; }
+    .protocols { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .protocol {
+        display: grid;
+        grid-template-columns: 8px 24px 1fr auto auto;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--color-divider);
+        font-family: var(--font-mono);
+        font-size: 12px;
+    }
+    .protocol:last-child { border-bottom: none; }
+    .protocol__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 1px;
+        display: block;
+    }
+    .protocol__dot--mint { background: var(--color-accent); }
+    .protocol__dot--blue { background: var(--color-accent-blue); }
+    .protocol__dot--purple { background: var(--color-accent-purple); }
+    .protocol__dot--orange { background: var(--color-accent-orange); }
+    .protocol__id { color: var(--color-fg-muted); }
+    .protocol__name { letter-spacing: 0.5px; }
+    .protocol__time { color: var(--color-fg-muted); font-size: 11px; }
+    .protocol__streak {
+        background: var(--color-bg);
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        font-size: 11px;
+    }
+    .protocols__cta {
+        margin-top: 12px;
+        align-self: flex-start;
+    }
+
+    .bottom-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+    .seq-link {
+        text-decoration: none;
+        color: inherit;
+        transition: transform var(--duration-base) var(--easing),
+                    box-shadow var(--duration-base) var(--easing);
+    }
+    .seq-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+    .seq-link__title {
+        font-family: var(--font-mono);
+        font-size: 16px;
+        margin-top: 8px;
+        display: block;
+    }
+
+    @media (max-width: 900px) {
+        .grid-2col { grid-template-columns: 1fr; }
+        .stats-row { grid-template-columns: 1fr; }
+        .bottom-row { grid-template-columns: 1fr; }
+    }
+</style>
+
+<script>
+    if (typeof window !== "undefined") {
+        (window as any).wardrobeTrack?.("wardrobe_demo_view", {
+            system: "system",
+            page: "sequence/index",
+        });
+    }
+
+    const clock = document.getElementById("seq-clock");
+    if (clock) {
+        const tick = () => {
+            const d = new Date();
+            const pad = (n: number) => String(n).padStart(2, "0");
+            const ms = String(Math.floor(d.getMilliseconds() / 10)).padStart(2, "0");
+            clock.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.${ms}`;
+        };
+        tick();
+        setInterval(tick, 100);
+    }
+</script>

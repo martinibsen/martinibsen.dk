@@ -1,0 +1,586 @@
+---
+import WardrobeLayout from "../../../layouts/WardrobeLayout.astro";
+import CopyBlock from "../../../components/wardrobe/shared/CopyBlock.astro";
+import ComponentShowcase from "../../../components/wardrobe/shared/ComponentShowcase.astro";
+import {
+    COMPONENT_NAMES,
+    getComponentCode,
+    generateComponentPrompt,
+    generateThemeBlock,
+} from "../../../utils/wardrobe/generate-prompts";
+
+import {
+    ButtonDemo,
+    InputDemo,
+    TextareaDemo,
+    SelectDemo,
+    CardDemo,
+    BadgeDemo,
+    DialogDemo,
+    TabsDemo,
+    SwitchDemo,
+    ToastDemo,
+} from "../../../components/wardrobe/system/demos";
+
+type ComponentName = (typeof COMPONENT_NAMES)[number];
+
+const blurbs: Record<ComponentName, string> = {
+    Button: "Sharp 2px corners. JBM CAPS, 1px tracking. Mint variant for commit-style success actions.",
+    Input: "No box. Bottom-border 1px only. Mono micro-label above. Focus pulls border to fg.",
+    Textarea: "Same energy as Input — taller. Mono everywhere, no rounded edges.",
+    Select: "Mono CAPS for the value. Soft shadow on focus. Custom chevron in fg.",
+    Card: "White surface, soft shadow, near-invisible border. Optional code-texture in the corner. Dark variant for analysis panels.",
+    Badge: "Tiny 9px JBM rectangle. Filled = mint bg, fg text — for live/passing state.",
+    Dialog: "White card, sharp corners, soft shadow. Title in Space Grotesk weight 400. Backdrop rgba(13,13,13,0.4).",
+    Tabs: "Segmented nav-items. Active tab fills sort, white text, 0 radius. Arrow keys move you.",
+    Switch: "Sharp 2px square checkbox + mint check. Optional `terminal` prop renders [X]/[ ] LABEL in JBM.",
+    Toast: "White card with 3px mint accent border-left. JBM timestamp top-right. Slide-in from the right.",
+};
+
+const themeBlock = generateThemeBlock("system");
+
+const componentBlocks = COMPONENT_NAMES.map((name) => ({
+    name,
+    code: getComponentCode(name, "system"),
+    prompt: generateComponentPrompt(name, "system"),
+    blurb: blurbs[name],
+}));
+---
+
+<WardrobeLayout
+    title="System — Wardrobe"
+    description="Anti-vibe. Pro-data. Quantified-self for the post-Headspace generation."
+    system="system"
+    chrome="system"
+>
+    <main class="wrap">
+        <section class="hero">
+            <span class="sys-label-micro">WARDROBE / SYSTEM // V0.1</span>
+            <h1 class="hero__title">SYSTEM</h1>
+            <p class="hero__sub">
+                Anti-vibe. Pro-data. Quantified-self for the post-Headspace
+                generation. Mono labels everywhere, sharp 2px corners, no purple.
+            </p>
+            <div class="hero__cta">
+                <a class="sys-btn sys-btn--primary sys-btn--lg" href="/wardrobe/system/install">INSTALL IN 30 SEC →</a>
+                <a class="sys-btn sys-btn--secondary sys-btn--lg" href="/wardrobe/system/sequence">SEE IT LIVE →</a>
+                <a
+                    class="sys-btn sys-btn--secondary sys-btn--lg"
+                    href="https://github.com/martinibsen/martinibsen.dk/tree/main/src/components/wardrobe/system"
+                    rel="noopener"
+                    data-track-github
+                >
+                    GITHUB
+                </a>
+            </div>
+            <div class="hero__meta">
+                <span class="sys-label-micro">SYS_VER: 0.1.0</span>
+                <span class="sys-label-micro">LIC: MIT</span>
+                <span class="sys-label-micro">STACK: REACT_19 / VANILLA_CSS</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section__head">
+                <h2 class="hyp-section-title sys-h2">TOKENS_</h2>
+            </div>
+
+            <h3 class="sub-title">Surface & accents</h3>
+            <div class="chip-grid">
+                <div class="chip"><span class="swatch" style="background:#F4F4F4"></span><div><strong>--color-bg</strong><br />base · #F4F4F4</div></div>
+                <div class="chip"><span class="swatch" style="background:#FFFFFF;border:1px solid #eee"></span><div><strong>--color-card</strong><br />card surface · #FFFFFF</div></div>
+                <div class="chip"><span class="swatch" style="background:#0D0D0D"></span><div><strong>--color-fg</strong><br />ink · #0D0D0D</div></div>
+                <div class="chip"><span class="swatch" style="background:#1A1A1A"></span><div><strong>--color-dark-bg</strong><br />analysis panel · #1A1A1A</div></div>
+                <div class="chip"><span class="swatch" style="background:#6CEFA0"></span><div><strong>--color-accent</strong><br />mint, primary · #6CEFA0</div></div>
+                <div class="chip"><span class="swatch" style="background:#6CDDEF"></span><div><strong>--color-accent-blue</strong><br />streak · #6CDDEF</div></div>
+                <div class="chip"><span class="swatch" style="background:#B06CEF"></span><div><strong>--color-accent-purple</strong><br />milestone · #B06CEF</div></div>
+                <div class="chip"><span class="swatch" style="background:#EF9B6C"></span><div><strong>--color-accent-orange</strong><br />achievement · #EF9B6C</div></div>
+                <div class="chip"><span class="swatch" style="background:#FF6B6B"></span><div><strong>--color-fail</strong><br />flag · #FF6B6B</div></div>
+            </div>
+
+            <h3 class="sub-title">Typography</h3>
+            <div class="type-grid">
+                <div class="type-cell">
+                    <span class="sys-label-micro">DISPLAY · SPACE GROTESK 300</span>
+                    <div class="type-cell__display">3,042</div>
+                    <span class="sys-label-micro" style="margin-top:8px;">Total executions, weight 300, -2px tracking</span>
+                </div>
+                <div class="type-cell">
+                    <span class="sys-label-micro">DATA · JETBRAINS MONO</span>
+                    <p class="type-cell__body">10:42:01.04 SYSTEM // CYCLE_INIT</p>
+                    <p class="type-cell__body" style="margin-top:6px;">[ID: 0x4492] / READ_30_MINS</p>
+                </div>
+            </div>
+
+            <h3 class="sub-title">Radius & shadow</h3>
+            <div class="proof-grid">
+                <div class="proof"><div class="proof__box"></div><span class="sys-label-micro">--radius-md · 2px</span></div>
+                <div class="proof"><div class="proof__box proof__box--accent"></div><span class="sys-label-micro">accent border 3px</span></div>
+                <div class="proof"><div class="proof__box proof__box--shadow"></div><span class="sys-label-micro">--shadow-soft</span></div>
+                <div class="proof"><div class="proof__box proof__box--dark"></div><span class="sys-label-micro">--color-dark-bg</span></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="hyp-section-title sys-h2">COMPONENTS_</h2>
+
+            {componentBlocks.map((c) => (
+                <ComponentShowcase
+                    name={c.name}
+                    title={c.name}
+                    blurb={c.blurb}
+                >
+                    <Fragment slot="preview">
+                        {c.name === "Button" && <ButtonDemo client:load />}
+                        {c.name === "Input" && <InputDemo client:load />}
+                        {c.name === "Textarea" && <TextareaDemo client:load />}
+                        {c.name === "Select" && <SelectDemo client:load />}
+                        {c.name === "Card" && <CardDemo client:load />}
+                        {c.name === "Badge" && <BadgeDemo client:load />}
+                        {c.name === "Dialog" && <DialogDemo client:load />}
+                        {c.name === "Tabs" && <TabsDemo client:load />}
+                        {c.name === "Switch" && <SwitchDemo client:load />}
+                        {c.name === "Toast" && <ToastDemo client:load />}
+                    </Fragment>
+                    <Fragment slot="copy">
+                        <CopyBlock
+                            code={c.code}
+                            prompt={c.prompt}
+                            theme={themeBlock}
+                            label={`${c.name}.tsx`}
+                            component={c.name}
+                            system="system"
+                            defaultTab="prompt"
+                        />
+                    </Fragment>
+                </ComponentShowcase>
+            ))}
+        </section>
+
+        <section class="section install-tease">
+            <h2 class="hyp-section-title sys-h2">INSTALL_</h2>
+            <p class="lede">
+                One paste, one prompt, your project is wearing System. No npm install,
+                no config files, no purple gradients.
+            </p>
+            <a class="sys-btn sys-btn--primary sys-btn--lg big-install" href="/wardrobe/system/install">
+                BIG GREEN INSTALL BUTTON →
+            </a>
+        </section>
+
+        <section class="section mcp-tease">
+            <h2 class="hyp-section-title sys-h2">MCP COMING SOON_</h2>
+            <p class="lede">
+                Wardrobe MCP server is in the works. Soon you'll just say
+                "install system" to your AI and it'll be done. Sign up for the drop.
+            </p>
+
+            <form id="system-signup" class="sys-signup">
+                <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="you@runners.dk"
+                    class="sys-input sys-input--md"
+                    aria-label="Email"
+                />
+                <button type="submit" class="sys-btn sys-btn--primary sys-btn--md">
+                    GET THE DROP
+                </button>
+            </form>
+            <p id="system-signup-msg" class="sys-signup__msg" aria-live="polite"></p>
+        </section>
+
+        <section class="section see-live">
+            <h2 class="hyp-section-title sys-h2">SEE IT LIVE_</h2>
+            <p class="lede">
+                Sequence — a fictional habit-tracking system using System end-to-end.
+            </p>
+
+            <div class="live-grid">
+                <a class="live-card" href="/wardrobe/system/sequence">
+                    <div class="live-card__art">
+                        <span class="live-card__hero">3,042</span>
+                        <span class="sys-label-micro">total executions</span>
+                    </div>
+                    <div class="live-card__meta">
+                        <span class="live-card__name">DASHBOARD</span>
+                        <span class="live-card__sub">Stats row, annual matrix, current cycle.</span>
+                    </div>
+                </a>
+                <a class="live-card" href="/wardrobe/system/sequence/review">
+                    <div class="live-card__art">
+                        <span class="live-card__hero">88<span class="live-card__hero-denom">/100</span></span>
+                        <span class="sys-label-micro">cycle 42 score</span>
+                    </div>
+                    <div class="live-card__meta">
+                        <span class="live-card__name">WEEKLY REVIEW</span>
+                        <span class="live-card__sub">Execution matrix + dark analysis panel.</span>
+                    </div>
+                </a>
+                <a class="live-card" href="/wardrobe/system/sequence/terminal">
+                    <div class="live-card__art live-card__art--terminal">
+                        <span class="live-card__terminal">
+                            <span style="color:#888">10:42:01.04</span>
+                            <span style="color:#B06CEF">STREAK_MILESTONE</span>
+                            <span style="color:#888">09:15:22.88</span>
+                            <span style="color:#6CDDEF">REMINDER</span>
+                            <span style="color:#888">08:00:00.00</span>
+                            <span style="color:#888">SYSTEM_<span class="sys-cursor sys-cursor--fg" /></span>
+                        </span>
+                    </div>
+                    <div class="live-card__meta">
+                        <span class="live-card__name">TERMINAL</span>
+                        <span class="live-card__sub">Notification feed with timestamps.</span>
+                    </div>
+                </a>
+                <a class="live-card" href="/wardrobe/system/sequence/protocols/morning-run">
+                    <div class="live-card__art">
+                        <span class="live-card__hero">82<span class="live-card__hero-denom">%</span></span>
+                        <span class="sys-label-micro">consistency index</span>
+                    </div>
+                    <div class="live-card__meta">
+                        <span class="live-card__name">PROTOCOL</span>
+                        <span class="live-card__sub">Morning Run analytics, ring chart.</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+</WardrobeLayout>
+
+<style>
+    .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 48px 24px 96px;
+    }
+    .hero {
+        padding: 32px 0 80px;
+        border-bottom: 1px solid var(--color-divider);
+    }
+    .hero__title {
+        font-family: var(--font-display);
+        font-weight: var(--weight-light);
+        font-size: clamp(64px, 14vw, 160px);
+        line-height: var(--display-line-height);
+        letter-spacing: var(--display-letter-spacing);
+        margin: 16px 0 28px;
+        color: var(--color-fg);
+    }
+    .hero__sub {
+        font-family: var(--font-body);
+        font-size: 19px;
+        line-height: 1.55;
+        max-width: 640px;
+        margin: 0 0 32px;
+        color: var(--color-fg);
+    }
+    .hero__cta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+    }
+    .hero__meta {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+
+    .section {
+        padding: 80px 0;
+        border-bottom: 1px solid var(--color-divider);
+    }
+    .section:last-of-type { border-bottom: none; }
+
+    .sys-h2 {
+        font-family: var(--font-mono) !important;
+        font-size: 22px !important;
+        text-transform: uppercase;
+        letter-spacing: var(--button-letter-spacing) !important;
+        color: var(--color-fg);
+    }
+    .sys-h2::after {
+        background: var(--color-fg) !important;
+    }
+
+    .sub-title {
+        font-family: var(--font-mono);
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: var(--button-letter-spacing);
+        margin: 36px 0 16px;
+        color: var(--color-fg-muted);
+    }
+
+    .chip-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+    }
+    .chip {
+        background: var(--color-card);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        line-height: 1.5;
+    }
+    .chip strong {
+        font-family: var(--font-mono);
+        font-weight: 500;
+        color: var(--color-fg);
+    }
+    .swatch {
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-md);
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .type-grid {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 20px;
+    }
+    .type-cell {
+        background: var(--color-card);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        padding: 28px;
+    }
+    .type-cell__display {
+        font-family: var(--font-display);
+        font-weight: var(--weight-light);
+        font-size: clamp(56px, 9vw, 120px);
+        line-height: var(--display-line-height);
+        letter-spacing: var(--display-letter-spacing);
+        margin: 12px 0;
+    }
+    .type-cell__body {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        line-height: 1.55;
+        margin: 0;
+    }
+
+    .proof-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 16px;
+    }
+    .proof {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    .proof__box {
+        width: 100%;
+        height: 80px;
+        background: var(--color-card);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+    }
+    .proof__box--accent { border-left: 3px solid var(--color-accent); }
+    .proof__box--shadow { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); }
+    .proof__box--dark {
+        background: var(--color-dark-bg);
+        box-shadow: none;
+    }
+
+    .install-tease { text-align: left; }
+    .lede {
+        font-family: var(--font-body);
+        font-size: 18px;
+        line-height: 1.55;
+        max-width: 640px;
+        margin: 0 0 28px;
+    }
+    .big-install {
+        background: var(--color-accent);
+        color: var(--color-fg);
+        border-color: var(--color-accent);
+        font-size: 16px;
+        height: 64px;
+        padding: 0 32px;
+    }
+    .big-install:hover {
+        background: var(--color-accent) !important;
+        color: var(--color-fg) !important;
+        opacity: 0.85;
+    }
+
+    .sys-signup {
+        display: flex;
+        gap: 12px;
+        max-width: 560px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+    .sys-signup .sys-input {
+        flex: 1;
+        min-width: 240px;
+        font-family: var(--font-mono);
+    }
+    .sys-signup__msg {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        margin: 16px 0 0;
+        min-height: 1em;
+        color: var(--color-fg-muted);
+    }
+    .sys-signup__msg.is-success { color: var(--color-fg); }
+    .sys-signup__msg.is-success::before { content: "> "; color: var(--color-accent); }
+    .sys-signup__msg.is-error { color: var(--color-fail); }
+
+    .live-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+    }
+    .live-card {
+        text-decoration: none;
+        color: inherit;
+        background: var(--color-card);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: transform var(--duration-base) var(--easing),
+                    box-shadow var(--duration-base) var(--easing);
+    }
+    .live-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    .live-card__art {
+        height: 140px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 4px;
+        border-bottom: 1px solid var(--color-divider);
+    }
+    .live-card__art--terminal {
+        background: var(--color-dark-bg);
+        color: var(--color-dark-fg);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        line-height: 1.7;
+        justify-content: center;
+        gap: 0;
+        border-bottom-color: var(--color-dark-bg);
+    }
+    .live-card__terminal {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 4px 12px;
+        align-items: center;
+    }
+    .live-card__hero {
+        font-family: var(--font-display);
+        font-weight: var(--weight-light);
+        font-size: 56px;
+        line-height: 0.9;
+        letter-spacing: -2px;
+    }
+    .live-card__hero-denom {
+        font-family: var(--font-mono);
+        font-size: 14px;
+        font-weight: 400;
+        margin-left: 2px;
+        color: var(--color-fg-muted);
+        letter-spacing: 0;
+    }
+    .live-card__meta { padding: 16px 20px 20px; }
+    .live-card__name {
+        display: block;
+        font-family: var(--font-mono);
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: var(--button-letter-spacing);
+    }
+    .live-card__sub {
+        display: block;
+        font-family: var(--font-body);
+        font-size: 13px;
+        color: var(--color-fg-muted);
+        margin-top: 4px;
+    }
+
+    @media (max-width: 720px) {
+        .wrap { padding: 32px 20px 64px; }
+        .section { padding: 56px 0; }
+        .type-grid { grid-template-columns: 1fr; }
+        .big-install { font-size: 14px; height: 56px; padding: 0 24px; }
+    }
+</style>
+
+<script>
+    if (typeof window !== "undefined") {
+        (window as any).wardrobeTrack?.("wardrobe_system_view", { system: "system" });
+    }
+
+    document.querySelectorAll<HTMLAnchorElement>("[data-track-github]").forEach((a) => {
+        a.addEventListener("click", () => {
+            (window as any).wardrobeTrack?.("wardrobe_github_click", { system: "system" });
+        });
+    });
+
+    document.addEventListener("wardrobe:copy", (e) => {
+        const detail = (e as CustomEvent).detail ?? {};
+        const tab = detail.target;
+        const event =
+            tab === "code"
+                ? "wardrobe_copy_code"
+                : tab === "prompt"
+                  ? "wardrobe_copy_prompt"
+                  : "wardrobe_copy_theme";
+        (window as any).wardrobeTrack?.(event, {
+            component: detail.component,
+            system: detail.system,
+        });
+    });
+
+    const form = document.getElementById("system-signup") as HTMLFormElement | null;
+    const msg = document.getElementById("system-signup-msg") as HTMLElement | null;
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!msg) return;
+        const fd = new FormData(form);
+        const email = String(fd.get("email") ?? "");
+        msg.textContent = "Sending...";
+        msg.className = "sys-signup__msg";
+        try {
+            const res = await fetch("/api/wardrobe-signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+            if (res.ok) {
+                msg.textContent = "REGISTERED. Cycle initialized.";
+                msg.className = "sys-signup__msg is-success";
+                form.reset();
+                (window as any).wardrobeTrack?.("wardrobe_signup", { source: "wardrobe" });
+            } else {
+                const data = await res.json().catch(() => ({}));
+                msg.textContent = data?.error
+                    ? `Couldn't sign up: ${data.error}`
+                    : "Couldn't sign up. Try again.";
+                msg.className = "sys-signup__msg is-error";
+            }
+        } catch {
+            msg.textContent = "Couldn't sign up. Try again.";
+            msg.className = "sys-signup__msg is-error";
+        }
+    });
+</script>

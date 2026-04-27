@@ -1,0 +1,313 @@
+---
+import WardrobeLayout from "../../../../../layouts/WardrobeLayout.astro";
+
+const dayBars = [
+    { day: "MON", value: 90 },
+    { day: "TUE", value: 85 },
+    { day: "WED", value: 70 },
+    { day: "THU", value: 95 },
+    { day: "FRI", value: 80 },
+];
+
+const correlations = [
+    { label: "TEMP > 20°C", value: 92, status: "HIGH" },
+    { label: "PRECIPITATION", value: 30, status: "LOW" },
+    { label: "SLEEP > 7H", value: 88, status: "POS" },
+    { label: "AM_FATIGUE", value: 45, status: "NEG" },
+];
+
+// Ring chart: 82% with circumference ~440 → dashoffset 88 (440 - 440*0.82 = 79.2 ≈ 80)
+const ringRadius = 70;
+const ringCirc = 2 * Math.PI * ringRadius;
+const ringFill = ringCirc * 0.82;
+const ringDashOffset = ringCirc - ringFill;
+
+// Line-chart polyline points
+const linePts = "0,280 50,250 100,270 150,200 200,180 250,230 300,100 350,150 400,120 450,80 500,110 550,40 600,90 650,20 700,50 800,10";
+---
+
+<WardrobeLayout
+    title="Morning Run — Protocol Analytics"
+    description="Streak magnitude, consistency index, environmental correlations."
+    system="system"
+    chrome="hidden"
+>
+    <main class="proto-wrap">
+        <header class="sys-card proto-header">
+            <div>
+                <a class="proto-back" href="/wardrobe/system/sequence">← RETURN TO SYSTEM DASHBOARD</a>
+                <h1 class="proto-title">Morning Run</h1>
+            </div>
+            <div class="proto-id">
+                <span class="sys-label-micro">Active Since</span>
+                <span class="proto-id__value">JAN 12, 2023 [ID: 0x4492]</span>
+            </div>
+        </header>
+
+        <section class="proto-grid">
+            <article class="sys-card proto-viz">
+                <span class="sys-card__code-texture">{`STRUCT_STREAK_VALS\n0x00: 12\n0x01: 48\n0x02: 22`}</span>
+                <span class="sys-label-micro">Streak Magnitude Over Time</span>
+                <div class="proto-chart">
+                    <svg viewBox="0 0 800 300" preserveAspectRatio="none" width="100%" height="100%">
+                        <line x1="0" y1="250" x2="800" y2="250" stroke="#EEE" stroke-dasharray="4" />
+                        <line x1="0" y1="150" x2="800" y2="150" stroke="#EEE" stroke-dasharray="4" />
+                        <line x1="0" y1="50" x2="800" y2="50" stroke="#EEE" stroke-dasharray="4" />
+                        <polyline
+                            points={linePts}
+                            fill="none"
+                            stroke="#6CEFA0"
+                            stroke-width="3"
+                            stroke-linecap="square"
+                        />
+                        {linePts.split(" ").map((p) => {
+                            const [x, y] = p.split(",");
+                            return <circle cx={x} cy={y} r="3" fill="#0D0D0D" />;
+                        })}
+                    </svg>
+                </div>
+                <div class="proto-axis">
+                    <span class="sys-label-micro">Q1_START</span>
+                    <span class="sys-label-micro">Q2</span>
+                    <span class="sys-label-micro">Q3</span>
+                    <span class="sys-label-micro">CURRENT_SYNC</span>
+                </div>
+            </article>
+
+            <aside class="sys-card proto-side">
+                <div>
+                    <span class="sys-label-micro">Consistency Index</span>
+                    <div class="ring">
+                        <svg viewBox="0 0 160 160" width="160" height="160">
+                            <circle cx="80" cy="80" r="70" fill="none" stroke="#F0F0F0" stroke-width="12" />
+                            <circle
+                                cx="80"
+                                cy="80"
+                                r="70"
+                                fill="none"
+                                stroke="#6CEFA0"
+                                stroke-width="12"
+                                stroke-dasharray={ringCirc.toFixed(1)}
+                                stroke-dashoffset={ringDashOffset.toFixed(1)}
+                                stroke-linecap="square"
+                                transform="rotate(-90 80 80)"
+                            />
+                        </svg>
+                        <div class="ring__center">
+                            <div class="ring__value">82%</div>
+                            <div class="sys-label-micro">Global</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="proto-records">
+                    <span class="sys-label-micro">Personal Records</span>
+                    <div class="record">
+                        <span class="sys-label-micro">Longest Chain</span>
+                        <span class="record__value">48 Days</span>
+                    </div>
+                    <div class="record">
+                        <span class="sys-label-micro">Best Performance Month</span>
+                        <span class="record__value">AUGUST</span>
+                    </div>
+                    <div class="record">
+                        <span class="sys-label-micro">Total Cycles Completed</span>
+                        <span class="record__value">284</span>
+                    </div>
+                </div>
+
+                <button type="button" class="sys-btn sys-btn--primary sys-btn--md proto-side__cta">
+                    DOWNLOAD RAW DATA (.CSV)
+                </button>
+            </aside>
+        </section>
+
+        <section class="proto-bottom">
+            <article class="sys-card">
+                <span class="sys-label-micro">Weekly Efficiency Pattern</span>
+                <div class="bars">
+                    {dayBars.map((b) => (
+                        <div class="bar-row">
+                            <span class="bar-row__label">{b.day}</span>
+                            <span class="bar-row__track">
+                                <span class="bar-row__fill" style={`width:${b.value}%`} />
+                            </span>
+                            <span class="bar-row__value">{b.value}%</span>
+                        </div>
+                    ))}
+                </div>
+            </article>
+
+            <article class="sys-card">
+                <span class="sys-label-micro">Environmental Correlations</span>
+                <div class="bars">
+                    {correlations.map((c) => (
+                        <div class="bar-row">
+                            <span class="bar-row__label">{c.label}</span>
+                            <span class="bar-row__track">
+                                <span class="bar-row__fill" style={`width:${c.value}%`} />
+                            </span>
+                            <span class="bar-row__value">{c.status}</span>
+                        </div>
+                    ))}
+                </div>
+            </article>
+        </section>
+    </main>
+</WardrobeLayout>
+
+<style>
+    .proto-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 24px 56px;
+        display: grid;
+        gap: 24px;
+    }
+    .proto-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        padding: 32px;
+        flex-wrap: wrap;
+    }
+    .proto-back {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        text-decoration: none;
+        color: var(--color-fg-muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: inline-block;
+        margin-bottom: 12px;
+    }
+    .proto-back:hover { color: var(--color-fg); }
+    .proto-title {
+        font-family: var(--font-display);
+        font-weight: var(--weight-light);
+        font-size: clamp(48px, 7vw, 72px);
+        line-height: 1;
+        letter-spacing: -2px;
+        margin: 0;
+    }
+    .proto-id { text-align: right; }
+    .proto-id__value {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        margin-top: 6px;
+        display: block;
+    }
+
+    .proto-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 24px;
+    }
+    .proto-viz {
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .proto-chart {
+        flex: 1;
+        margin-top: 24px;
+        min-height: 280px;
+        position: relative;
+        border-bottom: 1px solid var(--color-divider);
+        border-left: 1px solid var(--color-divider);
+        padding: 16px;
+    }
+    .proto-axis {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 12px;
+    }
+
+    .proto-side {
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+    .ring {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        margin: 16px auto 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .ring__center {
+        position: absolute;
+        text-align: center;
+    }
+    .ring__value {
+        font-family: var(--font-display);
+        font-weight: var(--weight-light);
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+    .proto-records { display: grid; gap: 16px; }
+    .record { display: flex; flex-direction: column; gap: 4px; }
+    .record__value {
+        font-family: var(--font-display);
+        font-weight: var(--weight-normal);
+        font-size: 28px;
+        letter-spacing: -0.5px;
+        line-height: 1;
+    }
+    .proto-side__cta { margin-top: auto; }
+
+    .proto-bottom {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
+    .bars { display: grid; gap: 0; margin-top: 12px; }
+    .bar-row {
+        display: grid;
+        grid-template-columns: 110px 1fr 60px;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid #F8F8F8;
+        font-family: var(--font-mono);
+        font-size: 12px;
+    }
+    .bar-row:last-child { border-bottom: none; }
+    .bar-row__label { color: var(--color-fg-muted); letter-spacing: 0.5px; }
+    .bar-row__track {
+        height: 8px;
+        background: var(--color-divider);
+        position: relative;
+        border-radius: var(--radius-sm);
+    }
+    .bar-row__fill {
+        position: absolute;
+        height: 100%;
+        background: var(--color-accent);
+        top: 0;
+        left: 0;
+        border-radius: var(--radius-sm);
+    }
+    .bar-row__value { text-align: right; font-size: 11px; }
+
+    @media (max-width: 900px) {
+        .proto-grid { grid-template-columns: 1fr; }
+        .proto-bottom { grid-template-columns: 1fr; }
+        .proto-header { flex-direction: column; align-items: flex-start; }
+        .proto-id { text-align: left; }
+    }
+</style>
+
+<script>
+    if (typeof window !== "undefined") {
+        (window as any).wardrobeTrack?.("wardrobe_demo_view", {
+            system: "system",
+            page: "sequence/protocols/morning-run",
+        });
+    }
+</script>
