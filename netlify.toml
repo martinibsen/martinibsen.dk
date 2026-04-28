@@ -1,3 +1,17 @@
 [build]
   command = "npm run build"
   publish = "dist"
+
+# Wardrobe moved to standalone repo at https://wardrobeui.com.
+# Keep these 301s indefinitely so old bookmarks still resolve.
+[[redirects]]
+  from = "/wardrobe"
+  to = "https://wardrobeui.com/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wardrobe/*"
+  to = "https://wardrobeui.com/:splat"
+  status = 301
+  force = true

@@ -65,6 +65,18 @@ export const projects: Project[] = [
   },
   {
     number: "05",
+    name: "Wardrobe",
+    desc: "Themes for vibe-coded apps. Drop-in design systems for Claude Code, Cursor, v0, Lovable. Stop shipping the same purple landing page.",
+    status: "Live",
+    statusType: "live",
+    role: "Idé → Ship",
+    type: "Design System",
+    stack: "Astro, React",
+    url: "https://wardrobeui.com",
+    image: "/images/wardrobe.jpg",
+  },
+  {
+    number: "06",
     name: "AI for Produktledere",
     desc: "Ugentligt nyhedsbrev med praktiske tips, prompts og workflows til produktledere, der vil mestre AI i deres daglige arbejde.",
     status: "Live",
@@ -76,7 +88,7 @@ export const projects: Project[] = [
     image: "/images/aiproduktleder.png",
   },
   {
-    number: "06",
+    number: "07",
     name: "PM Consulting",
     desc: "Konsulentydelse der løfter PM-kompetencer i AI-drevne organisationer. Erfaring fra Norlys, Energinet og Hessen.",
     status: "Aktiv",
