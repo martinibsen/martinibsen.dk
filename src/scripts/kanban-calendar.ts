@@ -108,14 +108,28 @@ function renderDay(
   label.className = "kb-cal-label";
   const holiday = holidays.get(key);
   const deadlines = dueByDate.get(key) ?? [];
-  const parts: string[] = [];
-  if (holiday) parts.push(holiday);
-  for (const card of deadlines) {
-    const initial = card.assignee ? ASSIGNEE_INITIAL[card.assignee] : "·";
-    parts.push(`${initial} ${card.title}`);
+
+  if (holiday) {
+    const h = document.createElement("span");
+    h.className = "kb-cal-holiday";
+    h.textContent = holiday;
+    label.appendChild(h);
   }
-  label.textContent = parts.join(" · ");
-  if (deadlines.length > 0) row.classList.add("has-deadline");
+  if (holiday && deadlines.length > 0) {
+    label.appendChild(document.createTextNode(" · "));
+  }
+  if (deadlines.length > 0) {
+    const d = document.createElement("span");
+    d.className = "kb-cal-deadline";
+    d.textContent = deadlines
+      .map(
+        (c) =>
+          `${c.assignee ? ASSIGNEE_INITIAL[c.assignee] : "·"} ${c.title}`,
+      )
+      .join(" · ");
+    label.appendChild(d);
+    row.classList.add("has-deadline");
+  }
   row.appendChild(label);
 
   if (dayOfWeek === 1) {

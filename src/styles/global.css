@@ -1763,7 +1763,15 @@ img { max-width: 100%; display: block; }
     background: var(--fg);
     color: var(--bg);
 }
-.kb-cal-day.has-deadline { font-weight: 700; }
+.kb-cal-holiday { color: var(--muted); }
+.kb-cal-deadline {
+    color: #c2410c; /* burnt orange — distinct from monochrome chrome and the overdue red */
+    font-weight: 600;
+}
+.kb-cal-day.is-today .kb-cal-holiday { color: var(--bg); opacity: 0.65; }
+.kb-cal-day.is-today .kb-cal-deadline {
+    color: #fbbf24;
+}
 .kb-cal-wd {
     text-transform: uppercase;
     color: var(--muted);
