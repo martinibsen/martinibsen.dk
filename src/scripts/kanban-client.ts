@@ -96,34 +96,56 @@ function redraw(): void {
   if (cal) renderCalendar(board, cal);
 }
 
-async function persist(next: Board): Promise<void> {
+type Mutation = (current: Board) => Board;
+
+const MAX_CONFLICT_RETRIES = 3;
+
+/**
+ * Apply a mutation to the board and persist it. On a 409 conflict, replay
+ * the mutation on top of the server's current state and try again — that's
+ * what prevents a fresh card (or a drag) from disappearing when someone
+ * else has touched the board between our last load and this save.
+ */
+async function persist(mutate: Mutation): Promise<void> {
   if (!loaded) {
     toast("Kan ikke gemme — boardet er ikke indlæst.");
     return;
   }
   const previous = board;
-  const expectedUpdatedAt = previous.updatedAt;
+  let next = mutate(previous);
   board = next;
   redraw();
   setStatus("Gemmer…");
-  try {
-    board = await saveBoard(next, expectedUpdatedAt);
-    redraw();
-    setStatus("Gemt", 1500);
-  } catch (err) {
-    if (err instanceof ConflictError) {
-      board = err.currentBoard;
+
+  for (let attempt = 0; attempt <= MAX_CONFLICT_RETRIES; attempt++) {
+    try {
+      board = await saveBoard(next, next.updatedAt);
       redraw();
-      toast(
-        "Konflikt — boardet blev opdateret af en anden. Din ændring blev ikke gemt.",
-      );
+      setStatus("Gemt", 1500);
+      return;
+    } catch (err) {
+      if (err instanceof ConflictError) {
+        if (attempt === MAX_CONFLICT_RETRIES) {
+          board = err.currentBoard;
+          redraw();
+          toast(
+            "Boardet ændres for hurtigt af andre — kunne ikke gemme. Prøv igen.",
+          );
+          setStatus("");
+          return;
+        }
+        next = mutate(err.currentBoard);
+        board = next;
+        redraw();
+        setStatus("Synkroniserer…");
+        continue;
+      }
+      board = previous;
+      redraw();
+      toast(err instanceof Error ? err.message : "Kunne ikke gemme.");
       setStatus("");
       return;
     }
-    board = previous;
-    redraw();
-    toast(err instanceof Error ? err.message : "Kunne ikke gemme.");
-    setStatus("");
   }
 }
 
@@ -132,36 +154,45 @@ async function handleSubmit(
   data: CardFormResult,
 ): Promise<void> {
   const now = new Date().toISOString();
-  let cards: Card[];
-  if (existingId) {
-    cards = board.cards.map((c) => {
-      if (c.id !== existingId) return c;
-      const movingColumn = c.column !== data.column;
-      return {
-        ...c,
+  // Generate the id once so retries reuse it (idempotent on the server).
+  const newId = existingId ?? crypto.randomUUID();
+
+  await persist((current) => {
+    let cards: Card[];
+    if (existingId) {
+      cards = current.cards.map((c) => {
+        if (c.id !== existingId) return c;
+        const movingColumn = c.column !== data.column;
+        return {
+          ...c,
+          ...data,
+          position: movingColumn
+            ? nextPosition(current.cards, data.column)
+            : c.position,
+          updatedAt: now,
+        };
+      });
+    } else {
+      // If a previous attempt already landed (rare), don't duplicate.
+      if (current.cards.some((c) => c.id === newId)) return current;
+      const card: Card = {
+        id: newId,
         ...data,
-        position: movingColumn
-          ? nextPosition(board.cards, data.column)
-          : c.position,
+        position: nextPosition(current.cards, data.column),
+        createdAt: now,
         updatedAt: now,
       };
-    });
-  } else {
-    const card: Card = {
-      id: crypto.randomUUID(),
-      ...data,
-      position: nextPosition(board.cards, data.column),
-      createdAt: now,
-      updatedAt: now,
-    };
-    cards = [...board.cards, card];
-  }
-  await persist({ ...board, cards });
+      cards = [...current.cards, card];
+    }
+    return { ...current, cards };
+  });
 }
 
 async function handleDelete(id: string): Promise<void> {
-  const cards = board.cards.filter((c) => c.id !== id);
-  await persist({ ...board, cards });
+  await persist((current) => ({
+    ...current,
+    cards: current.cards.filter((c) => c.id !== id),
+  }));
 }
 
 function setupDnd(): void {
@@ -188,28 +219,29 @@ function setupDnd(): void {
 }
 
 async function applyDnd(): Promise<void> {
-  const rebuilt: Card[] = [];
+  // Capture only the moves that the DOM tells us about. Cards we don't know
+  // about (e.g. added by another tab between load and now) are left alone
+  // when we rebase on the server's state.
+  const moves = new Map<string, { column: ColumnId; position: number }>();
   for (const col of COLUMN_IDS) {
     const list = document.querySelector<HTMLElement>(`[data-list="${col}"]`);
     if (!list) continue;
     const elements = list.querySelectorAll<HTMLElement>(".kb-card");
     elements.forEach((el, index) => {
       const id = el.dataset.id;
-      if (!id) return;
-      const original = board.cards.find((c) => c.id === id);
-      if (!original) return;
-      rebuilt.push({
-        ...original,
-        column: col,
-        position: index,
-        updatedAt:
-          original.column === col && original.position === index
-            ? original.updatedAt
-            : new Date().toISOString(),
-      });
+      if (id) moves.set(id, { column: col, position: index });
     });
   }
-  await persist({ ...board, cards: rebuilt });
+  const now = new Date().toISOString();
+  await persist((current) => {
+    const cards = current.cards.map((c) => {
+      const m = moves.get(c.id);
+      if (!m) return c;
+      if (c.column === m.column && c.position === m.position) return c;
+      return { ...c, column: m.column, position: m.position, updatedAt: now };
+    });
+    return { ...current, cards };
+  });
 }
 
 function nextPosition(cards: Card[], column: ColumnId): number {
