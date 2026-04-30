@@ -1,191 +1,80 @@
-# martinibsen.dk — Build Instructions
+# martinibsen.dk
 
-## What we're building
-A personal website for Martin Ibsen — PM, product designer, and AI builder. The site has two page types: a front page with project cards and blog list, and individual blog post pages. Both have dark/light mode.
+Personal website for Martin Ibsen — PM, product designer, AI builder.
 
 ## Tech stack
-- **Framework:** Astro (latest stable)
-- **Styling:** Vanilla CSS with CSS custom properties (no Tailwind, no frameworks)
-- **Blog:** Markdown files with frontmatter in `src/content/blog/`
-- **Font:** Geist Sans via CDN: `https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.css`
-- **Hosting:** Netlify (static output)
-- **No JS frameworks** — vanilla JS only for theme toggle
+- **Astro 5** (`output: 'static'`) with the Netlify adapter
+- **Vanilla CSS** in `src/styles/global.css` — no Tailwind, no CSS-in-JS
+- **No client framework** by default. Vanilla TS only. The `/stilnote` board uses `sortablejs` (vanilla DnD).
+- **Fonts**: `Inter` + `Space Mono` (Google Fonts, loaded in `BaseLayout.astro`)
+- **Hosting**: Netlify, domain `martinibsen.dk` (DNS via one.com)
+- **Deployment**: push to `main` → Netlify auto-builds
 
-## Project structure
+## Design system (editorial, light-only)
+CSS tokens in `src/styles/global.css`:
+- `--bg: #e4e4e2`, `--bg-2: #dcdcda`
+- `--fg: #1a1a1a`, `--muted: #888`
+- `--line: rgba(26,26,26,0.14)`, `--line-strong: rgba(26,26,26,0.35)`
+- `--font-display: 'Inter'`, `--font-mono: 'Space Mono'`
+- `--transition-fast: 200ms ease`
+
+**Conventions**:
+- Hairline `0.5px` borders in `var(--line)` or `var(--line-strong)`
+- Mono caps for UI chrome (nav, tags, buttons): 9–11 px, `letter-spacing: 0.05–0.08em`, `text-transform: uppercase`
+- Inter for editorial copy: weight 400–500, tight letter-spacing on headings (`-0.02em`)
+- Light theme only (no dark mode, no theme toggle)
+- Monochrome — no accent colors except a single overdue red (`#b00020`) on `/stilnote`
+
+## Structure
 ```
-martinibsen.dk/
-├── src/
-│   ├── layouts/
-│   │   ├── BaseLayout.astro      # Shared head, theme toggle, footer
-│   │   └── BlogPost.astro        # Blog post layout
-│   ├── pages/
-│   │   ├── index.astro           # Front page
-│   │   └── blog/
-│   │       └── [...slug].astro   # Dynamic blog post pages
-│   ├── content/
-│   │   └── blog/
-│   │       └── den-nye-produkttrio.md
-│   ├── styles/
-│   │   └── global.css            # All CSS variables and styles
-│   └── data/
-│       └── projects.ts           # Project data as typed array
-├── public/
-│   └── images/                   # Project images (placeholders for now)
-├── astro.config.mjs
-├── package.json
-└── CLAUDE.md
-```
-
-## Design system
-
-### CSS Variables (dark mode = default)
-```css
-:root {
-    --c-bg: #02050A;
-    --c-bg-card: #02050A;
-    --c-text: #ffffff;
-    --c-text-70: rgba(255, 255, 255, 0.7);
-    --c-text-30: rgba(255, 255, 255, 0.3);
-    --c-text-15: rgba(255, 255, 255, 0.15);
-    --c-text-05: rgba(255, 255, 255, 0.05);
-    --c-card-hover: rgba(255, 255, 255, 0.02);
-    --font: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    --ease-cinematic: cubic-bezier(0.19, 1, 0.22, 1);
-    --transition-fast: 0.3s ease;
-}
-
-[data-theme="light"] {
-    --c-bg: #FAFAFA;
-    --c-bg-card: #FAFAFA;
-    --c-text: #1a1a1a;
-    --c-text-70: rgba(26, 26, 26, 0.7);
-    --c-text-30: rgba(26, 26, 26, 0.3);
-    --c-text-15: rgba(26, 26, 26, 0.12);
-    --c-text-05: rgba(26, 26, 26, 0.05);
-    --c-card-hover: rgba(0, 0, 0, 0.02);
-}
+src/
+├── layouts/BaseLayout.astro       # nav + head, supports `noindex` prop
+├── layouts/BlogPost.astro
+├── pages/
+│   ├── index.astro                # front page
+│   ├── om.astro                   # bio
+│   ├── tanker.astro               # blog list
+│   ├── ai-for-produktledere.astro # newsletter landing
+│   ├── stilnote.astro             # internal Kanban (noindex)
+│   ├── blog/[...slug].astro
+│   └── api/
+│       ├── subscribe.ts           # Loops newsletter signup
+│       └── kanban.ts              # GET/PUT for /stilnote board
+├── lib/
+│   ├── kanban-types.ts            # shared Kanban types
+│   └── kanban-storage.ts          # Netlify Blobs read/write (server)
+├── scripts/
+│   ├── kanban-client.ts           # main entry, state, DnD
+│   ├── kanban-render.ts           # DOM rendering
+│   ├── kanban-modal.ts            # create/edit dialog
+│   └── kanban-api.ts              # client fetch wrapper
+├── content/blog/                  # markdown posts (frontmatter: title, date, tags, subtitle, readTime)
+├── content.config.ts
+├── data/projects.ts               # typed project list shown on front page
+└── styles/global.css              # all styles
 ```
 
-### Typography
-- One font everywhere: Geist Sans
-- Headings: weight 400, tight letter-spacing (-0.03em to -0.04em)
-- Body: weight 400, 15px, line-height 1.8 for blog, 1.4 for UI
-- NO uppercase text-transform anywhere
-- NO mixed font weights in the same line
-- NO serif fonts
+## Internal Kanban (`/stilnote`)
+- Private to-do board for Martin & Sophia. Public route, **no auth** — kept off Google with `<meta name="robots" content="noindex">`.
+- Three columns: Backlog / To Do / Done. Cards have title, description, assignee (martin|sophia|none), due date.
+- Storage: a single JSON document in **Netlify Blobs** (store `stilnote-kanban`, key `board`). No separate database.
+- Last-write-wins on PUT. Acceptable for two users with manual refresh.
+- Drag-and-drop on desktop via SortableJS. Mobile uses the column dropdown in the edit modal.
+- **Local dev**: `astro dev` won't have Blobs context — run `netlify dev` to exercise the API locally. Production "just works".
 
-### Design rules
-- Monochrome only — no accent colors
-- 1px separator lines using `var(--c-text-15)`
-- Status dots on projects: green (#4ade80) for live, amber (#fbbf24) for building
-- Subtle hover states: cards get `var(--c-card-hover)`, blog rows indent 16px left
-- Cinematic easing on animations: `cubic-bezier(0.19, 1, 0.22, 1)`
-- Fade-up entrance animation on hero elements
-- Project images: slightly desaturated (`filter: grayscale(0.3)`), subtle zoom on hover
-
-## Reference files
-The `reference/` folder contains two HTML prototypes that define the exact design:
-- `martinibsen.html` — Front page with project grid, blog list, newsletter signup
-- `blog-post.html` — Blog post page with article layout and "more posts" section
-
-**These are the source of truth for all styling.** Extract all CSS and structure from these files. Do not deviate from the design.
-
-## Page: Front page (index.astro)
-1. Theme toggle button (fixed top-right)
-2. Hero section: name "Martin Ibsen" (weight 400), dot, intro paragraph, pill navigation (Projekter, Tanker, Nyhedsbrev, Kontakt)
-3. Projects section: 2-column grid of cards, each with image, meta (number + status), name, description, footer with 3 metadata blocks
-4. Blog section: list of blog rows with date, tag, title, hover arrow
-5. Newsletter section: box with heading, text, email input + button
-6. Footer: copyright + social links
-
-## Page: Blog post ([...slug].astro)
-1. Theme toggle (fixed top-right)
-2. Back link "← Martin Ibsen" (fixed top-left)
-3. Article header: meta line (date, tag, read time), title, subtitle
-4. Horizontal divider
-5. Article body: rendered from markdown, max-width 680px
-6. Author footer with share links
-7. "Flere tanker" section with other recent posts
-
-## Blog content
-Blog posts live as markdown files in `src/content/blog/` with this frontmatter:
-```yaml
----
-title: "Den nye produkttrio"
-date: 2026-03-22
-tags: ["product", "ai", "organisation"]
-subtitle: "Den klassiske opdeling i designer, udvikler og PM giver ikke mening længere. Her er hvad der kommer i stedet."
-readTime: "5 min"
----
-```
-
-## Project data
-Projects are defined in `src/data/projects.ts`:
-```typescript
-export const projects = [
-  {
-    number: "01",
-    name: "Knud",
-    desc: "iOS-app der bruger AI til at kategorisere og organisere dine screenshots automatisk. Del et screenshot — Knud sorterer det i den rigtige mappe.",
-    status: "Live",
-    statusType: "live",
-    role: "Idé → Ship",
-    type: "iOS App",
-    stack: "Swift, AI",
-    url: "https://knud.app",
-    image: "/images/knud.jpg"
-  },
-  {
-    number: "02",
-    name: "Stilnote",
-    desc: "SaaS for danske indretningsdesignere. Erstatter manuelle Excel-ark med smukke, professionelle materialeplaner klar til kunden.",
-    status: "Building",
-    statusType: "building",
-    role: "Idé → Ship",
-    type: "B2B SaaS",
-    stack: "Next.js, Supabase",
-    url: null,
-    image: "/images/stilnote.jpg"
-  },
-  {
-    number: "03",
-    name: "Super Yes",
-    desc: "B2B SaaS der hjælper produktteams med struktureret product discovery. Byg hypoteser, definér outcomes og validér med eksisterende data.",
-    status: "Building",
-    statusType: "building",
-    role: "Idé → Ship",
-    type: "B2B SaaS",
-    stack: "Next.js, Supabase",
-    url: null,
-    image: "/images/superyes.jpg"
-  },
-  {
-    number: "04",
-    name: "PM Consulting",
-    desc: "Konsulentydelse der løfter PM-kompetencer i AI-drevne organisationer. Erfaring fra Norlys, Energinet og Hessen.",
-    status: "Aktiv",
-    statusType: "live",
-    role: "Rådgiver",
-    type: "B2B Service",
-    stack: "AI, Discovery",
-    url: null,
-    image: "/images/consulting.jpg"
-  }
-];
-```
+## API endpoints
+- `POST /api/subscribe` — Loops newsletter signup. Requires `LOOPS_API_KEY` env var.
+- `GET  /api/kanban` — return current board.
+- `PUT  /api/kanban` — replace board (body: `{ board }`). Validates and renumbers positions.
 
 ## Deployment
-- Output: static (`output: 'static'` in astro.config.mjs)
-- Netlify adapter NOT needed for static
-- Build command: `npm run build`
-- Publish directory: `dist/`
-- Domain: martinibsen.dk (DNS pointed from one.com)
+- `npm run build` → `dist/`
+- Netlify reads `netlify.toml` (build command + 301 redirects for retired `/wardrobe`).
+- Push to `main` triggers a deploy automatically.
 
-## Important notes
-- Theme preference stored in localStorage, applied before paint (inline script in head to avoid flash)
-- All links in nav must scroll smoothly to correct sections
-- Blog post "Flere tanker" section should list other posts dynamically
-- Newsletter form is UI-only for now (will connect to Loops later)
-- Project images are Unsplash placeholders — will be replaced with actual screenshots
-- Site language is Danish (lang="da")
-
+## Conventions
+- Site language is Danish (`lang="da"`). All UI copy in Danish, code/comments in English.
+- TypeScript everywhere, no `any`.
+- Data layer isolated in `src/lib/*` — never call Blobs / external services from `.astro` or component files.
+- Keep client modules under ~150 lines. Split by responsibility (render / modal / dnd / api).
+- Never overwrite or delete existing blog posts when adding new ones (see user memory).

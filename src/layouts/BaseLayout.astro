@@ -5,9 +5,10 @@ interface Props {
     title: string;
     description?: string;
     currentNav?: 'projekter' | 'hej' | 'tanker' | 'nyhedsbrev' | 'kontakt';
+    noindex?: boolean;
 }
 
-const { title, description = 'Martin Ibsen — produktleder og designer der bygger software med AI.', currentNav } = Astro.props;
+const { title, description = 'Martin Ibsen — produktleder og designer der bygger software med AI.', currentNav, noindex = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -17,6 +18,7 @@ const { title, description = 'Martin Ibsen — produktleder og designer der bygg
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

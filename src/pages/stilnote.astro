@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { COLUMN_IDS, COLUMN_LABELS } from '../lib/kanban-types';
+---
+
+<BaseLayout title="Stilnote · To-do" noindex>
+    <main class="kb-wrap">
+        <header class="kb-head">
+            <div class="kb-title">
+                <span class="kb-eyebrow">Internt · Martin & Sophia</span>
+                <h1>Stilnote To-do</h1>
+            </div>
+            <div class="kb-status" id="kb-status" aria-live="polite">Henter…</div>
+        </header>
+
+        <div class="kb-board">
+            {COLUMN_IDS.map((col) => (
+                <section class="kb-column" data-column={col}>
+                    <header class="kb-col-head">
+                        <h2>{COLUMN_LABELS[col]}</h2>
+                        <button type="button" class="kb-add" data-add={col} aria-label={`Tilføj kort i ${COLUMN_LABELS[col]}`}>
+                            <span aria-hidden="true">+</span> Nyt kort
+                        </button>
+                    </header>
+                    <div class="kb-list" data-list={col}></div>
+                </section>
+            ))}
+        </div>
+    </main>
+
+    <dialog class="kb-modal" id="kb-modal" aria-labelledby="kb-modal-title">
+        <form id="kb-form" method="dialog" novalidate>
+            <header class="kb-modal-head">
+                <h2 id="kb-modal-title">Nyt kort</h2>
+                <button type="button" class="kb-icon-btn" id="kb-close" aria-label="Luk">×</button>
+            </header>
+
+            <label class="kb-field">
+                <span>Titel</span>
+                <input name="title" required maxlength="200" autocomplete="off" />
+            </label>
+
+            <label class="kb-field">
+                <span>Beskrivelse</span>
+                <textarea name="description" rows="6" maxlength="5000"></textarea>
+            </label>
+
+            <div class="kb-row">
+                <label class="kb-field">
+                    <span>Assignee</span>
+                    <select name="assignee">
+                        <option value="">Ingen</option>
+                        <option value="martin">Martin</option>
+                        <option value="sophia">Sophia</option>
+                    </select>
+                </label>
+                <label class="kb-field">
+                    <span>Kolonne</span>
+                    <select name="column">
+                        <option value="backlog">Backlog</option>
+                        <option value="todo">To Do</option>
+                        <option value="done">Done</option>
+                    </select>
+                </label>
+                <label class="kb-field">
+                    <span>Deadline</span>
+                    <input type="date" name="dueDate" />
+                </label>
+            </div>
+
+            <footer class="kb-modal-foot">
+                <button type="button" class="kb-danger" id="kb-delete" hidden>Slet kort</button>
+                <div class="kb-modal-actions">
+                    <button type="button" class="kb-ghost" id="kb-cancel">Annullér</button>
+                    <button type="submit" class="kb-primary" id="kb-save">Gem</button>
+                </div>
+            </footer>
+        </form>
+    </dialog>
+
+    <div class="kb-toast" id="kb-toast" role="status" aria-live="polite" hidden></div>
+
+    <script>
+        import { initKanban } from '../scripts/kanban-client';
+        initKanban();
+    </script>
+</BaseLayout>
