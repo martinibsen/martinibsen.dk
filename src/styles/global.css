@@ -1364,6 +1364,9 @@ img { max-width: 100%; display: block; }
     background: rgba(176, 0, 32, 0.06);
     color: #b00020;
 }
+/* hidden HTML attribute must always win over our display rules */
+.kb-load-error[hidden],
+.kb-toast[hidden] { display: none !important; }
 .kb-load-error > div {
     display: flex;
     flex-direction: column;
