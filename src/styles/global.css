@@ -1772,6 +1772,61 @@ img { max-width: 100%; display: block; }
 .kb-cal-day.is-today .kb-cal-deadline {
     color: #fbbf24;
 }
+.kb-cal-day.has-deadline { cursor: help; }
+.kb-cal-day.has-deadline:hover,
+.kb-cal-day.has-deadline:focus-visible {
+    outline: 0.5px solid #c2410c;
+    outline-offset: -1px;
+    background: rgba(194, 65, 12, 0.06);
+}
+.kb-cal-day.is-today.has-deadline:hover,
+.kb-cal-day.is-today.has-deadline:focus-visible {
+    background: var(--fg);
+    outline-color: #fbbf24;
+}
+
+/* Hover popover for calendar deadlines */
+.kb-cal-pop {
+    position: fixed;
+    z-index: 200;
+    background: var(--bg);
+    border: 0.5px solid var(--fg);
+    padding: 14px 16px;
+    width: 280px;
+    max-width: calc(100vw - 32px);
+    font-family: var(--font-display);
+    color: var(--fg);
+    pointer-events: none;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+    line-height: 1.4;
+}
+.kb-cal-pop[hidden] { display: none !important; }
+.kb-cal-pop-card { display: flex; flex-direction: column; gap: 4px; }
+.kb-cal-pop-card + .kb-cal-pop-card {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 0.5px solid var(--line);
+}
+.kb-cal-pop-title {
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+}
+.kb-cal-pop-meta {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+}
+.kb-cal-pop-desc {
+    font-size: 12px;
+    color: #444;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-top: 2px;
+}
 .kb-cal-wd {
     text-transform: uppercase;
     color: var(--muted);

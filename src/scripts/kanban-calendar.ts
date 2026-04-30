@@ -3,7 +3,12 @@
 // letters (M/T/O/T/F/L/S), week numbers on Mondays, Danish holidays, and
 // markers for cards with a due date.
 
-import type { Board, Card } from "../lib/kanban-types";
+import {
+  ASSIGNEE_LABELS,
+  COLUMN_LABELS,
+  type Board,
+  type Card,
+} from "../lib/kanban-types";
 
 const DK_WEEKDAY = ["S", "M", "T", "O", "T", "F", "L"]; // Sun..Sat
 const DK_MONTHS = [
@@ -27,19 +32,30 @@ const MONTHS_TO_SHOW = 6;
 
 const holidaysByYear = new Map<number, Map<string, string>>();
 
+// Module-level state so the hover handlers (bound once) can read fresh data
+// after every redraw without rebinding listeners.
+let currentDueByDate: Map<string, Card[]> = new Map();
+let popoverEl: HTMLElement | null = null;
+let hoverHandlersBound = false;
+
 export function renderCalendar(
   board: Board,
   host: HTMLElement,
   today: Date = new Date(),
 ): void {
   host.replaceChildren();
-  const dueByDate = indexCardsByDate(board.cards);
+  currentDueByDate = indexCardsByDate(board.cards);
   const start = new Date(today.getFullYear(), today.getMonth(), 1);
   const todayKey = isoDate(today);
 
   for (let m = 0; m < MONTHS_TO_SHOW; m++) {
     const monthDate = new Date(start.getFullYear(), start.getMonth() + m, 1);
-    host.appendChild(renderMonth(monthDate, dueByDate, todayKey));
+    host.appendChild(renderMonth(monthDate, currentDueByDate, todayKey));
+  }
+
+  if (!hoverHandlersBound) {
+    bindHoverHandlers(host);
+    hoverHandlersBound = true;
   }
 }
 
@@ -91,6 +107,7 @@ function renderDay(
   row.className = "kb-cal-day";
   const dayOfWeek = date.getDay();
   const key = isoDate(date);
+  row.dataset.date = key;
   if (dayOfWeek === 0 || dayOfWeek === 6) row.classList.add("is-weekend");
   if (key === todayKey) row.classList.add("is-today");
 
@@ -129,6 +146,7 @@ function renderDay(
       .join(" · ");
     label.appendChild(d);
     row.classList.add("has-deadline");
+    row.tabIndex = 0; // keyboard focusable so screen-reader / kbd users get the popover too
   }
   row.appendChild(label);
 
@@ -206,6 +224,88 @@ function isoDate(d: Date): string {
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
+}
+
+function bindHoverHandlers(host: HTMLElement): void {
+  popoverEl = document.getElementById("kb-cal-popover");
+  if (!popoverEl) return;
+
+  const open = (target: HTMLElement) => {
+    const row = target.closest<HTMLElement>(".kb-cal-day.has-deadline");
+    if (!row) return;
+    const key = row.dataset.date;
+    if (!key) return;
+    const cards = currentDueByDate.get(key);
+    if (!cards || cards.length === 0) return;
+    showPopover(row, cards);
+  };
+
+  const close = (e: Event) => {
+    const next = (e as FocusEvent | MouseEvent).relatedTarget as Node | null;
+    if (next && popoverEl?.contains(next)) return;
+    hidePopover();
+  };
+
+  host.addEventListener("mouseover", (e) => open(e.target as HTMLElement));
+  host.addEventListener("mouseout", close);
+  host.addEventListener("focusin", (e) => open(e.target as HTMLElement));
+  host.addEventListener("focusout", close);
+  document.addEventListener("scroll", hidePopover, { passive: true });
+  window.addEventListener("resize", hidePopover);
+}
+
+function showPopover(row: HTMLElement, cards: Card[]): void {
+  if (!popoverEl) return;
+  popoverEl.replaceChildren(...cards.map(renderPopCard));
+  popoverEl.hidden = false;
+
+  const rect = row.getBoundingClientRect();
+  const pop = popoverEl.getBoundingClientRect();
+  const margin = 8;
+
+  let left = rect.right + margin;
+  if (left + pop.width > window.innerWidth - margin) {
+    left = rect.left - pop.width - margin;
+  }
+  if (left < margin) left = margin;
+
+  let top = rect.top + rect.height / 2 - pop.height / 2;
+  top = Math.max(
+    margin,
+    Math.min(top, window.innerHeight - pop.height - margin),
+  );
+
+  popoverEl.style.left = `${left}px`;
+  popoverEl.style.top = `${top}px`;
+}
+
+function hidePopover(): void {
+  if (popoverEl) popoverEl.hidden = true;
+}
+
+function renderPopCard(card: Card): HTMLElement {
+  const el = document.createElement("div");
+  el.className = "kb-cal-pop-card";
+
+  const title = document.createElement("div");
+  title.className = "kb-cal-pop-title";
+  title.textContent = card.title;
+  el.appendChild(title);
+
+  const meta = document.createElement("div");
+  meta.className = "kb-cal-pop-meta";
+  const parts: string[] = [COLUMN_LABELS[card.column]];
+  if (card.assignee) parts.push(ASSIGNEE_LABELS[card.assignee]);
+  meta.textContent = parts.join(" · ");
+  el.appendChild(meta);
+
+  if (card.description.trim().length > 0) {
+    const desc = document.createElement("div");
+    desc.className = "kb-cal-pop-desc";
+    desc.textContent = card.description;
+    el.appendChild(desc);
+  }
+  return el;
 }
 
 function isoWeekNumber(date: Date): number {
