@@ -10,11 +10,13 @@ import {
   type Card,
   type ColumnId,
 } from "../lib/kanban-types";
-import { fetchBoard, saveBoard } from "./kanban-api";
+import { ConflictError, fetchBoard, saveBoard } from "./kanban-api";
+import { renderCalendar } from "./kanban-calendar";
 import { CardModal, type CardFormResult } from "./kanban-modal";
 import { renderBoard } from "./kanban-render";
 
 let board: Board = emptyBoard();
+let loaded = false; // true once the first GET succeeds
 let modal: CardModal | null = null;
 let toastTimer: number | null = null;
 const sortables: Sortable[] = [];
@@ -37,12 +39,14 @@ async function boot(): Promise<void> {
     "[data-add]",
   )) {
     btn.addEventListener("click", () => {
+      if (!loaded) return;
       const col = btn.dataset.add as ColumnId | undefined;
       if (col) modal?.openCreate(col);
     });
   }
 
   document.addEventListener("click", (e) => {
+    if (!loaded) return;
     const target = e.target as HTMLElement | null;
     const card = target?.closest<HTMLElement>(".kb-card");
     if (!card?.dataset.id) return;
@@ -51,7 +55,7 @@ async function boot(): Promise<void> {
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter") return;
+    if (e.key !== "Enter" || !loaded) return;
     const card = (e.target as HTMLElement | null)?.closest<HTMLElement>(
       ".kb-card",
     );
@@ -60,38 +64,62 @@ async function boot(): Promise<void> {
     if (found) modal?.openEdit(found);
   });
 
-  await load();
   setupDnd();
+  await load();
+
+  document.getElementById("kb-retry")?.addEventListener("click", () => {
+    void load();
+  });
 }
 
 async function load(): Promise<void> {
+  setLoadError(false);
   setStatus("Henter…");
+  setUiEnabled(false);
   try {
     board = await fetchBoard();
+    loaded = true;
     redraw();
     setStatus("");
+    setUiEnabled(true);
   } catch (err) {
-    setStatus("Kunne ikke hente boardet.");
-    console.error(err);
+    loaded = false;
+    setStatus("");
+    setLoadError(true);
+    console.error("[kanban] load failed", err);
   }
 }
 
 function redraw(): void {
   renderBoard(board);
+  const cal = document.getElementById("kb-cal");
+  if (cal) renderCalendar(board, cal);
 }
 
-async function persist(next: Board, optimistic = true): Promise<void> {
-  const previous = board;
-  if (optimistic) {
-    board = next;
-    redraw();
+async function persist(next: Board): Promise<void> {
+  if (!loaded) {
+    toast("Kan ikke gemme — boardet er ikke indlæst.");
+    return;
   }
+  const previous = board;
+  const expectedUpdatedAt = previous.updatedAt;
+  board = next;
+  redraw();
   setStatus("Gemmer…");
   try {
-    board = await saveBoard(next);
+    board = await saveBoard(next, expectedUpdatedAt);
     redraw();
     setStatus("Gemt", 1500);
   } catch (err) {
+    if (err instanceof ConflictError) {
+      board = err.currentBoard;
+      redraw();
+      toast(
+        "Konflikt — boardet blev opdateret af en anden. Din ændring blev ikke gemt.",
+      );
+      setStatus("");
+      return;
+    }
     board = previous;
     redraw();
     toast(err instanceof Error ? err.message : "Kunne ikke gemme.");
@@ -112,7 +140,9 @@ async function handleSubmit(
       return {
         ...c,
         ...data,
-        position: movingColumn ? nextPosition(board.cards, data.column) : c.position,
+        position: movingColumn
+          ? nextPosition(board.cards, data.column)
+          : c.position,
         updatedAt: now,
       };
     });
@@ -147,6 +177,7 @@ function setupDnd(): void {
         dragClass: "kb-card-drag",
         forceFallback: true,
         fallbackTolerance: 4,
+        disabled: true, // enabled after first successful load
         onEnd: (evt) => {
           if (evt.from === evt.to && evt.oldIndex === evt.newIndex) return;
           void applyDnd();
@@ -188,6 +219,21 @@ function nextPosition(cards: Card[], column: ColumnId): number {
     : Math.max(...inCol.map((c) => c.position)) + 1;
 }
 
+function setUiEnabled(enabled: boolean): void {
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-add]")
+    .forEach((btn) => {
+      btn.disabled = !enabled;
+    });
+  for (const s of sortables) s.option("disabled", !enabled);
+}
+
+function setLoadError(visible: boolean): void {
+  const el = document.getElementById("kb-load-error");
+  if (!el) return;
+  el.hidden = !visible;
+}
+
 function setStatus(text: string, autoClearMs = 0): void {
   const el = document.getElementById("kb-status");
   if (!el) return;
@@ -207,5 +253,5 @@ function toast(message: string): void {
   if (toastTimer) window.clearTimeout(toastTimer);
   toastTimer = window.setTimeout(() => {
     el.hidden = true;
-  }, 3500);
+  }, 4500);
 }

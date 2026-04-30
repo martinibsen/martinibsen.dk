@@ -7,7 +7,12 @@
 // effectively never simultaneous.
 
 import type { APIRoute } from "astro";
-import { readBoard, sanitizeBoard, writeBoard } from "../../lib/kanban-storage";
+import {
+  readBoard,
+  readRawBoard,
+  sanitizeBoard,
+  writeBoard,
+} from "../../lib/kanban-storage";
 import {
   COLUMN_IDS,
   type Assignee,
@@ -45,13 +50,32 @@ export const PUT: APIRoute = async ({ request }) => {
     return json(400, { ok: false, error: "Ugyldig JSON i request." });
   }
 
-  const incoming = (parsed as { board?: unknown })?.board;
-  const validated = validateBoard(incoming);
+  const body = parsed as { board?: unknown; expectedUpdatedAt?: unknown };
+
+  if (typeof body.expectedUpdatedAt !== "string") {
+    return json(400, {
+      ok: false,
+      error: "Mangler expectedUpdatedAt — genindlæs siden og prøv igen.",
+    });
+  }
+
+  const validated = validateBoard(body.board);
   if (!validated) {
     return json(400, { ok: false, error: "Boardet har ugyldigt format." });
   }
 
   try {
+    // Optimistic concurrency: if a board exists and the caller is not in sync
+    // with the latest version, refuse the write so they don't clobber data
+    // they never saw. Fresh stores (no board yet) accept any first write.
+    const current = await readRawBoard();
+    if (current !== null && current.updatedAt !== body.expectedUpdatedAt) {
+      return json(409, {
+        ok: false,
+        error: "conflict",
+        board: current,
+      });
+    }
     const saved = await writeBoard(sanitizeBoard(validated));
     return json(200, { ok: true, board: saved });
   } catch (err) {

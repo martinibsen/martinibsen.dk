@@ -20,11 +20,19 @@ function store(): Store {
 }
 
 export async function readBoard(): Promise<Board> {
+  const raw = await readRawBoard();
+  return raw ?? emptyBoard();
+}
+
+/**
+ * Returns the persisted board, or null if no board has been written yet.
+ * Used by the PUT handler to distinguish "fresh install" from "version mismatch".
+ */
+export async function readRawBoard(): Promise<Board | null> {
   const raw = await store().get(BOARD_KEY, { type: "json" });
-  if (!raw || typeof raw !== "object") return emptyBoard();
+  if (!raw || typeof raw !== "object") return null;
   const board = raw as Board;
-  // Defensive: ensure cards array exists and is sorted by position per column.
-  if (!Array.isArray(board.cards)) return emptyBoard();
+  if (!Array.isArray(board.cards)) return null;
   return board;
 }
 

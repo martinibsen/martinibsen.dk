@@ -13,6 +13,14 @@ import { COLUMN_IDS, COLUMN_LABELS } from '../lib/kanban-types';
             <div class="kb-status" id="kb-status" aria-live="polite">Henter…</div>
         </header>
 
+        <div class="kb-load-error" id="kb-load-error" role="alert" hidden>
+            <div>
+                <strong>Kunne ikke hente boardet.</strong>
+                <span>Tjek din internetforbindelse og prøv igen. Indtil boardet er hentet er ændringer låst — det forhindrer at gamle data overskrives.</span>
+            </div>
+            <button type="button" id="kb-retry">Prøv igen</button>
+        </div>
+
         <div class="kb-board">
             {COLUMN_IDS.map((col) => (
                 <section class="kb-column" data-column={col}>
@@ -26,6 +34,13 @@ import { COLUMN_IDS, COLUMN_LABELS } from '../lib/kanban-types';
                 </section>
             ))}
         </div>
+        <section class="kb-cal-wrap" aria-labelledby="kb-cal-title">
+            <header class="kb-cal-head">
+                <h2 id="kb-cal-title">Kalender</h2>
+                <span class="kb-cal-legend">M = Martin · S = Sophia · 6 mdr. fra denne måned</span>
+            </header>
+            <div class="kb-cal" id="kb-cal" aria-live="polite"></div>
+        </section>
     </main>
 
     <dialog class="kb-modal" id="kb-modal" aria-labelledby="kb-modal-title">
