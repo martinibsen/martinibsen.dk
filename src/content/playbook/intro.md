@@ -24,7 +24,7 @@ Hvis du leder efter en checkliste til "AI-transformation", er det her ikke for d
 
 ## Hvorfor denne rammepyramide
 
-De fleste AI-transformationer starter i bunden, med værktøjer. "Vi rullede Copilot ud." "Vi har fået Cursor-licenser." "Vi bruger ChatGPT Enterprise."
+Min tese er at de fleste AI-transformationer starter i bunden, med værktøjer. "Vi rullede Copilot ud." "Vi har fået Cursor-licenser." "Vi bruger ChatGPT Enterprise."
 
 Det er den hurtigste vej til en fejlslagen transformation.
 
