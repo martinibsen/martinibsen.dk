@@ -94,7 +94,7 @@ Vi leder efter sweet spot mellem tre ting:
 
 <figure class="pb-figure"><svg class="pb-venn" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="venn-title venn-desc"><title id="venn-title">Sweet spot for den nye produktleder</title><desc id="venn-desc">Tre overlappende cirkler: domæneviden, discovery og dømmekraft, med den nye produktleder i sweet spot i midten.</desc><circle class="ring" data-ring="0" cx="340" cy="195" r="130"/><circle class="ring" data-ring="1" cx="275" cy="307.5" r="130"/><circle class="ring" data-ring="2" cx="405" cy="307.5" r="130"/><text class="label" x="340" y="115" text-anchor="middle">Domæneviden</text><text class="label-sub" x="340" y="135" text-anchor="middle">Industri, kunder, mønstre</text><text class="label" x="195" y="395" text-anchor="middle">Discovery</text><text class="label-sub" x="195" y="415" text-anchor="middle">Test før byg</text><text class="label" x="485" y="395" text-anchor="middle">Dømmekraft</text><text class="label-sub" x="485" y="415" text-anchor="middle">Sig nej til 90%</text><a href="#tre-kompetenceområder--ikke-tre-nye-titler" class="sweet-link" aria-label="Den nye produktleder, gå til Tre kompetenceområder"><rect class="sweet-hit" x="280" y="220" width="120" height="60" rx="2"/><text class="sweet-text" x="340" y="245" text-anchor="middle">Den nye</text><text class="sweet-text" x="340" y="263" text-anchor="middle">produktleder</text></a></svg><figcaption class="pb-figcaption">Sweet spot: der hvor de tre overlapper, sidder den nye produktleder.</figcaption></figure>
 
-Forskningen peger samme vej. En undersøgelse fra 2026 af 174 produktledere konkluderer at AI literacy, evaluation discipline og decision support design bliver core competencies for produktledere fremadrettet — netop fordi cognitive overload og decision fatigue er den primære risiko når informationsmængden stiger.[^oladeji] Marty Cagan har i årevis argumenteret for at evnen til at sige nej er kerne i god produktledelse.[^cagan] Melissa Perri kalder build trap den største systemiske risiko i moderne produktudvikling.[^perri] Og John Cutler peger eksplicit på decision quality som det nye flaskehals i AI-augmented teams.[^cutler]
+Forskningen peger samme vej. En undersøgelse fra 2026 af 174 produktledere konkluderer at AI literacy, evaluation discipline og decision support design bliver core competencies for produktledere fremadrettet (Oladeji, 2026), netop fordi cognitive overload og decision fatigue er den primære risiko når informationsmængden stiger. Marty Cagan har i årevis argumenteret for at evnen til at sige nej er kerne i god produktledelse. Melissa Perri kalder build trap den største systemiske risiko i moderne produktudvikling. Og John Cutler peger eksplicit på decision quality som det nye flaskehals i AI-augmented teams.
 
 Den nye produktleder bor i sweet spot. Hverken i prompt-evner, Figma-skills eller backlog-styring.
 
@@ -114,8 +114,6 @@ En strukturpointe, før det er en personalepointe. Hvis output stadig er det der
 
 Tværgående koordinering forsvinder ikke. Den minimeres, men er stadig til stede.
 
-Den klassiske ramme har været rollebaseret: et stort program, tildelt en *program architect*, der skal sikre kohærens på tværs.
-
 I en AI-tid tror jeg at koordineringen flytter sig fra rolle til værdistrøm. Du organiserer dig efter den vej en kundes problem rejser fra start til løsning, og lader teams følge værdistrømmen frem for at tildele dem komponenter. Roller skal stadig findes, men de er sekundære til hvad strukturen betjener.
 
 Forskningen er enig om at moderate koordineringsniveauer slår både minimal og maksimal koordinering (Hahn et al., 2025). I store organisationer findes der 27 forskellige mekanismer der kan bære den koordinering (Berntzen et al., 2023).
@@ -130,8 +128,3 @@ I et nyt produktteam i morgen ville jeg skrive ét princip på væggen:
 
 <!-- TODO: 'facilitering' her er nu inkonsistent med sweet spot-trioen ovenfor (domæneviden, discovery, dømmekraft). Lad stå indtil Martin afgør om sætningen skal opdateres. -->
 Det er den ramme alt andet hænger på. Sweet spot mellem domæneviden, discovery og facilitering hører til kompetencelaget, ikke væggen. Men de to ting hænger sammen: færre mennesker bliver kun til virkelighed hvis de få der er, har den rette kombination af kompetencer.
-
-[^oladeji]: Oladeji, B. (2026). *The Changing Cognitive Role of Product Managers in the Age of AI: Why Human Judgment Alone Is No Longer Sufficient.* American Journal of Data, Information and Knowledge Management. <https://consensus.app/papers/details/0edbccc45d4e5218b930fad31076a713/>
-[^cagan]: Cagan, M. *Inspired: How to Create Tech Products Customers Love* (2nd ed.) og *Empowered: Ordinary People, Extraordinary Products.*
-[^perri]: Perri, M. *Escaping the Build Trap: How Effective Product Management Creates Real Value.*
-[^cutler]: Cutler, J. North Star Framework og løbende essays om decision quality, bl.a. "The AI Playbook" (2025).
