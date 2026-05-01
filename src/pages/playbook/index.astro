@@ -1,0 +1,187 @@
+---
+import '../../styles/global.css';
+import { getCollection } from 'astro:content';
+
+const all = await getCollection('playbook');
+const sorted = all.sort((a, b) => a.data.order - b.data.order);
+const intro = sorted.find((e) => e.data.order === 0);
+const layers = sorted.filter((e) => e.data.order >= 1 && e.data.order <= 5);
+const tools = sorted.find((e) => e.data.order === 6);
+
+// Pyramid: layer 1 (foundation) at the bottom, layer 5 at the top.
+// We render top-to-bottom in source order, so reverse layers.
+const pyramid = [...layers].reverse(); // i=0 (top, lag-5) → i=4 (bottom, lag-1)
+
+const title = 'Playbook — AI produktledelse · Martin Ibsen';
+const description = 'Et whitepaper i fem lag om at lede produkt med AI: kultur, organisation, kompetencer, processer og værktøjer.';
+---
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+</head>
+<body>
+    <nav class="nav">
+        <a class="brand" href="/">MARTIN IBSEN</a>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="links" id="nav-links">
+            <a href="/#projekter">PROJEKTER</a>
+            <a href="/om">HEJ</a>
+            <a href="/tanker">TANKER</a>
+            <a href="/#nyhedsbrev">NYHEDSBREV</a>
+            <a href="mailto:mail@martinibsen.dk">KONTAKT</a>
+        </div>
+    </nav>
+
+    <div class="pb-home">
+        <header class="pb-hero">
+            <h1>AI produktledelse <em>playbook</em>.</h1>
+            <div class="meta-block">
+                <div class="meta">
+                    <div class="row"><span>Format</span><span>Whitepaper · 5 lag</span></div>
+                    <div class="row"><span>Forfatter</span><span>Martin Ibsen</span></div>
+                    <div class="row"><span>Sidst opdateret</span><span>2026</span></div>
+                    <div class="row"><span>Læsetid</span><span>~45 min samlet</span></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="pb-intro-prose">
+            <p>
+                [Indhold kommer fra Notion — paste forsidens introduktionstekst ind her. 1–3 korte afsnit der forklarer hvad playbookens fem lag er, og hvordan man læser den.]
+            </p>
+            <p>
+                [Andet afsnit. Beskriv kort hvorfor lagene er organiseret nedefra og op — kultur og identitet som fundament, værktøjer og software i toppen.]
+            </p>
+        </section>
+
+        <section class="pb-pyramid-wrap" aria-label="Pyramide over de fem lag">
+            <div class="pb-pyramid-eyebrow">— De fem lag</div>
+            <svg
+                class="pb-pyramid"
+                viewBox="0 0 720 320"
+                role="img"
+                aria-label="Pyramide med 5 lag. Klik et lag for at læse det."
+            >
+                {pyramid.map((entry, i) => {
+                    const layerNum = entry.data.order;
+                    const cx = 360;
+                    const bandH = 56;
+                    const top = 20 + i * bandH;
+                    const bottom = top + bandH;
+                    const halfTop = 100 + i * 40;
+                    const halfBottom = 100 + (i + 1) * 40;
+                    const points = [
+                        [cx - halfTop, top],
+                        [cx + halfTop, top],
+                        [cx + halfBottom, bottom],
+                        [cx - halfBottom, bottom],
+                    ].map(p => p.join(',')).join(' ');
+                    const labelY = top + bandH / 2 + 5;
+                    const titleClean = entry.data.title.replace(/^Lag \d+ — /, '');
+                    const numLabel = `0${layerNum}`;
+                    return (
+                        <a
+                            href={`/playbook/lag-${layerNum}`}
+                            class="pb-pyramid-row"
+                            style={`animation-delay: ${i * 100}ms`}
+                            aria-label={`Lag ${layerNum} — ${titleClean}`}
+                        >
+                            <polygon points={points}></polygon>
+                            <text class="pb-pyramid-num" x={cx - halfTop + 12} y={top + 18} text-anchor="start">
+                                {numLabel}
+                            </text>
+                            <text x={cx} y={labelY} text-anchor="middle" font-size="15" font-weight="500" letter-spacing="-0.01em">
+                                {titleClean}
+                            </text>
+                        </a>
+                    );
+                })}
+            </svg>
+        </section>
+
+        <section class="pb-search-wrap">
+            <div class="pb-search-eyebrow">— Søg i playbook</div>
+            <button type="button" class="pb-search-trigger" data-pb-search-open>
+                <span>Søg på tværs af alle lag…</span>
+                <span class="kbd">⌘K</span>
+            </button>
+        </section>
+
+        <section class="pb-layers" aria-label="Oversigt over alle lag">
+            {intro && (
+                <a class="pb-layer-row" href={`/playbook/${intro.id}`}>
+                    <div class="pb-layer-num">— 00</div>
+                    <div class="pb-layer-title">{intro.data.title}</div>
+                    <div class="pb-layer-meta">{intro.data.estimatedReadTime}</div>
+                    <div class="arrow">→</div>
+                </a>
+            )}
+            {layers.map((e) => (
+                <a class="pb-layer-row" href={`/playbook/${e.id}`}>
+                    <div class="pb-layer-num">— 0{e.data.order}</div>
+                    <div class="pb-layer-title">{e.data.title}</div>
+                    <div class="pb-layer-meta">{e.data.estimatedReadTime}</div>
+                    <div class="arrow">→</div>
+                </a>
+            ))}
+            {tools && (
+                <a class="pb-layer-row" href="/playbook/vaerktojer">
+                    <div class="pb-layer-num">— VK</div>
+                    <div class="pb-layer-title">{tools.data.title}</div>
+                    <div class="pb-layer-meta">{tools.data.estimatedReadTime}</div>
+                    <div class="arrow">→</div>
+                </a>
+            )}
+        </section>
+    </div>
+
+    <!-- Search overlay (Pagefind) -->
+    <div class="pb-search-overlay" id="pb-search" hidden>
+        <div class="pb-search-panel">
+            <div class="pb-search-panel-head">
+                <h2>Søg i playbook</h2>
+                <button class="pb-search-close" data-pb-search-close aria-label="Luk søgning">×</button>
+            </div>
+            <div id="pb-search-ui"></div>
+        </div>
+    </div>
+
+    <script>
+        import { initPlaybookSearch } from '../../scripts/playbook-search.ts';
+        initPlaybookSearch();
+    </script>
+
+    <script is:inline>
+        // Mobile nav toggle
+        (function () {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.getElementById('nav-links');
+            navToggle?.addEventListener('click', () => {
+                const open = navLinks.classList.toggle('is-open');
+                navToggle.setAttribute('aria-expanded', String(open));
+                navToggle.classList.toggle('is-open', open);
+            });
+            navLinks?.querySelectorAll('a').forEach((a) =>
+                a.addEventListener('click', () => {
+                    navLinks.classList.remove('is-open');
+                    navToggle?.classList.remove('is-open');
+                    navToggle?.setAttribute('aria-expanded', 'false');
+                })
+            );
+        })();
+
+    </script>
+</body>
+</html>

@@ -12,4 +12,15 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+const playbook = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/playbook' }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    order: z.number(),
+    principle: z.string(),
+    estimatedReadTime: z.string(),
+  }),
+});
+
+export const collections = { blog, playbook };

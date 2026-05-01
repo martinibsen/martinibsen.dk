@@ -1,0 +1,247 @@
+---
+import '../../styles/global.css';
+import { getCollection, render } from 'astro:content';
+import { tools, TOOL_CATEGORIES, LAST_UPDATED } from '../../data/playbook-tools';
+
+const all = await getCollection('playbook');
+const sorted = all.sort((a, b) => a.data.order - b.data.order);
+const entry = sorted.find((e) => e.id === 'vaerktojer');
+if (!entry) throw new Error('vaerktojer.md not found in playbook collection');
+
+const { Content } = await render(entry);
+const { title, subtitle, principle, estimatedReadTime } = entry.data;
+
+const formatStamp = (s: string) => {
+    const [y, m, d] = s.split('-');
+    return `${d}.${m}.${y}`;
+};
+
+const allCategories = ['Alle', ...TOOL_CATEGORIES];
+
+const pageTitle = `${title} — Playbook · Martin Ibsen`;
+const description = subtitle;
+---
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+</head>
+<body>
+    <div id="progress"></div>
+
+    <nav class="nav">
+        <a class="brand" href="/">MARTIN IBSEN</a>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="links" id="nav-links">
+            <a href="/#projekter">PROJEKTER</a>
+            <a href="/om">HEJ</a>
+            <a href="/tanker">TANKER</a>
+            <a href="/#nyhedsbrev">NYHEDSBREV</a>
+            <a href="mailto:mail@martinibsen.dk">KONTAKT</a>
+        </div>
+    </nav>
+
+    <div class="pb-shell">
+        <aside class="pb-aside" aria-label="Playbook lag-navigation">
+            <div class="pb-aside-eyebrow">Playbook</div>
+            <ul class="pb-aside-list">
+                {sorted.map((e) => {
+                    const num = e.data.order === 0 ? '00' : e.data.order === 6 ? 'VK' : String(e.data.order).padStart(2, '0');
+                    const href = e.id === 'vaerktojer' ? '/playbook/vaerktojer' : `/playbook/${e.id}`;
+                    return (
+                        <li>
+                            <a href={href} class={e.id === 'vaerktojer' ? 'is-current' : ''}>
+                                <span class="num">{num}</span>
+                                <span>{e.data.title.replace(/^Lag \d+ — /, '')}</span>
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
+            <button type="button" class="pb-search-trigger" data-pb-search-open style="margin-top: 24px;">
+                <span>Søg playbook</span>
+                <span class="kbd">⌘K</span>
+            </button>
+        </aside>
+
+        <main class="pb-article">
+            <details class="pb-mobile-nav">
+                <summary>Lag · VK / VÆRKTØJER</summary>
+                <div class="pb-mobile-nav-inner">
+                    <ul class="pb-aside-list">
+                        {sorted.map((e) => {
+                            const num = e.data.order === 0 ? '00' : e.data.order === 6 ? 'VK' : String(e.data.order).padStart(2, '0');
+                            const href = e.id === 'vaerktojer' ? '/playbook/vaerktojer' : `/playbook/${e.id}`;
+                            return (
+                                <li>
+                                    <a href={href} class={e.id === 'vaerktojer' ? 'is-current' : ''}>
+                                        <span class="num">{num}</span>
+                                        <span>{e.data.title.replace(/^Lag \d+ — /, '')}</span>
+                                    </a>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            </details>
+
+            <div class="pb-article-meta">
+                <span>VK / VÆRKTØJER</span>
+                <span class="dot">{estimatedReadTime}</span>
+            </div>
+
+            <h1>{title}</h1>
+            {subtitle && <p class="pb-lede">{subtitle}</p>}
+
+            <article class="pb-article-body" data-pagefind-body data-pagefind-meta="lag:Værktøjsoversigten">
+                <Content />
+            </article>
+
+            <div class="pb-tools-stamp">
+                <span>Sidst opdateret <strong>{formatStamp(LAST_UPDATED)}</strong></span>
+                <span>Levende dokument</span>
+            </div>
+
+            <div class="pb-tools-filters" id="pb-tools-filters" role="tablist" aria-label="Filtrér værktøjer efter kategori">
+                {allCategories.map((cat, i) => (
+                    <button
+                        type="button"
+                        class={`pb-pill${i === 0 ? ' is-active' : ''}`}
+                        data-cat={cat}
+                        role="tab"
+                        aria-selected={i === 0 ? 'true' : 'false'}
+                    >
+                        {cat}
+                    </button>
+                ))}
+            </div>
+
+            <div class="pb-tools-grid" id="pb-tools-grid">
+                {tools.map((t) => (
+                    <a
+                        class="pb-tool-card"
+                        href={t.url}
+                        target="_blank"
+                        rel="noopener"
+                        data-cat={t.category}
+                    >
+                        <div class="pb-tool-name">{t.name}</div>
+                        <div class="pb-tool-desc">{t.desc}</div>
+                        <div class="pb-tool-foot">
+                            <span class="pb-tool-cat">{t.category}</span>
+                            <span class="pb-tool-arrow">→</span>
+                        </div>
+                    </a>
+                ))}
+                <div class="pb-tools-empty" id="pb-tools-empty" hidden>
+                    Ingen værktøjer i denne kategori endnu.
+                </div>
+            </div>
+
+            {principle && (
+                <aside class="pb-principle" aria-label="Princippet for værktøjsvalg">
+                    <div class="lbl">— Princippet</div>
+                    <p>{principle}</p>
+                </aside>
+            )}
+        </main>
+
+        <aside class="pb-toc" aria-label="Genveje">
+            <div class="pb-toc-eyebrow">Genveje</div>
+            <ul class="pb-toc-list">
+                <li><a href="/playbook">← Tilbage til oversigten</a></li>
+                <li><a href="/playbook/lag-5">Lag 5 — Værktøjer & software</a></li>
+            </ul>
+        </aside>
+    </div>
+
+    <!-- Search overlay -->
+    <div class="pb-search-overlay" id="pb-search" hidden>
+        <div class="pb-search-panel">
+            <div class="pb-search-panel-head">
+                <h2>Søg i playbook</h2>
+                <button class="pb-search-close" data-pb-search-close aria-label="Luk søgning">×</button>
+            </div>
+            <div id="pb-search-ui"></div>
+        </div>
+    </div>
+
+    <script>
+        import { initPlaybookSearch } from '../../scripts/playbook-search.ts';
+        initPlaybookSearch();
+    </script>
+
+    <script is:inline>
+        // Reading progress bar
+        (function () {
+            const bar = document.getElementById('progress');
+            if (!bar) return;
+            function onScroll() {
+                const h = document.documentElement;
+                const pct = (h.scrollTop / Math.max(1, (h.scrollHeight - h.clientHeight))) * 100;
+                bar.style.width = pct + '%';
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        // Mobile site-nav
+        (function () {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.getElementById('nav-links');
+            navToggle?.addEventListener('click', () => {
+                const open = navLinks.classList.toggle('is-open');
+                navToggle.setAttribute('aria-expanded', String(open));
+                navToggle.classList.toggle('is-open', open);
+            });
+            navLinks?.querySelectorAll('a').forEach((a) =>
+                a.addEventListener('click', () => {
+                    navLinks.classList.remove('is-open');
+                    navToggle?.classList.remove('is-open');
+                    navToggle?.setAttribute('aria-expanded', 'false');
+                })
+            );
+        })();
+
+        // Filter pills
+        (function () {
+            const filters = document.getElementById('pb-tools-filters');
+            const grid = document.getElementById('pb-tools-grid');
+            const empty = document.getElementById('pb-tools-empty');
+            if (!filters || !grid) return;
+            const cards = Array.from(grid.querySelectorAll('.pb-tool-card'));
+            let active = 'Alle';
+
+            filters.addEventListener('click', (e) => {
+                const btn = e.target.closest('button.pb-pill');
+                if (!btn) return;
+                active = btn.dataset.cat;
+                filters.querySelectorAll('button.pb-pill').forEach((b) => {
+                    const on = b.dataset.cat === active;
+                    b.classList.toggle('is-active', on);
+                    b.setAttribute('aria-selected', on ? 'true' : 'false');
+                });
+                let visible = 0;
+                cards.forEach((c) => {
+                    const show = active === 'Alle' || c.dataset.cat === active;
+                    c.style.display = show ? '' : 'none';
+                    if (show) visible++;
+                });
+                if (empty) empty.hidden = visible !== 0;
+            });
+        })();
+
+    </script>
+</body>
+</html>
