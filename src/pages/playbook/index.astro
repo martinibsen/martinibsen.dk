@@ -15,6 +15,12 @@ const pyramid = [...layers]; // i=0 (top, lag-1) → i=4 (bottom, lag-5)
 
 const title = 'Playbook — AI produktledelse · Martin Ibsen';
 const description = 'Et whitepaper i fem lag om at lede produkt med AI: kultur, organisation, kompetencer, processer og værktøjer.';
+
+// Last updated reflects the build time. Every push triggers a Netlify
+// build, so this stays close to "actual last edit" for free.
+const monthsDa = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'];
+const now = new Date();
+const lastUpdated = `${now.getDate()}. ${monthsDa[now.getMonth()]} ${now.getFullYear()}`;
 ---
 
 <!DOCTYPE html>
@@ -52,7 +58,7 @@ const description = 'Et whitepaper i fem lag om at lede produkt med AI: kultur, 
                 <div class="meta">
                     <div class="row"><span>Format</span><span>Whitepaper · 5 lag</span></div>
                     <div class="row"><span>Forfatter</span><span>Martin Ibsen</span></div>
-                    <div class="row"><span>Sidst opdateret</span><span>2026</span></div>
+                    <div class="row"><span>Sidst opdateret</span><span>{lastUpdated}</span></div>
                     <div class="row"><span>Læsetid</span><span>~45 min samlet</span></div>
                 </div>
             </div>

@@ -2127,16 +2127,18 @@ img { max-width: 100%; display: block; }
 .pb-aside-list a:hover { padding-left: 4px; }
 .pb-aside-list a.is-current { color: var(--fg); }
 .pb-aside-list a.is-current .num { color: var(--fg); }
-.pb-aside-list a.is-current::before {
+.pb-aside-list li { position: relative; }
+.pb-aside-list li:has(a.is-current)::before {
     content: "›";
     position: absolute;
-    margin-left: -14px;
-    margin-top: 9px;
+    left: -14px;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--fg);
     font-family: var(--font-display);
-    font-size: 12px;
+    font-size: 14px;
+    line-height: 1;
 }
-.pb-aside-list li { position: relative; }
 
 /* TOC */
 .pb-toc {
