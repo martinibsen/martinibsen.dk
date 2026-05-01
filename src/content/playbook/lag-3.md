@@ -60,7 +60,7 @@ Tilbage er en gammel mellemkategori, den klassiske udvikler der byggede CRUD og 
 
 ## Det er ikke A og B hold. Det er kontekst.
 
-Nogle vil kalde det A-hold og B-hold. Det er en dårlig framing. Det handler ikke om hvem der er klogest, det handler om hvem der har et growth mindset, og hvem der har et fixed mindset.
+Nogle vil kalde det A-hold og B-hold. Det handler ikke om hvem der er klogest, det handler om hvem der har et growth mindset, og hvem der har et fixed mindset.
 
 Nuancen er vigtig. Fixed mindset er ikke karakter, det er kontekst. Folk med 15 års erfaring har ofte været belønnet for at være *eksperten*. Det er rationelt at klamre sig til den identitet, når den har været nyttig hele karrieren. Pointen er ikke at fixed mindset er en personlighedsfejl. Pointen er at den belønningsstruktur der skabte det, er ved at forsvinde.
 
