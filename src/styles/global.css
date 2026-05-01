@@ -1925,6 +1925,10 @@ img { max-width: 100%; display: block; }
     line-height: 1.5;
     color: var(--fg);
 }
+.pb-intro-prose em {
+    font-style: italic;
+    font-weight: inherit;
+}
 
 /* --- Pyramid SVG -------------------------------------------------------- */
 .pb-pyramid-wrap {

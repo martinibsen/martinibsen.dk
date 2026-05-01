@@ -125,7 +125,7 @@ const orderLabel = order === 0 ? '00 / INTRO' : order === 6 ? '06 / VÆRKTØJER'
                 </details>
             )}
 
-            <article class="pb-article-body" data-pagefind-body data-pagefind-meta={`lag:${title}`}>
+            <article class="pb-article-body" data-pagefind-body data-pagefind-meta={`lag:${title.replace(/^Lag \d+ — /, '')}`}>
                 <slot />
             </article>
 
