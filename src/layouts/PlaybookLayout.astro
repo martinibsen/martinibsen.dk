@@ -1,0 +1,293 @@
+---
+import '../styles/global.css';
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import PlaybookFooter from '../components/PlaybookFooter.astro';
+
+interface Props {
+    entry: CollectionEntry<'playbook'>;
+    headings: MarkdownHeading[];
+    allEntries: CollectionEntry<'playbook'>[];
+}
+
+const { entry, headings, allEntries } = Astro.props;
+const { title, subtitle, principle, estimatedReadTime, order } = entry.data;
+
+const sorted = [...allEntries].sort((a, b) => a.data.order - b.data.order);
+const currentIdx = sorted.findIndex(e => e.id === entry.id);
+const next = currentIdx >= 0 && currentIdx < sorted.length - 1 ? sorted[currentIdx + 1] : null;
+
+const slugForEntry = (e: CollectionEntry<'playbook'>) => e.id;
+
+const tocHeadings = headings.filter(h => h.depth === 2);
+
+const description = subtitle;
+const pageTitle = `${title} — Playbook · Martin Ibsen`;
+
+const orderLabel = order === 0 ? '00 / INTRO' : order === 6 ? '06 / VÆRKTØJER' : `0${order} / LAG ${order}`;
+---
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+</head>
+<body>
+    <div id="progress"></div>
+
+    <nav class="nav">
+        <a class="brand" href="/">MARTIN IBSEN</a>
+        <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="links" id="nav-links">
+            <a href="/#projekter">PROJEKTER</a>
+            <a href="/om">HEJ</a>
+            <a href="/tanker">TANKER</a>
+            <a href="/#nyhedsbrev">NYHEDSBREV</a>
+            <a href="mailto:mail@martinibsen.dk">KONTAKT</a>
+        </div>
+    </nav>
+
+    <div class="pb-shell">
+        <!-- Sticky lag-nav (desktop) -->
+        <aside class="pb-aside" aria-label="Playbook lag-navigation">
+            <a href="/playbook" class="pb-aside-eyebrow pb-aside-eyebrow--link">← Playbook</a>
+            <ul class="pb-aside-list">
+                {sorted.map((e) => {
+                    const num = e.data.order === 0 ? '00' : e.data.order === 6 ? 'VK' : String(e.data.order).padStart(2, '0');
+                    const href = e.id === 'vaerktojer' ? '/playbook/vaerktojer' : `/playbook/${slugForEntry(e)}`;
+                    return (
+                        <li>
+                            <a href={href} class={e.id === entry.id ? 'is-current' : ''}>
+                                <span class="num">{num}</span>
+                                <span>{e.data.title.replace(/^Lag \d+ — /, '')}</span>
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
+            <button type="button" class="pb-search-trigger" data-pb-search-open style="margin-top: 24px;">
+                <span>Søg playbook</span>
+                <span class="kbd">⌘K</span>
+            </button>
+        </aside>
+
+        <!-- Article -->
+        <main class="pb-article">
+            <details class="pb-mobile-nav">
+                <summary>Lag · {orderLabel}</summary>
+                <div class="pb-mobile-nav-inner">
+                    <ul class="pb-aside-list">
+                        {sorted.map((e) => {
+                            const num = e.data.order === 0 ? '00' : e.data.order === 6 ? 'VK' : String(e.data.order).padStart(2, '0');
+                            const href = e.id === 'vaerktojer' ? '/playbook/vaerktojer' : `/playbook/${slugForEntry(e)}`;
+                            return (
+                                <li>
+                                    <a href={href} class={e.id === entry.id ? 'is-current' : ''}>
+                                        <span class="num">{num}</span>
+                                        <span>{e.data.title.replace(/^Lag \d+ — /, '')}</span>
+                                    </a>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            </details>
+
+            <div class="pb-article-meta">
+                <a href="/playbook" class="pb-back-link">← Playbook</a>
+                <span class="dot">{orderLabel}</span>
+                <span class="dot">{estimatedReadTime}</span>
+            </div>
+
+            <h1>{title}</h1>
+            {subtitle && <p class="pb-lede">{subtitle}</p>}
+
+            {tocHeadings.length > 0 && (
+                <details class="pb-mobile-toc">
+                    <summary>Indhold</summary>
+                    <div class="pb-mobile-toc-inner">
+                        <ul class="pb-toc-list">
+                            {tocHeadings.map((h) => (
+                                <li><a href={`#${h.slug}`}>{h.text}</a></li>
+                            ))}
+                        </ul>
+                    </div>
+                </details>
+            )}
+
+            <article class="pb-article-body" data-pagefind-body data-pagefind-meta={`lag:${title.replace(/^Lag \d+ — /, '')}`}>
+                <slot />
+            </article>
+
+            <section class="pb-anno-list" id="pb-anno-list" hidden>
+                <header>
+                    <h2>Kommentarer fra læsere</h2>
+                    <span class="pb-anno-count">0</span>
+                </header>
+                <ol class="pb-anno-list-items"></ol>
+            </section>
+
+            {principle && (
+                <aside class="pb-principle" aria-label="Princippet for dette lag">
+                    <div class="lbl">— Princippet</div>
+                    <p>{principle}</p>
+                </aside>
+            )}
+
+            {next && (
+                <a class="pb-next" href={next.id === 'vaerktojer' ? '/playbook/vaerktojer' : `/playbook/${next.id}`}>
+                    <div>
+                        <div class="lbl">Næste{next.data.order === 6 ? '' : ' lag'}</div>
+                        <div class="ttl">{next.data.title}</div>
+                    </div>
+                    <div class="arrow">→</div>
+                </a>
+            )}
+        </main>
+
+        <!-- Sticky TOC (desktop) -->
+        {tocHeadings.length > 0 && (
+            <aside class="pb-toc" aria-label="Indhold">
+                <div class="pb-toc-eyebrow">Indhold</div>
+                <ul class="pb-toc-list">
+                    {tocHeadings.map((h) => (
+                        <li><a href={`#${h.slug}`} data-toc-link={h.slug}>{h.text}</a></li>
+                    ))}
+                </ul>
+            </aside>
+        )}
+    </div>
+
+    <PlaybookFooter />
+
+    <!-- Annotation toolbar (positioned by JS near selection) -->
+    <div class="pb-anno-toolbar" id="pb-anno-toolbar" role="toolbar" aria-label="Markeringsværktøj" hidden>
+        <button type="button" data-pb-anno-comment>Kommentér</button>
+    </div>
+
+    <!-- Annotation modal -->
+    <dialog class="pb-anno-modal" id="pb-anno-modal" aria-labelledby="pb-anno-modal-title">
+        <form>
+            <header>
+                <h2 id="pb-anno-modal-title">Skriv en kommentar</h2>
+                <button type="button" class="pb-anno-close" data-pb-anno-close aria-label="Luk">×</button>
+            </header>
+            <blockquote class="pb-anno-modal-quote"></blockquote>
+            <label class="pb-anno-field">
+                <span>Kommentar</span>
+                <textarea name="comment" maxlength="500" required rows="4" placeholder="Hvad tænker du om dette?"></textarea>
+            </label>
+            <label class="pb-anno-field">
+                <span>Navn (valgfri)</span>
+                <input type="text" name="author" maxlength="80" placeholder="Anonym" autocomplete="name" />
+            </label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="pb-anno-honeypot" aria-hidden="true" />
+            <p class="pb-anno-error" hidden></p>
+            <footer>
+                <button type="button" class="pb-anno-cancel" data-pb-anno-close>Annullér</button>
+                <button type="submit" class="pb-anno-submit">Send</button>
+            </footer>
+        </form>
+    </dialog>
+
+    <!-- Annotation hover popover -->
+    <div class="pb-anno-popover" id="pb-anno-popover" role="tooltip" hidden></div>
+
+    <!-- Search overlay (Pagefind) -->
+    <div class="pb-search-overlay" id="pb-search" hidden>
+        <div class="pb-search-panel">
+            <div class="pb-search-panel-head">
+                <h2>Søg i playbook</h2>
+                <button class="pb-search-close" data-pb-search-close aria-label="Luk søgning">×</button>
+            </div>
+            <div id="pb-search-ui"></div>
+        </div>
+    </div>
+
+    <script>
+        import { initPlaybookSearch } from '../scripts/playbook-search.ts';
+        import { initPlaybookAnnotations } from '../scripts/playbook-annotations.ts';
+        initPlaybookSearch();
+        initPlaybookAnnotations();
+    </script>
+
+    <script is:inline>
+        // Reading progress bar
+        (function () {
+            const bar = document.getElementById('progress');
+            if (!bar) return;
+            function onScroll() {
+                const h = document.documentElement;
+                const pct = (h.scrollTop / Math.max(1, (h.scrollHeight - h.clientHeight))) * 100;
+                bar.style.width = pct + '%';
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        // Mobile nav toggle (top site nav)
+        (function () {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navLinks = document.getElementById('nav-links');
+            navToggle?.addEventListener('click', () => {
+                const open = navLinks.classList.toggle('is-open');
+                navToggle.setAttribute('aria-expanded', String(open));
+                navToggle.classList.toggle('is-open', open);
+            });
+            navLinks?.querySelectorAll('a').forEach((a) =>
+                a.addEventListener('click', () => {
+                    navLinks.classList.remove('is-open');
+                    navToggle?.classList.remove('is-open');
+                    navToggle?.setAttribute('aria-expanded', 'false');
+                })
+            );
+        })();
+
+        // Sweet spot Venn — hover dims the other rings; sweet spot scrolls
+        (function () {
+            const venn = document.querySelector('.pb-venn');
+            if (!venn) return;
+            const rings = venn.querySelectorAll('.ring');
+            rings.forEach((ring) => {
+                const idx = ring.getAttribute('data-ring');
+                ring.addEventListener('mouseenter', () => venn.setAttribute('data-hover', idx));
+                ring.addEventListener('mouseleave', () => venn.removeAttribute('data-hover'));
+            });
+        })();
+
+        // TOC active-section highlighting
+        (function () {
+            const links = document.querySelectorAll('[data-toc-link]');
+            if (!links.length) return;
+            const map = new Map();
+            links.forEach((a) => {
+                const slug = a.getAttribute('data-toc-link');
+                const target = document.getElementById(slug);
+                if (target) map.set(target, a);
+            });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((e) => {
+                    const link = map.get(e.target);
+                    if (!link) return;
+                    if (e.isIntersecting) {
+                        links.forEach((l) => l.classList.remove('is-active'));
+                        link.classList.add('is-active');
+                    }
+                });
+            }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+            map.forEach((_link, el) => observer.observe(el));
+        })();
+
+    </script>
+</body>
+</html>

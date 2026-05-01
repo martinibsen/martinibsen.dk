@@ -1,0 +1,120 @@
+---
+// Shared footer for all playbook pages — references + method note.
+// Update the references list here and it propagates to every page.
+
+interface Reference {
+    cite: string;
+    note: string;
+    href?: string;
+}
+
+const references: Reference[] = [
+    {
+        cite: 'Aggarwal (2025)',
+        note: 'PM som orchestrator af hybride human-AI workflows.',
+    },
+    {
+        cite: 'Berntzen et al. (2023)',
+        note: '27 koordineringsmekanismer i store agile organisationer — communities of practice, program architects, fælles platforme, inter-team retrospectives.',
+    },
+    {
+        cite: 'Brooks, F. (1975)',
+        note: 'The Mythical Man-Month. Addison-Wesley. Brooks’ law: adding manpower to a late software project makes it later.',
+    },
+    {
+        cite: 'Cagan, M.',
+        note: 'Inspired (2008/2017) og Empowered (2020). SVPG / Wiley. De fire produktrisici — value, usability, viability, feasibility.',
+        href: 'https://www.svpg.com/books/',
+    },
+    {
+        cite: 'Cutler, J.',
+        note: 'Decision quality vs. execution quality; "The AI Playbook"-essayet om at AI gør dårlige idéer værre.',
+        href: 'https://cutlefish.substack.com/',
+    },
+    {
+        cite: 'Hahn et al. (2025)',
+        note: 'Moderate niveauer af tværgående koordinering slår både minimal og maksimal koordinering.',
+    },
+    {
+        cite: 'Li et al. (2024)',
+        note: 'Randomiseret undersøgelse, 435 deltagere på 122 hold: centraliseret AI-brug af få medlemmer slår distribueret engagement.',
+    },
+    {
+        cite: 'Newton et al. (2022)',
+        note: 'Empirisk studie af bots i open source-teams: bots associeret med både højere produktivitet og højere centralisering af arbejdet.',
+    },
+    {
+        cite: 'Oladeji, B. (2026)',
+        note: 'The Changing Cognitive Role of Product Managers in the Age of AI: Why Human Judgment Alone Is No Longer Sufficient. American Journal of Data, Information and Knowledge Management. AI literacy, evaluation discipline og decision support design som core competencies fremadrettet.',
+        href: 'https://consensus.app/papers/details/0edbccc45d4e5218b930fad31076a713/',
+    },
+    {
+        cite: 'Perri, M. (2019)',
+        note: 'Escaping the Build Trap. O’Reilly. Hvordan organisationer falder i fælden med at bygge for meget af det forkerte.',
+        href: 'https://melissaperri.com/book',
+    },
+    {
+        cite: 'Rostami et al. (2019)',
+        note: 'T-shaped vs. generalizing specialists i agile teams. Det ideelle teammedlem er dyb i ét område, bred i andre.',
+    },
+    {
+        cite: 'Scholtes et al. (2015)',
+        note: 'Empirisk studie af 58 open source-projekter med 580.000+ commits og 30.000+ udviklere: koordineringsbehov skalerer ikke-lineært med teamstørrelse.',
+    },
+    {
+        cite: 'Skelton, M. & Pais, M. (2019)',
+        note: 'Team Topologies. IT Revolution. Hvorfor afhængigheder mellem teams er det største skaleringsproblem i moderne software.',
+        href: 'https://teamtopologies.com/',
+    },
+    {
+        cite: 'Sonkin et al. (2025)',
+        note: 'Agentic workflows i produktorganisationer.',
+    },
+    {
+        cite: 'Torres, T. (2021)',
+        note: 'Continuous Discovery Habits. Product Talk. Discovery som muskel, ikke fase.',
+        href: 'https://www.producttalk.org/continuous-discovery-habits/',
+    },
+    {
+        cite: 'Ulloa et al. (2025)',
+        note: 'Microsoft Research, 885 PMs surveyet, 731 med telemetri-data, 15 interviews. "Accountability must not be delegated to non-human actors."',
+    },
+    {
+        cite: 'Zakharov et al. (2025)',
+        note: 'Undersøgelse af 38 udviklere og 102 surveyrespondenter: folk der tildelte AI fluide roller havde højere adoption end folk der låste AI fast på én rolle.',
+    },
+];
+
+const gustavsson: Reference = {
+    cite: 'Gustavsson et al. (2022)',
+    note: 'Multi-case-undersøgelse af tre SAFe-implementeringer: scaling giver bedre overblik og længere planlægningshorisont, men begrænser teams’ autonomi.',
+};
+
+// Insert Gustavsson alphabetically (between G and H)
+const refs = [...references];
+refs.splice(5, 0, gustavsson);
+---
+
+<footer class="pb-footer" id="referencer">
+    <div class="pb-footer-eyebrow">— Referencer &amp; metode</div>
+
+    <div class="pb-footer-method">
+        <h2>Metode</h2>
+        <p>
+            Research-arbejdet bag denne playbook er understøttet af <a href="https://consensus.app/" target="_blank" rel="noopener">consensus.app</a> — en AI-drevet søgemaskine til evidensbaserede svar i videnskabelige artikler. Alle citater og findings er verificeret mod kildernes originaltekst før brug.
+        </p>
+    </div>
+
+    <div class="pb-footer-refs">
+        <h2>Kilder</h2>
+        <ol>
+            {refs.map((r) => (
+                <li>
+                    <span class="pb-ref-cite">{r.href ? <a href={r.href} target="_blank" rel="noopener">{r.cite}</a> : r.cite}</span>
+                    <span class="pb-ref-sep"> — </span>
+                    <span class="pb-ref-note">{r.note}</span>
+                </li>
+            ))}
+        </ol>
+    </div>
+</footer>

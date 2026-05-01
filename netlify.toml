@@ -15,17 +15,3 @@
   to = "https://wardrobeui.com/:splat"
   status = 301
   force = true
-
-# Playbook moved to aiproduktleder.dk — brand decision (May 2026).
-# Keep these 301s indefinitely so old bookmarks still resolve.
-[[redirects]]
-  from = "/playbook"
-  to = "https://aiproduktleder.dk/playbook/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/playbook/*"
-  to = "https://aiproduktleder.dk/playbook/:splat"
-  status = 301
-  force = true

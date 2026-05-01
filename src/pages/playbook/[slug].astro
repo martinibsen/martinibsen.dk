@@ -1,0 +1,23 @@
+---
+import PlaybookLayout from '../../layouts/PlaybookLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+    const all = await getCollection('playbook');
+    // vaerktojer is a standalone page (interactive filter UI), not rendered here
+    return all
+        .filter((e) => e.id !== 'vaerktojer')
+        .map((entry) => ({
+            params: { slug: entry.id },
+            props: { entry },
+        }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const allEntries = await getCollection('playbook');
+---
+
+<PlaybookLayout entry={entry} headings={headings} allEntries={allEntries}>
+    <Content />
+</PlaybookLayout>
