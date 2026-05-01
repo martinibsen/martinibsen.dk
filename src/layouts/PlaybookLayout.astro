@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import type { CollectionEntry } from 'astro:content';
 import type { MarkdownHeading } from 'astro';
+import PlaybookFooter from '../components/PlaybookFooter.astro';
 
 interface Props {
     entry: CollectionEntry<'playbook'>;
@@ -157,6 +158,8 @@ const orderLabel = order === 0 ? '00 / INTRO' : order === 6 ? '06 / VÆRKTØJER'
             </aside>
         )}
     </div>
+
+    <PlaybookFooter />
 
     <!-- Search overlay (Pagefind) -->
     <div class="pb-search-overlay" id="pb-search" hidden>

@@ -2,6 +2,7 @@
 import '../../styles/global.css';
 import { getCollection, render } from 'astro:content';
 import { tools, TOOL_CATEGORIES, LAST_UPDATED } from '../../data/playbook-tools';
+import PlaybookFooter from '../../components/PlaybookFooter.astro';
 
 const all = await getCollection('playbook');
 const sorted = all.sort((a, b) => a.data.order - b.data.order);
@@ -165,6 +166,8 @@ const description = subtitle;
             </ul>
         </aside>
     </div>
+
+    <PlaybookFooter />
 
     <!-- Search overlay -->
     <div class="pb-search-overlay" id="pb-search" hidden>

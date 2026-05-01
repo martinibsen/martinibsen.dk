@@ -1,6 +1,7 @@
 ---
 import '../../styles/global.css';
 import { getCollection } from 'astro:content';
+import PlaybookFooter from '../../components/PlaybookFooter.astro';
 
 const all = await getCollection('playbook');
 const sorted = all.sort((a, b) => a.data.order - b.data.order);
@@ -146,6 +147,8 @@ const description = 'Et whitepaper i fem lag om at lede produkt med AI: kultur, 
             )}
         </section>
     </div>
+
+    <PlaybookFooter />
 
     <!-- Search overlay (Pagefind) -->
     <div class="pb-search-overlay" id="pb-search" hidden>
