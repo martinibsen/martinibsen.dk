@@ -2,7 +2,7 @@
 title: "Lag 1 — Kultur & identitet"
 subtitle: "Identiteten flytter sig fra eksekvering til dømmekraft."
 order: 1
-principle: "Beslut bedre. Byg mindre."
+principle: "Bedre beslutninger, byg mindre."
 estimatedReadTime: "6 min"
 ---
 
@@ -49,7 +49,7 @@ Det er den kontraintuitive pointe ved AI-acceleration. Den løser ikke problemet
 
 Princippet jeg ville skrive på væggen i et nyt team er kort:
 
-> Beslut bedre. Byg mindre.
+> Bedre beslutninger, byg mindre.
 
 Et identitetsudsagn. Vores opgave er at vælge skarpere — ikke at producere mere.
 
@@ -77,7 +77,7 @@ En befrielse, hvis man kan finde sin nye identitet i den.
 
 Hvis jeg startede et team forfra i morgen, ville jeg skrive tre principper på væggen:
 
-1. **Beslut bedre. Byg mindre.**
+1. **Bedre beslutninger, byg mindre.**
 2. **Spørgsmålet er ikke om vi kan, men om vi skal.**
 3. **AI kan generere alt. Vi står inde for det.**
 
