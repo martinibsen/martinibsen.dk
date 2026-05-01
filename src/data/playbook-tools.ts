@@ -9,6 +9,7 @@ export type ToolCategory =
   | 'Governance'
   | 'Discovery'
   | 'Møder'
+  | 'Kommunikation'
   | 'Browser'
   | 'Skrivning';
 
@@ -27,6 +28,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
   'Governance',
   'Discovery',
   'Møder',
+  'Kommunikation',
   'Browser',
   'Skrivning',
 ];
@@ -223,7 +225,33 @@ export const tools: Tool[] = [
     url: 'https://otter.ai',
   },
 
-  // 8. Browser-agenter
+  // 8. Kommunikation & samarbejde
+  {
+    name: 'Linear',
+    desc: 'Issues, specs, roadmap. Bygger AI ind direkte i flowet — den nye standard for moderne produktteams.',
+    category: 'Kommunikation',
+    url: 'https://linear.app',
+  },
+  {
+    name: 'Slack',
+    desc: 'Defacto team-chat. MCP-serveren gør den interessant for agent-flows — meget kontekst lever her.',
+    category: 'Kommunikation',
+    url: 'https://slack.com',
+  },
+  {
+    name: 'Loom',
+    desc: 'Async video. Sparer møder. AI-resuméer gør den brugbar uden at folk ser hele klippet.',
+    category: 'Kommunikation',
+    url: 'https://www.loom.com',
+  },
+  {
+    name: 'Notion',
+    desc: 'Det fælles arbejdsbord — docs, databaser, specs. Som kontekst-lag dækket ovenfor; her er det samarbejds-vinklen.',
+    category: 'Kommunikation',
+    url: 'https://www.notion.com',
+  },
+
+  // 9. Browser-agenter
   {
     name: 'Cowork',
     desc: 'Anthropics browser-agent for ikke-udviklere. Bruger det selv til LinkedIn-scheduling og DNS-arbejde.',
@@ -243,7 +271,7 @@ export const tools: Tool[] = [
     url: 'https://openai.com/index/introducing-operator/',
   },
 
-  // 9. Skrivning og kommunikation
+  // 10. Skrivning
   {
     name: 'Claude (web/app)',
     desc: 'Mit primære værktøj til længere skrivning og strukturering.',

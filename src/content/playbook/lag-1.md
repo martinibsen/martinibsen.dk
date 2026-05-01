@@ -28,40 +28,40 @@ Hvis din identitet som produktleder er bygget på at du skriver krav, er du i pr
 
 Hvis din identitet som designer er bygget på at du laver wireframes, er du i problemer. AI laver wireframes hurtigere end du kan beskrive dem.
 
-PM'en og designeren bliver ikke overflødige af den grund. Men deres identitet kan ikke længere ligge i outputtet. Den skal flytte sig — fra *jeg er den der laver X* til *jeg er den der står inde for at X er det rigtige*.
+PM'en og designeren bliver ikke overflødige af den grund. Men deres identitet kan ikke længere ligge i outputtet. Den skal flytte sig: fra *jeg er den der laver X* til *jeg er den der står inde for at X er det rigtige*.
 
 Marty Cagans fire produktrisici er et brugbart sted at lægge den nye identitet. Risikoområderne kollapser ikke selvom eksekveringen flader ud. De skifter karakter:
 
 - **Feasibility** ændrer sig mest. Det meste *kan* nu bygges. Det interessante spørgsmål er om det *bør* bygges.
 - **Value** bliver vigtigere, ikke mindre vigtig. Når byggeomkostninger falder, stiger prisen ved at bygge det forkerte.
-- **Usability** flytter sig fra UI-detaljer til hele oplevelseskæden — fra første touchpoint til support.
+- **Usability** flytter sig fra UI-detaljer til hele oplevelseskæden, fra første touchpoint til support.
 - **Viability** skal trækkes ind tidligere. Du kan ikke længere gemme spørgsmålet om *vi kan tjene penge* til efter MVP'en.
 
-Fire ansvarsområder en produktleder skal kunne bære — eller fordele bevidst i et team af generalizing specialists.
+Fire ansvarsområder en produktleder skal kunne bære, eller fordele bevidst i et team af generalizing specialists.
 
 ## Build trap bliver værre, ikke bedre
 
-Melissa Perri skrev *Escaping the Build Trap* i en tid hvor det var dyrt at bygge. Hvor det krævede måneder, ressourcer, business cases. Selv da var build trappen et reelt problem — virksomheder byggede ting fordi de kunne, ikke fordi de skulle.
+Melissa Perri skrev *Escaping the Build Trap* i en tid hvor det var dyrt at bygge. Hvor det krævede måneder, ressourcer, business cases. Selv da var build trappen et reelt problem, virksomheder byggede ting fordi de kunne, ikke fordi de skulle.
 
 Tag den verden. Gør byggeomkostningerne marginale. Fjern den naturlige bremse som *det tager seks måneder at lave det her* var. Build trappen bliver dybere. Mere subtil. Sværere at slippe ud af.
 
-Det er den kontraintuitive pointe ved AI-acceleration. Den løser ikke problemet med at bygge for meget af det forkerte. Den forværrer det. Og den gør den vigtigste del af produktledelse — at sige nej, at vente, at undersøge — sværere at forsvare i en organisation hvor alle andre kan bygge med det samme.
+Det er den kontraintuitive pointe ved AI-acceleration. Den løser ikke problemet med at bygge for meget af det forkerte. Den forværrer det. Og den gør den vigtigste del af produktledelse, at sige nej, at vente, at undersøge, sværere at forsvare i en organisation hvor alle andre kan bygge med det samme.
 
 Princippet jeg ville skrive på væggen i et nyt team er kort:
 
 > Bedre beslutninger, byg mindre.
 
-Et identitetsudsagn. Vores opgave er at vælge skarpere — ikke at producere mere.
+Et identitetsudsagn. Vores opgave er at vælge skarpere, ikke at producere mere.
 
 ## Decision quality er det nye flaskehals
 
-John Cutler skelner mellem *decision quality* og *execution quality*. AI accelererer execution. Decision quality er ikke fulgt med — og kan ikke følge med, fordi den kommer fra et andet sted. Den kommer fra kontekst, dømmekraft, brugerforståelse, forretningsforståelse, modet til at sige nej.
+John Cutler skelner mellem *decision quality* og *execution quality*. AI accelererer execution. Decision quality er ikke fulgt med, og kan ikke følge med, fordi den kommer fra et andet sted. Den kommer fra kontekst, dømmekraft, brugerforståelse, forretningsforståelse, modet til at sige nej.
 
 Det er det nye flaskehals. Og det er hvor produktteamet skal lægge sin identitet.
 
 En nyere undersøgelse fra Microsoft Research bekræfter mønsteret. 885 produktledere har svaret på hvordan AI ændrer deres arbejde, suppleret med telemetri og dybdeinterviews (Ulloa et al., 2025). En sætning skiller sig ud: *accountability must not be delegated to non-human actors*.
 
-Det er kulturlagets fundament. AI kan generere. Den kan eksekvere. Den kan foreslå. Men den kan ikke bære ansvaret når noget går galt — og hvis ansvaret for en beslutning ikke ligger hos et menneske, ligger det ingen steder.
+Det er kulturlagets fundament. AI kan generere. Den kan eksekvere. Den kan foreslå. Men den kan ikke bære ansvaret når noget går galt, og hvis ansvaret for en beslutning ikke ligger hos et menneske, ligger det ingen steder.
 
 Produktlederens nye identitet: dommeren der bærer ansvaret når AI'en er forkert.
 

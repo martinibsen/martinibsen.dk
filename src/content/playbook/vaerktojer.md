@@ -10,7 +10,7 @@ estimatedReadTime: "Skim"
 
 ## Hvordan listen er organiseret
 
-Ni kategorier. De fem første matcher minimum-stacken fra [Lag 5](/playbook/lag-5). De fire sidste er produktledelse-specifikke.
+Ti kategorier. De fem første matcher minimum-stacken fra [Lag 5](/playbook/lag-5). De fem sidste er produktledelse-specifikke.
 
 For hver kategori: 3–5 værktøjer jeg enten bruger selv, har set fungere godt, eller mener er værd at kigge på. Korte beskrivelser. Ingen affiliate-links, ingen anbefalinger jeg ikke står inde for.
 
@@ -24,6 +24,6 @@ Hvis du står med et tomt valg foran dig:
 
 ## Hvad listen ikke dækker
 
-Jeg har bevidst skrevet den korte version. Der er hundreder af værktøjer i hver kategori. Men flere navne hjælper sjældent — det øger valgangsten.
+Jeg har bevidst skrevet den korte version. Der er hundreder af værktøjer i hver kategori. Men flere navne hjælper sjældent, det øger valgangsten.
 
 Hvis du synes et oplagt værktøj mangler, så skriv til mig. Jeg opdaterer listen løbende baseret på input.

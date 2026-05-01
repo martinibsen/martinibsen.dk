@@ -1,6 +1,6 @@
 ---
 title: "Lag 5 — Værktøjer & software"
-subtitle: "Det mindst interessante lag — og det de fleste organisationer starter med."
+subtitle: "Det mindst interessante lag, og det de fleste organisationer starter med."
 order: 5
 principle: "Vælg principper. Skift værktøjer."
 estimatedReadTime: "5 min"
@@ -12,15 +12,15 @@ De fleste AI-transformationer starter her. "Vi rullede Copilot ud." "Vi har Curs
 
 Det er den hurtigste vej til en fejlslagen transformation.
 
-Værktøjer er det nemmeste at tale om, det nemmeste at indkøbe, og det nemmeste at retfærdiggøre på et budget. Og de er det mindst betydningsfulde af de fem lag. Hvis de fire ovenfor — kultur, organisation, kompetencer, processer — ikke er flyttet, så er værktøjer ligegyldige. Du får bare hurtigere dårlige outputs.
+Værktøjer er det nemmeste at tale om, det nemmeste at indkøbe, og det nemmeste at retfærdiggøre på et budget. Og de er det mindst betydningsfulde af de fem lag. Hvis de fire ovenfor, kultur, organisation, kompetencer, processer, ikke er flyttet, så er værktøjer ligegyldige. Du får bare hurtigere dårlige outputs.
 
 Det er derfor laget kommer sidst. Og det er derfor det her afsnit bevidst er kortere end de andre.
 
 ## Værktøjer er kommodificeret
 
-Det er værd at sige højt: forskellene mellem de store AI-modeller er marginale i en produktkontekst. Claude, GPT, Gemini — de leverer alle 90% af det de fleste teams skal bruge. Forskellene betyder mest når man løser de sidste 10%.
+Det er værd at sige højt: forskellene mellem de store AI-modeller er marginale i en produktkontekst. Claude, GPT, Gemini: de leverer alle 90% af det de fleste teams skal bruge. Forskellene betyder mest når man løser de sidste 10%.
 
-Det samme gælder coding-værktøjer. Claude Code, Cursor, Copilot, Windsurf — de gør grundlæggende det samme. De adskiller sig på UX, integration og pris. Ikke på om de virker.
+Det samme gælder coding-værktøjer. Claude Code, Cursor, Copilot, Windsurf: de gør grundlæggende det samme. De adskiller sig på UX, integration og pris. Ikke på om de virker.
 
 Det betyder at *valget* af værktøj er nemt. Det er ikke der differentieringen ligger.
 
@@ -37,7 +37,7 @@ Det er de tre ting der adskiller en organisation der får meget ud af AI fra en 
 For en produktorganisation der vil arbejde AI-først, ser et fungerende grundsetup nogenlunde sådan ud:
 
 - **En kode-assistent** med agentisk tilgang. Claude Code, Cursor, Windsurf eller lignende. Vælg én, lær den i bund.
-- **Et kontekst-lag.** MCP er ved at blive standarden. Det er hvordan AI får adgang til dit teams data, dokumenter, systemer. Uden et kontekst-lag arbejder AI på generisk viden — og generisk viden er sjældent det der differentierer.
+- **Et kontekst-lag.** MCP er ved at blive standarden. Det er hvordan AI får adgang til dit teams data, dokumenter, systemer. Uden et kontekst-lag arbejder AI på generisk viden, og generisk viden er sjældent det der differentierer.
 - **Et eval-værktøj.** Hvordan ved I om jeres AI-features virker? Hvordan tester I dem? Det er ikke et felt der har konsolideret sig endnu, men det bliver kritisk inden for kort tid.
 - **Et observability-lag.** Hvad gør AI'en faktisk i produktion? Hvor fejler den? Hvor er den langsom? Det er nyt territorium for de fleste teams.
 - **Et governance-lag.** Hvem må bruge hvad, til hvad, med hvilke data? Compliance og sikkerhed kan ikke være eftertanker.
@@ -78,6 +78,6 @@ I en ny produktorganisation i morgen ville jeg skrive ét princip på væggen fo
 
 > Vælg principper. Skift værktøjer.
 
-Principperne — hvad I beslutter at automatisere, hvilke kontekst I deler med AI, hvordan I evaluerer outputs, hvordan I håndterer compliance — er det der varer. Værktøjerne er det der skiftes ud hver sjette måned.
+Principperne, hvad I beslutter at automatisere, hvilke kontekst I deler med AI, hvordan I evaluerer outputs, hvordan I håndterer compliance, er det der varer. Værktøjerne er det der skiftes ud hver sjette måned.
 
 Hvis du har det rigtige princip, kan du bruge ethvert værktøj. Hvis du ikke har det, gør det ingen forskel hvilket værktøj du valgte.
