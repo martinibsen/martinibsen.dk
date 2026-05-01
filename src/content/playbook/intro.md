@@ -40,11 +40,9 @@ Fem lag:
 4. **Processer & workflows.** Hvordan arbejdet flyder
 5. **Værktøjer & software.** Agenter, kode, platforme
 
-Modellen er udgangspunktet, ikke konklusionen. Den hjælper med at sortere tænkningen og finde ud af hvor noget reelt skal flyttes på.
+Den hjælper med at sortere tænkningen og finde ud af hvor noget reelt skal flyttes på.
 
-## Hvad jeg trader på
-
-Fire ting fungerer som fundament for det her whitepaper:
+## Fire ting fungerer som fundament for det her whitepaper
 
 **Min egen praksis.** Jeg shipper produkter med AI hver dag: Stilnote, Vibetjek, Knud, Dynamo, Super Yes. Det her er ikke teori. Det er reflektioner fra et arbejdsbord hvor Claude Code kører hele dagen.
 
@@ -64,8 +62,6 @@ I stedet:
 - Et ordforråd til samtaler med ledelse og kollegaer
 - Konkrete principper du kan teste på din virkelighed
 - En ærlig refleksion fra en der bygger og rådgiver i feltet
-
-Hvis det giver mening i din kontekst, brug det. Hvis ikke, lad det være.
 
 ## Format
 

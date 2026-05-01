@@ -2,7 +2,7 @@
 title: "Lag 1 — Kultur & identitet"
 subtitle: "Identiteten flytter sig fra eksekvering til dømmekraft."
 order: 1
-principle: "Bedre beslutninger, byg mindre."
+principle: "Bedre beslutninger før vi bygger."
 estimatedReadTime: "6 min"
 ---
 
@@ -16,7 +16,7 @@ Når det spørgsmål bliver det vigtigste, bliver hele identiteten i et produktt
 
 ## Den gamle identitet er bygget på eksekvering
 
-Hvem du er som produktleder har historisk fulgt hvad du laver. PM'en skriver krav. Designeren laver mockups. Udvikleren bygger. Tre roller, tre arbejdsstrømme, en arbejdsdeling der går tilbage til Taylor og Ford.
+Hvem du er som produktleder har historisk fulgt hvad du laver. PM'en skriver krav. Designeren laver mockups. Udvikleren bygger. Tre roller, tre arbejdsstrømme, en arbejdsdeling.
 
 Den arbejdsdeling holder ikke længere. Når en designer kan bygge en fungerende prototype med Claude Code, og en PM kan kode et MVP på en eftermiddag, kollapser opdelingen på eksekveringsniveau. Rollerne lever videre, men grænsen mellem dem er ikke længere bestemt af hvem der kan finde tasterne.
 
@@ -49,7 +49,7 @@ Det er den kontraintuitive pointe ved AI-acceleration. Den løser ikke problemet
 
 Princippet jeg ville skrive på væggen i et nyt team er kort:
 
-> Bedre beslutninger, byg mindre.
+> Bedre beslutninger før vi bygger.
 
 Et identitetsudsagn. Vores opgave er at vælge skarpere, ikke at producere mere.
 
@@ -77,7 +77,7 @@ En befrielse, hvis man kan finde sin nye identitet i den.
 
 Hvis jeg startede et team forfra i morgen, ville jeg skrive tre principper på væggen:
 
-1. **Bedre beslutninger, byg mindre.**
+1. **Bedre beslutninger før vi bygger.**
 2. **Spørgsmålet er ikke om vi kan, men om vi skal.**
 3. **AI kan generere alt. Vi står inde for det.**
 
