@@ -55,7 +55,7 @@ const description = subtitle;
 
     <div class="pb-shell">
         <aside class="pb-aside" aria-label="Playbook lag-navigation">
-            <div class="pb-aside-eyebrow">Playbook</div>
+            <a href="/playbook" class="pb-aside-eyebrow pb-aside-eyebrow--link">← Playbook</a>
             <ul class="pb-aside-list">
                 {sorted.map((e) => {
                     const num = e.data.order === 0 ? '00' : e.data.order === 6 ? 'VK' : String(e.data.order).padStart(2, '0');
@@ -98,7 +98,8 @@ const description = subtitle;
             </details>
 
             <div class="pb-article-meta">
-                <span>VK / VÆRKTØJER</span>
+                <a href="/playbook" class="pb-back-link">← Playbook</a>
+                <span class="dot">VK / VÆRKTØJER</span>
                 <span class="dot">{estimatedReadTime}</span>
             </div>
 

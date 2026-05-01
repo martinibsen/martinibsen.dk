@@ -60,7 +60,7 @@ const orderLabel = order === 0 ? '00 / INTRO' : order === 6 ? '06 / VÆRKTØJER'
     <div class="pb-shell">
         <!-- Sticky lag-nav (desktop) -->
         <aside class="pb-aside" aria-label="Playbook lag-navigation">
-            <div class="pb-aside-eyebrow">Playbook</div>
+            <a href="/playbook" class="pb-aside-eyebrow pb-aside-eyebrow--link">← Playbook</a>
             <ul class="pb-aside-list">
                 {sorted.map((e) => {
                     const num = e.data.order === 0 ? '00' : e.data.order === 6 ? 'VK' : String(e.data.order).padStart(2, '0');
@@ -104,7 +104,8 @@ const orderLabel = order === 0 ? '00 / INTRO' : order === 6 ? '06 / VÆRKTØJER'
             </details>
 
             <div class="pb-article-meta">
-                <span>{orderLabel}</span>
+                <a href="/playbook" class="pb-back-link">← Playbook</a>
+                <span class="dot">{orderLabel}</span>
                 <span class="dot">{estimatedReadTime}</span>
             </div>
 
