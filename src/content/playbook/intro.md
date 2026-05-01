@@ -2,7 +2,7 @@
 title: "Introduktion"
 subtitle: "Rammen om hele whitepaperet. Hvem skriver det, hvem er det til, og hvad det er — og hvad det ikke er."
 order: 0
-principle: "Start i toppen — ikke i bunden."
+principle: "Start ved fundamentet — ikke ved spidsen."
 estimatedReadTime: "3 min"
 ---
 
@@ -24,13 +24,13 @@ Hvis du leder efter en checkliste til "AI-transformation", er det her ikke for d
 
 ## Hvorfor denne rammepyramide
 
-De fleste AI-transformationer starter i bunden — med værktøjer. "Vi rullede Copilot ud." "Vi har fået Cursor-licenser." "Vi bruger ChatGPT Enterprise."
+De fleste AI-transformationer starter i toppen — med værktøjer. "Vi rullede Copilot ud." "Vi har fået Cursor-licenser." "Vi bruger ChatGPT Enterprise."
 
 Det er den hurtigste vej til en fejlslagen transformation.
 
 Når værktøjer møder en kultur der ikke har flyttet sig, en organisation der stadig er bygget om koordinering af eksekvering, og roller defineret af hvad folk producerer — så forstærkes alt det knirkende.
 
-Derfor er pyramiden vendt. Kultur øverst, værktøjer nederst. Hvert lag styrer det nedenunder. Hvis kulturen ikke er på plads, hjælper det ikke at organisere sig om. Hvis organiseringen ikke er på plads, hjælper det ikke at lære nye kompetencer. Og så videre.
+Derfor er pyramiden bygget op nedefra. Kultur i bunden, værktøjer i toppen. Hvert lag hviler på det nedenunder. Hvis fundamentet — kulturen — ikke er på plads, hjælper det ikke at organisere sig om. Hvis organiseringen ikke er på plads, hjælper det ikke at lære nye kompetencer. Og så videre.
 
 Fem lag:
 
