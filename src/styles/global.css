@@ -1895,6 +1895,15 @@ img { max-width: 100%; display: block; }
     letter-spacing: -0.03em;
 }
 .pb-hero h1 em { font-style: normal; font-weight: 500; }
+.pb-hero-sub {
+    margin-top: 14px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(20px, 2.4vw, 30px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--muted);
+}
 .pb-hero .meta {
     font-family: var(--font-mono);
     font-size: 10px;
