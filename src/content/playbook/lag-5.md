@@ -18,7 +18,7 @@ Det er derfor laget kommer sidst. Og det er derfor det her afsnit bevidst er kor
 
 ## Værktøjer er kommodificeret
 
-Det er værd at sige højt: forskellene mellem de store AI-modeller er marginale i en produktkontekst. Claude, GPT, Gemini — de leverer alle 90 % af det de fleste teams skal bruge. Forskellene betyder mest når man løser de sidste 10 %.
+Det er værd at sige højt: forskellene mellem de store AI-modeller er marginale i en produktkontekst. Claude, GPT, Gemini — de leverer alle 90% af det de fleste teams skal bruge. Forskellene betyder mest når man løser de sidste 10%.
 
 Det samme gælder coding-værktøjer. Claude Code, Cursor, Copilot, Windsurf — de gør grundlæggende det samme. De adskiller sig på UX, integration og pris. Ikke på om de virker.
 
@@ -72,8 +72,6 @@ For at gøre det konkret: mit eget setup pr. dato er Claude Code som primær kod
 
 Det er ikke en anbefaling. Det er en øjebliksrapport. Om seks måneder er halvdelen af det formentlig skiftet ud. Pointen er præcis at det skal kunne ske uden at hele setuppet bryder sammen.
 
-Den fulde, levende værktøjsoversigt — med alle ni kategorier og 30+ konkrete værktøjer — ligger på [Værktøjsoversigten](/playbook/vaerktojer).
-
 ## Princippet for laget
 
 I en ny produktorganisation i morgen ville jeg skrive ét princip på væggen for værktøjer:
@@ -83,5 +81,3 @@ I en ny produktorganisation i morgen ville jeg skrive ét princip på væggen fo
 Principperne — hvad I beslutter at automatisere, hvilke kontekst I deler med AI, hvordan I evaluerer outputs, hvordan I håndterer compliance — er det der varer. Værktøjerne er det der skiftes ud hver sjette måned.
 
 Hvis du har det rigtige princip, kan du bruge ethvert værktøj. Hvis du ikke har det, gør det ingen forskel hvilket værktøj du valgte.
-
-*Det sidste lag. Tak for at læse med — og fortæl mig gerne hvor jeg har taget fejl.*
