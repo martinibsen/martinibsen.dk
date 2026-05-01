@@ -8,11 +8,11 @@ estimatedReadTime: "3 min"
 
 ## Hvad det her er
 
-Noter til en AI-organisation. Ikke en færdig opskrift. Ikke et manifest. Ikke en "complete guide."
+AI er ikke endnu et værktøj vi propper ind i modellen. Det er en kraft der ændrer hvad produktledelse er. Hvilke beslutninger vi træffer. Hvordan teams bygges. Hvad der adskiller en god produktorganisation fra en dårlig.
 
-Det er hvad jeg tænker lige nu om hvordan en produktorganisation skal bygges, når AI ikke længere er et værktøj vi propper ind i den gamle model, men en kraft der ændrer hvad et produktteam overhovedet er.
+Den her playbook er en ramme for det skifte. Fem lag fra kultur til værktøjer. Hvert med et princip, og noget jeg stadig er i tvivl om.
 
-Jeg ved ikke alt. Jeg har ikke facit. Jeg er i gang med at finde ud af det, både gennem mit konsulentarbejde og gennem de produkter jeg selv bygger med AI hver dag. Det her er nedfaldsfrugterne fra den proces.
+Skrevet til produktledere, designere, engineering managers og produktchefer. Læs fra ende til anden, eller hop direkte til det lag der presser dig mest.
 
 ## Hvem det er til
 
