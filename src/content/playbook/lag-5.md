@@ -12,7 +12,7 @@ De fleste AI-transformationer starter her. "Vi rullede Copilot ud." "Vi har Curs
 
 Det er den hurtigste vej til en fejlslagen transformation.
 
-Værktøjer er det nemmeste at tale om, det nemmeste at indkøbe, og det nemmeste at retfærdiggøre på et budget. Og de er det mindst betydningsfulde af de fem lag. Hvis de fire nedenunder — kultur, organisation, kompetencer, processer — ikke er flyttet, så er værktøjer ligegyldige. Du får bare hurtigere dårlige outputs.
+Værktøjer er det nemmeste at tale om, det nemmeste at indkøbe, og det nemmeste at retfærdiggøre på et budget. Og de er det mindst betydningsfulde af de fem lag. Hvis de fire ovenfor — kultur, organisation, kompetencer, processer — ikke er flyttet, så er værktøjer ligegyldige. Du får bare hurtigere dårlige outputs.
 
 Det er derfor laget kommer sidst. Og det er derfor det her afsnit bevidst er kortere end de andre.
 

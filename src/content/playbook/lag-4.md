@@ -3,10 +3,8 @@ title: "Lag 4 — Processer & workflows"
 subtitle: "Hvordan arbejdet flyder — fra idé til produktion til læring."
 order: 4
 principle: "Minimer tiden mellem hypotese og læring."
-estimatedReadTime: "Kladde · 2 min"
+estimatedReadTime: "2 min"
 ---
-
-> Status: kladde. Lag 4 er endnu ikke skrevet ud i fuld længde — det her er det råstof jeg arbejder ud fra. Når der er en samlet tekst, erstatter den dette afsnit.
 
 ## Hvad laget handler om
 

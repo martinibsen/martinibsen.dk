@@ -85,4 +85,4 @@ Hvis jeg startede et team forfra i morgen, ville jeg skrive tre principper på v
 
 Det er ikke en proces. Det er ikke et tool. Det er den kulturelle ramme alt andet skal hænge på. Hvis den ikke står klart, kommer organisationsstruktur, kompetencer, processer og værktøjer til at trække i hver sin retning.
 
-Det er derfor kultur er nederst i pyramiden — fundamentet alt andet hviler på.
+Det er derfor kultur er øverst i pyramiden, ikke nederst.

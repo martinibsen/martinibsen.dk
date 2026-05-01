@@ -3,10 +3,8 @@ title: "Lag 3 — Kompetencer & praksis"
 subtitle: "Hvad folk skal kunne, og hvad de skal gøre anderledes — når kulturen er flyttet og organisationen er skåret om."
 order: 3
 principle: "Færre kompetencer. Dybere håndværk."
-estimatedReadTime: "Kladde · 2 min"
+estimatedReadTime: "2 min"
 ---
-
-> Status: kladde. Lag 3 er endnu ikke skrevet ud i fuld længde — det her er det råstof jeg arbejder ud fra. Når der er en samlet tekst, erstatter den dette afsnit.
 
 ## Hvad laget handler om
 

@@ -9,9 +9,9 @@ const intro = sorted.find((e) => e.data.order === 0);
 const layers = sorted.filter((e) => e.data.order >= 1 && e.data.order <= 5);
 const tools = sorted.find((e) => e.data.order === 6);
 
-// Pyramid: layer 1 (foundation) at the bottom, layer 5 at the top.
-// We render top-to-bottom in source order, so reverse layers.
-const pyramid = [...layers].reverse(); // i=0 (top, lag-5) → i=4 (bottom, lag-1)
+// Pyramid: layer 1 (kultur) at the top, layer 5 (værktøjer) at the bottom.
+// Source order is already 1 → 5, so no reverse needed.
+const pyramid = [...layers]; // i=0 (top, lag-1) → i=4 (bottom, lag-5)
 
 const title = 'Playbook — AI produktledelse · Martin Ibsen';
 const description = 'Et whitepaper i fem lag om at lede produkt med AI: kultur, organisation, kompetencer, processer og værktøjer.';
@@ -63,7 +63,7 @@ const description = 'Et whitepaper i fem lag om at lede produkt med AI: kultur, 
                 [Indhold kommer fra Notion — paste forsidens introduktionstekst ind her. 1–3 korte afsnit der forklarer hvad playbookens fem lag er, og hvordan man læser den.]
             </p>
             <p>
-                [Andet afsnit. Beskriv kort hvorfor lagene er organiseret nedefra og op — kultur og identitet som fundament, værktøjer og software i toppen.]
+                [Andet afsnit. Beskriv kort hvorfor lagene er organiseret oppefra og ned — kultur øverst som det der styrer alt det andet, værktøjer nederst som det mindst betydningsfulde.]
             </p>
         </section>
 
