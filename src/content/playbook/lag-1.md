@@ -6,7 +6,7 @@ principle: "Beslut bedre. Byg mindre."
 estimatedReadTime: "6 min"
 ---
 
-For fire år siden skrev jeg sammen med Bettina Høiler om en frustration vi begge så hver dag: UX'ere reduceret til wireframe-tegnere. Product Owners reduceret til backlog-pushere. Folk med dyb faglighed der brugte en brøkdel af den, fordi systemet ikke krævede mere af dem. Deadlinen skulle nås. Featuren skulle ud. Glimmer kunne drysses ovenpå til sidst.
+For fire år siden skrev jeg om en frustration jeg så hver dag: UX'ere reduceret til wireframe-tegnere. Product Owners reduceret til backlog-pushere. Folk med dyb faglighed der brugte en brøkdel af den, fordi systemet ikke krævede mere af dem. Deadlinen skulle nås. Featuren skulle ud. Glimmer kunne drysses ovenpå til sidst.
 
 Den frustration har ligget der siden. Nu er der noget der ændrer den.
 
