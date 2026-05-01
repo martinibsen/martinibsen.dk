@@ -1890,9 +1890,9 @@ img { max-width: 100%; display: block; }
 .pb-hero h1 {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(56px, 8vw, 112px);
-    line-height: 0.95;
-    letter-spacing: -0.035em;
+    font-size: clamp(44px, 6vw, 84px);
+    line-height: 1;
+    letter-spacing: -0.03em;
 }
 .pb-hero h1 em { font-style: normal; font-weight: 500; }
 .pb-hero .meta {
@@ -2819,6 +2819,10 @@ img { max-width: 100%; display: block; }
     width: calc(100vw - 32px);
     max-height: calc(100vh - 64px);
     overflow: auto;
+    /* Restore default dialog centering — global "* { margin: 0 }" overrides
+       the dialog UA stylesheet's margin: auto otherwise. */
+    margin: auto;
+    inset: 0;
 }
 .pb-anno-modal::backdrop { background: rgba(26, 26, 26, 0.55); }
 .pb-anno-modal[open] { animation: pbAnnoModalIn 180ms ease; }
@@ -3211,6 +3215,6 @@ img { max-width: 100%; display: block; }
 }
 
 @media (max-width: 600px) {
-    .pb-hero h1 { font-size: clamp(40px, 11vw, 64px); }
+    .pb-hero h1 { font-size: clamp(34px, 9vw, 52px); }
     .pb-tools-head h1 { font-size: clamp(32px, 9vw, 48px); }
 }
