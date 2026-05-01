@@ -1,0 +1,166 @@
+---
+import '../../styles/global.css';
+
+const title = 'Playbook admin · Martin Ibsen';
+---
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+</head>
+<body>
+    <nav class="nav">
+        <a class="brand" href="/">MARTIN IBSEN</a>
+        <div class="links">
+            <a href="/playbook">← PLAYBOOK</a>
+        </div>
+    </nav>
+
+    <div class="pb-admin">
+        <header class="pb-admin-head">
+            <div class="pb-admin-eyebrow">Admin · Playbook</div>
+            <h1>Kommentar-moderation</h1>
+            <p>Indtast admin-token for at se alle læser-kommentarer og slette dem der skal væk. Token gemmes i din browsers localStorage.</p>
+        </header>
+
+        <section class="pb-admin-token-section">
+            <label class="pb-anno-field">
+                <span>Admin-token</span>
+                <input type="password" id="pb-admin-token-input" placeholder="•••" autocomplete="off" />
+            </label>
+            <div class="pb-admin-token-actions">
+                <button type="button" id="pb-admin-token-save" class="pb-anno-submit">Gem &amp; hent</button>
+                <button type="button" id="pb-admin-token-clear" class="pb-anno-cancel">Glem token</button>
+            </div>
+            <p class="pb-admin-status" id="pb-admin-status"></p>
+        </section>
+
+        <section class="pb-admin-list" id="pb-admin-list" hidden>
+            <header class="pb-admin-list-head">
+                <h2>Alle kommentarer</h2>
+                <span class="pb-admin-count" id="pb-admin-count">0</span>
+            </header>
+            <div id="pb-admin-items"></div>
+        </section>
+    </div>
+
+    <script is:inline>
+        const TOKEN_KEY = 'pb-admin-token';
+        const tokenInput = document.getElementById('pb-admin-token-input');
+        const saveBtn = document.getElementById('pb-admin-token-save');
+        const clearBtn = document.getElementById('pb-admin-token-clear');
+        const statusEl = document.getElementById('pb-admin-status');
+        const listSection = document.getElementById('pb-admin-list');
+        const itemsEl = document.getElementById('pb-admin-items');
+        const countEl = document.getElementById('pb-admin-count');
+
+        // Pre-fill if a token is already stored
+        const stored = localStorage.getItem(TOKEN_KEY);
+        if (stored) {
+            tokenInput.value = stored;
+            loadAll(stored);
+        }
+
+        saveBtn.addEventListener('click', () => {
+            const t = tokenInput.value.trim();
+            if (!t) return;
+            localStorage.setItem(TOKEN_KEY, t);
+            loadAll(t);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            localStorage.removeItem(TOKEN_KEY);
+            tokenInput.value = '';
+            listSection.hidden = true;
+            statusEl.textContent = 'Token glemt.';
+        });
+
+        async function loadAll(token) {
+            statusEl.textContent = 'Henter…';
+            try {
+                const res = await fetch('/api/playbook-annotations', {
+                    headers: { Authorization: 'Bearer ' + token },
+                });
+                if (res.status === 401) {
+                    statusEl.textContent = 'Token ikke godkendt.';
+                    listSection.hidden = true;
+                    return;
+                }
+                const data = await res.json();
+                if (!data.ok) {
+                    statusEl.textContent = data.error || 'Kunne ikke hente.';
+                    return;
+                }
+                statusEl.textContent = '';
+                render(data.annotations || {});
+            } catch (e) {
+                statusEl.textContent = 'Netværksfejl.';
+            }
+        }
+
+        function render(byPage) {
+            itemsEl.innerHTML = '';
+            const slugs = Object.keys(byPage).sort();
+            let total = 0;
+            slugs.forEach((slug) => {
+                const list = byPage[slug] || [];
+                if (list.length === 0) return;
+                total += list.length;
+                const section = document.createElement('div');
+                section.className = 'pb-admin-page';
+                section.innerHTML = `<h3>${slug} <span>${list.length}</span></h3>`;
+                const ul = document.createElement('ol');
+                ul.className = 'pb-anno-list-items';
+                list.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+                list.forEach((a) => {
+                    const li = document.createElement('li');
+                    li.className = 'pb-anno-card';
+                    li.innerHTML = `
+                        <blockquote class="pb-anno-card-quote"></blockquote>
+                        <p class="pb-anno-card-comment"></p>
+                        <div class="pb-anno-card-foot">
+                            <span class="pb-anno-card-author"></span>
+                            <span class="pb-anno-card-date"></span>
+                            <a class="pb-admin-jump" href="/playbook/${slug}/" target="_blank" rel="noopener">→ Side</a>
+                            <button type="button" class="pb-anno-delete" data-id="${a.id}">Slet</button>
+                        </div>
+                    `;
+                    li.querySelector('.pb-anno-card-quote').textContent = a.quote;
+                    li.querySelector('.pb-anno-card-comment').textContent = a.comment;
+                    li.querySelector('.pb-anno-card-author').textContent = a.author || 'Anonym';
+                    li.querySelector('.pb-anno-card-date').textContent = formatDate(a.createdAt);
+                    li.querySelector('.pb-anno-delete').addEventListener('click', async () => {
+                        if (!confirm('Slet denne kommentar?')) return;
+                        const token = localStorage.getItem(TOKEN_KEY);
+                        const res = await fetch('/api/playbook-annotations?id=' + encodeURIComponent(a.id), {
+                            method: 'DELETE',
+                            headers: { Authorization: 'Bearer ' + token },
+                        });
+                        if (res.ok) loadAll(token);
+                        else alert('Kunne ikke slette.');
+                    });
+                    ul.appendChild(li);
+                });
+                section.appendChild(ul);
+                itemsEl.appendChild(section);
+            });
+            countEl.textContent = String(total);
+            listSection.hidden = total === 0;
+            if (total === 0) statusEl.textContent = 'Ingen kommentarer endnu.';
+        }
+
+        function formatDate(iso) {
+            const d = new Date(iso);
+            if (isNaN(d.getTime())) return '';
+            return d.toLocaleString('da-DK');
+        }
+    </script>
+</body>
+</html>

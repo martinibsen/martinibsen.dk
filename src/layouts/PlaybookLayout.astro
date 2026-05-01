@@ -129,6 +129,14 @@ const orderLabel = order === 0 ? '00 / INTRO' : order === 6 ? '06 / VÆRKTØJER'
                 <slot />
             </article>
 
+            <section class="pb-anno-list" id="pb-anno-list" hidden>
+                <header>
+                    <h2>Kommentarer fra læsere</h2>
+                    <span class="pb-anno-count">0</span>
+                </header>
+                <ol class="pb-anno-list-items"></ol>
+            </section>
+
             {principle && (
                 <aside class="pb-principle" aria-label="Princippet for dette lag">
                     <div class="lbl">— Princippet</div>
@@ -162,6 +170,39 @@ const orderLabel = order === 0 ? '00 / INTRO' : order === 6 ? '06 / VÆRKTØJER'
 
     <PlaybookFooter />
 
+    <!-- Annotation toolbar (positioned by JS near selection) -->
+    <div class="pb-anno-toolbar" id="pb-anno-toolbar" role="toolbar" aria-label="Markeringsværktøj" hidden>
+        <button type="button" data-pb-anno-comment>Kommentér</button>
+    </div>
+
+    <!-- Annotation modal -->
+    <dialog class="pb-anno-modal" id="pb-anno-modal" aria-labelledby="pb-anno-modal-title">
+        <form>
+            <header>
+                <h2 id="pb-anno-modal-title">Skriv en kommentar</h2>
+                <button type="button" class="pb-anno-close" data-pb-anno-close aria-label="Luk">×</button>
+            </header>
+            <blockquote class="pb-anno-modal-quote"></blockquote>
+            <label class="pb-anno-field">
+                <span>Kommentar</span>
+                <textarea name="comment" maxlength="500" required rows="4" placeholder="Hvad tænker du om dette?"></textarea>
+            </label>
+            <label class="pb-anno-field">
+                <span>Navn (valgfri)</span>
+                <input type="text" name="author" maxlength="80" placeholder="Anonym" autocomplete="name" />
+            </label>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="pb-anno-honeypot" aria-hidden="true" />
+            <p class="pb-anno-error" hidden></p>
+            <footer>
+                <button type="button" class="pb-anno-cancel" data-pb-anno-close>Annullér</button>
+                <button type="submit" class="pb-anno-submit">Send</button>
+            </footer>
+        </form>
+    </dialog>
+
+    <!-- Annotation hover popover -->
+    <div class="pb-anno-popover" id="pb-anno-popover" role="tooltip" hidden></div>
+
     <!-- Search overlay (Pagefind) -->
     <div class="pb-search-overlay" id="pb-search" hidden>
         <div class="pb-search-panel">
@@ -175,7 +216,9 @@ const orderLabel = order === 0 ? '00 / INTRO' : order === 6 ? '06 / VÆRKTØJER'
 
     <script>
         import { initPlaybookSearch } from '../scripts/playbook-search.ts';
+        import { initPlaybookAnnotations } from '../scripts/playbook-annotations.ts';
         initPlaybookSearch();
+        initPlaybookAnnotations();
     </script>
 
     <script is:inline>

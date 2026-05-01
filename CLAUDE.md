@@ -66,6 +66,18 @@ src/
 - `POST /api/subscribe` — Loops newsletter signup. Requires `LOOPS_API_KEY` env var.
 - `GET  /api/kanban` — return current board.
 - `PUT  /api/kanban` — replace board (body: `{ board }`). Validates and renumbers positions.
+- `GET  /api/playbook-annotations?slug=lag-1` — public list of comments for a page.
+- `GET  /api/playbook-annotations` — admin: all comments grouped by page (Bearer `ADMIN_TOKEN`).
+- `POST /api/playbook-annotations` — public: create comment (honeypot + length-limited).
+- `DELETE /api/playbook-annotations?id=xxx` — admin: delete (Bearer `ADMIN_TOKEN`).
+
+## Playbook annotations (`/playbook/*`)
+- Readers can highlight text in any layer page → "Kommentér" button → modal → comment.
+- Comments persist in **Netlify Blobs** (store `playbook-annotations`, key `index`).
+- Highlights re-anchor via the stored quote + 30 chars of surrounding context.
+- Comments list rendered at the bottom of each layer page; hover the highlight for popover.
+- Moderation lives at `/playbook/admin` (noindex) — paste `ADMIN_TOKEN` to enable inline delete buttons everywhere on the playbook.
+- Required env var: `ADMIN_TOKEN` (any random secret). Set in `.env` for dev and in Netlify env vars for prod.
 
 ## Deployment
 - `npm run build` → `dist/`
