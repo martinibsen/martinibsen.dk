@@ -38,7 +38,7 @@ Fire mere som er værd at tilføje:
 - **Systemtænkning.** Når enkeltbeslutninger bliver billigere, bliver evnen til at se hvordan de spiller ind i et større system, mere værdifuld. Hvad sker der med hele kunderejsen, ikke bare denne feature?
 - **Output-vurdering.** AI producerer plausibelt sludder hurtigere end nogensinde. Evnen til at læse kode, design, tekst og spotte hvor det halter, uden selv at have produceret det, bliver kerne-håndværk.
 
-Det er ikke ti nye kompetencer. Det er måske syv-otte i alt. Men de er svære. De tager årevis at bygge op. Og de kan ikke automatiseres.
+Det er ikke ti nye kompetencer. Det er måske syv-otte i alt. Men de er svære. De tager årevis at bygge op.
 
 ## Prompting er ikke en eftermiddags-skill
 
